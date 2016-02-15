@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Crystal\Desktop\RIT_Spring2016\711\libraries\freeglut\include;C:\Users\Crystal\Desktop\RIT_Spring2016\711\libraries\glew-1.13.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Crystal\Desktop\RIT_Spring2016\711\libraries\freeglut\include;C:\Users\Crystal\Desktop\RIT_Spring2016\711\libraries\Matrix\include;C:\Users\Crystal\Desktop\RIT_Spring2016\711\libraries\glew-1.13.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -71,22 +71,27 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="Point3D.cpp" />
+    <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="Traced.cpp" />
+    <ClCompile Include="Tracer.cpp" />
+    <ClCompile Include="ViewPlane.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Build.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Plane.h" />
-    <ClInclude Include="Point3D.h" />
+    <ClInclude Include="Polygon.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Sphere.h" />
-    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Traced.h" />
+    <ClInclude Include="Tracer.h" />
+    <ClInclude Include="ViewPlane.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>

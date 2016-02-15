@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
@@ -6,6 +7,8 @@
 #else
 #include <GL/glut.h>
 #endif
+#include "cmatrix"
+typedef std::valarray<double> Vector;
 using namespace std;
 class Renderer 
 {
@@ -14,7 +17,7 @@ protected:
 public:
 	Renderer(int width, int height, int *argcp, char **argv);
 	~Renderer();
-
+	void add_pixel(int x, int y, Vector color);
 private:
 	static void displayWrapper();
 	void setInstance(Renderer *r);
@@ -23,6 +26,6 @@ private:
 	int w;
 	int h;
 	vector<int*> vertex;
-	vector<float*> color;
+	vector<double*> color;
 };
 

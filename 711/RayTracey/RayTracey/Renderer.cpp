@@ -5,15 +5,6 @@ Renderer::Renderer(int width, int height, int *argcp, char **argv)
 	w = width;                 
 	h = height;
 	setInstance(this);
-
-	int v1[] = { 155, 155 };
-	int v2[] = { 255, 255 };
-	vertex.push_back(v1);
-	vertex.push_back(v2);
-	float c1[] = { .3f, .5f, .9f};
-	float c2[] = { .5f, .2f, .7f};
-	color.push_back(c1);
-	color.push_back(c2);
 	init(argcp,argv);
 }
 
@@ -76,4 +67,10 @@ void Renderer::init(int *argcp, char **argv)
 	glutMainLoop();
 
 	exit(0);
+}
+
+void Renderer::add_pixel(int x, int y, Vector c){
+	int v[] = { x, y };
+	vertex.push_back(v);
+	color.push_back(&c[0]);
 }
