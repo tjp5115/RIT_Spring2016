@@ -77,11 +77,9 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Traced.cpp" />
     <ClCompile Include="Tracer.cpp" />
-    <ClCompile Include="ViewPlane.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Build.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Plane.h" />
@@ -91,7 +89,6 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Traced.h" />
     <ClInclude Include="Tracer.h" />
-    <ClInclude Include="ViewPlane.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>

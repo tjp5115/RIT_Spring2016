@@ -11,6 +11,7 @@ Traced::Traced(const Traced &t):
 	hit_obj(t.hit_obj),
 	hit_pt(t.hit_pt),
 	world(t.world),
-	n(t.n)
+	n(t.n),
+	color(t.color)
 {}
 Traced::~Traced(){}

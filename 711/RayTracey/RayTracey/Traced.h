@@ -14,5 +14,7 @@ public:
 	Vector hit_pt;
 	Vector n;
 	World &world;
+	double w;
+	Vector color;
 };
 

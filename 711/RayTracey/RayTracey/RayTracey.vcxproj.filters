@@ -32,9 +32,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Sphere.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -59,13 +56,13 @@
     <ClCompile Include="Tracer.cpp">
       <Filter>Source Files\Tracer</Filter>
     </ClCompile>
-    <ClCompile Include="ViewPlane.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
     <ClCompile Include="Traced.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Polygon.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -94,17 +91,11 @@
     <ClInclude Include="Tracer.h">
       <Filter>Source Files\Tracer</Filter>
     </ClInclude>
-    <ClInclude Include="ViewPlane.h">
-      <Filter>Source Files\World</Filter>
-    </ClInclude>
     <ClInclude Include="Traced.h">
       <Filter>Source Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Polygon.h">
       <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Build.h">
-      <Filter>Source Files\build</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 #include "ViewPlane.h"
 #include "Tracer.h"
+#include "Traced.h"
 #include "Object.h"
 #include "Ray.h"
 #include "Renderer.h"
@@ -14,14 +15,15 @@ public:
 	World(Renderer *renderer);
 	~World();
 
-	ViewPlane vp;
 	Vector background;
 	Tracer* tracer_ptr;
 	vector<Object*> objects;
 	
 	void add_object(Object *o);
 	void render_scene();
+	Traced hit_objects(const Ray &ray);
 private:
 	Renderer *renderer;
+	const double BIG_NUMBER = 1.0E10;
 };
 

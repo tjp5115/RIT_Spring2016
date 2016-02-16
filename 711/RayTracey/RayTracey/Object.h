@@ -10,7 +10,8 @@ public:
 	Object();
 	~Object();
 	virtual bool hit(const Ray &r, double &t, Traced &tr) const = 0;
-protected:
+	void set_color(const Vector c){ color = c; }
 	Vector color;
+protected:
 };
 

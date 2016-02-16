@@ -17,15 +17,21 @@ protected:
 public:
 	Renderer(int width, int height, int *argcp, char **argv);
 	~Renderer();
-	void add_pixel(int x, int y, Vector color);
+	void add_pixel(int x, int y, double r, double g, double b);
+	void init(Vector background);
+	int w;
+	int h;
 private:
 	static void displayWrapper();
 	void setInstance(Renderer *r);
 	virtual void display();
-	void init(int *argcp, char **argv);
-	int w;
-	int h;
-	vector<int*> vertex;
-	vector<double*> color;
+	vector<int> vertex;
+	vector<double> color;
+	//vector<int> vertex1;
+	//vector<float> color1;
+
+
+	int *argcp;
+	char **argv;
 };
 
