@@ -28,7 +28,7 @@ void World::render_scene(){
 	int w = renderer->w;
 	float s = 1.0f;
 	for (int r = 0; r < h; r++)				
-		for (int c = 0; c <= w; c++) {
+		for (int c = 0; c < w; c++) {
 			double o[3];
 			//o[0] = s * (c - w / 2.0 + 0.5);
 			//o[1] = s * (r - h / 2.0 + 0.5);
@@ -37,8 +37,8 @@ void World::render_scene(){
 			o[2] = 100.0;
 			ray.o = Vector(o, 3);
 			color = tracer_ptr->trace_ray(ray);
-			renderer->add_pixel(r, c, color[0], color[1], color[2]);
-		//	cout << color[0] << " " << color[1] << " " << color[2] << endl;
+			renderer->add_pixel(c, r, color[0], color[1], color[2]);
+			//cout << color[0] << " " << color[1] << " " << color[2] << endl;
 			//cout << ray.o[0] << ray.o[1] << ray.o[2] << endl;
 		}
 	renderer->init(background);

@@ -26,7 +26,7 @@ int main(int argc, char **argv){
 	w->add_object(plane);
 	*/
 	double s2[] = { 0.0, 0.0, 0.0 };
-	double radius_2 = 85.0;
+	double radius_2 = 55.0;
 	double dark_green[] = {0.0, 0.41, 0.41};
 	Sphere * sphere_2 = new Sphere(Vector(s2, 3), radius_2);
 	sphere_2->set_color(Vector(dark_green,3));

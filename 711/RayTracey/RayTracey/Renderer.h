@@ -10,6 +10,13 @@
 #include "cmatrix"
 typedef std::valarray<double> Vector;
 using namespace std;
+
+struct Vertex
+{
+	GLfloat x, y, red, green, blue;
+};
+
+
 class Renderer 
 {
 protected:
@@ -25,8 +32,7 @@ private:
 	static void displayWrapper();
 	void setInstance(Renderer *r);
 	virtual void display();
-	vector<int> vertex;
-	vector<double> color;
+	vector<Vertex> vertices;
 	//vector<int> vertex1;
 	//vector<float> color1;
 

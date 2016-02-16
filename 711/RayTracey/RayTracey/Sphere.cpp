@@ -31,30 +31,30 @@ bool Sphere::hit(const Ray &ray, double &tmin, Traced &sr) const{
 		return true;
 	}
 	*/
-	double 		t;
-	Vector temp = ray.o - center;
-	double 		a = (ray.d * ray.d).sum();
-	double 		b = 2.0 * (temp * ray.d).sum();
-	double 		c = (temp * temp).sum() - radius * radius;
-	double 		disc = b * b - 4.0 * a * c;
-	double kEpsilon = 0.001;
-	
-	cout << a << " "<< b << " " << c << endl;
+	double t;
+
+	Vector temp(ray.o - center);
+	double a = (ray.d * ray.d).sum();
+	double b = 2.0 * (temp * ray.d).sum();
+	double c = (temp * temp).sum() - radius * radius;
+	double disc = b * b - 4.0 * a * c;
+		
+	//cout << "abc: " << a << " "<< b << " " << c << endl;
+	//cout << "temp: "<< temp[0] << " "<< temp[1] << " " << temp[2] << endl;
+	//cout << "ray: " << ray.o[0] << " "<< ray.o[1] << " " << ray.o[2] << endl;
 	if (disc < 0.0)
 		return(false);
 	else {
 		double e = sqrt(disc);
 		double denom = 2.0 * a;
-		cout << "hit" << endl;
+		//cout << "hit" << endl;
 		t = (-b - e) / denom;    // smaller root
 
-		if (t > kEpsilon) {
-			tmin = t;
-			sr.n = (temp + t * ray.d) / radius;
-			sr.hit_pt= ray.o + t * ray.d;
-			return (true);
-		}
-
+		tmin = t;
+		sr.n = (temp + t * ray.d) / radius;
+		sr.hit_pt= ray.o + t * ray.d;
+		return (true);
+		/*
 		t = (-b + e) / denom;    // larger root
 
 		if (t > kEpsilon) {
@@ -63,7 +63,6 @@ bool Sphere::hit(const Ray &ray, double &tmin, Traced &sr) const{
 			sr.hit_pt= ray.o + t * ray.d;
 			return (true);
 		}
+		*/
 	}
-	cout << "no hit" << endl;
-	return false;
 }

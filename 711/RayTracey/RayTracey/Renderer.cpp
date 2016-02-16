@@ -2,6 +2,8 @@
 int window;
 #include <iostream>
 using namespace std;
+
+
 Renderer::Renderer(int width, int height, int *_argcp, char **_argv)
 {
 	w = width;                 
@@ -25,7 +27,6 @@ Renderer::Renderer(int width, int height, int *_argcp, char **_argv)
 
 void Renderer::display()
 {
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glViewport(0, 0, w, h);
@@ -39,13 +40,11 @@ void Renderer::display()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-
-	glVertexPointer(2, GL_INT, 0, &vertex[0]);
-	glColorPointer(3, GL_FLOAT, 0, &color[0]);
-	//glVertexPointer(2, GL_INT, 0, &vertex1[0]);
-	//glColorPointer(4, GL_FLOAT, 0, &color1[0]);
-	//glPointSize(3.0);
-	glDrawArrays(GL_POINTS, 0, vertex.size()/2);
+	//glVertexPointer(2, GL_INT, 0, &vertex[0]);
+	//glColorPointer(3, GL_FLOAT, 0, &color[0]);
+	glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].x);
+	glColorPointer(3, GL_FLOAT, sizeof(Vertex), &vertices[0].red);
+	glDrawArrays(GL_POINTS, 0, vertices.size());
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glFlush();
@@ -88,10 +87,15 @@ void Renderer::init(Vector background)
 }
 
 void Renderer::add_pixel(int x, int y, double r, double g, double b){
+	/*
 	vertex.push_back(x);
 	vertex.push_back(y);
 	//cout << r << g << b << endl;
 	color.push_back(r);
 	color.push_back(g);
 	color.push_back(b);
+	*/
+
+	Vertex v = { x, y, r, g, b };
+	vertices.push_back(v);
 }
