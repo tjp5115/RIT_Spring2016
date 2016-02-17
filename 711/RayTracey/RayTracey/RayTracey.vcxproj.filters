@@ -44,9 +44,6 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
@@ -67,9 +64,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>Source Files\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Source Files\Objects</Filter>
     </ClInclude>
