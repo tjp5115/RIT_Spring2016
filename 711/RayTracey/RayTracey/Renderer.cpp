@@ -78,7 +78,6 @@ void Renderer::init(Vector background)
 	//glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutInitWindowSize(w, h);
 	window = glutCreateWindow("Ray Tracey");
-
 	glutKeyboardFunc(kbd);
 	glutDisplayFunc(displayWrapper);
 	glClearColor(background[0],background[1],background[2], 0.0);

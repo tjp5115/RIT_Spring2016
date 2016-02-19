@@ -1,15 +1,15 @@
 #pragma once
-#include "cmatrix"
-typedef std::valarray<double> Vector;
+#include "Point3D.h"
+#include "Vector3D.h"
 class Ray
 {
 public:
 	Ray();
-	Ray(const Vector &origin, const Vector &direction);
+	Ray(const Point3D &origin, const Vector3D& direction);
 	~Ray();
 
-	Vector o;
-	Vector d;
+	Point3D o;
+	Vector3D d;
 
 };
 

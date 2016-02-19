@@ -1,18 +1,16 @@
 #pragma once
 #include "Object.h"
-#include "cmatrix"
-typedef std::valarray<double> Vector;
+#include "Point3D.h"
 class Sphere :
 	public Object
 {
 public:
-	Sphere(Vector c, double r);
+	Sphere(Point3D c, double r);
 	~Sphere();
 
 	virtual bool hit(const Ray &r, double &w_min, Traced &tr) const;
 
 private:
-	Vector center;
+	Point3D center;
 	double radius;
 };
-

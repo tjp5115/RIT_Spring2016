@@ -67,6 +67,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Normal.cpp" />
+    <ClCompile Include="Point3D.cpp" />
+    <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="Build_test.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Plane.cpp" />
@@ -79,6 +83,10 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Normal.h" />
+    <ClInclude Include="Point3D.h" />
+    <ClInclude Include="Vector3D.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Polygon.h" />

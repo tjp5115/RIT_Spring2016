@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-Sphere::Sphere(Vector c, double r) :
+Sphere::Sphere(Point3D c, double r) :
 	center(c),
 	radius(r)
 {}
@@ -14,55 +14,19 @@ Sphere::~Sphere()
 
 
 bool Sphere::hit(const Ray &ray, double &tmin, Traced &sr) const{ 
-	/*
-	Vector temp = ray.o - center;
-	double a = (ray.d * ray.d).sum();
-	double b = (2.0 * temp * ray.d).sum();
-	double c = (temp * temp - radius * radius).sum();
-	double root = b*b - 4 * a * c;
-	if (a != 1.0) cout << "a is not normal =(" << endl;
-	double kEpsilon = 0.001;
 	double w;
-	//cout << root << endl;
-	if (root >= 0.0){
-		w_min = (-b - sqrt(root)) / ( 2 );
-		tr.hit_pt = ray.o + w_min * ray.d;
-		tr.n = (tr.hit_pt - center) / radius;
-		return true;
-	}
-	*/
-	double t;
-
-	Vector temp(ray.o - center);
-	double a = (ray.d * ray.d).sum();
-	double b = 2.0 * (temp * ray.d).sum();
-	double c = (temp * temp).sum() - radius * radius;
-	double disc = b * b - 4.0 * a * c;
-		
-	//cout << "abc: " << a << " "<< b << " " << c << endl;
-	//cout << "temp: "<< temp[0] << " "<< temp[1] << " " << temp[2] << endl;
-	//cout << "ray: " << ray.o[0] << " "<< ray.o[1] << " " << ray.o[2] << endl;
+	Vector3D temp = ray.o - center;
+	double b = 2.0 * temp * ray.d;
+	double c = temp * temp - radius * radius;
+	double disc = b * b - 4.0 * c;
 	if (disc < 0.0)
 		return(false);
 	else {
 		double e = sqrt(disc);
-		double denom = 2.0 * a;
-		//cout << "hit" << endl;
-		t = (-b - e) / denom;    // smaller root
-
-		tmin = t;
-		sr.n = (temp + t * ray.d) / radius;
-		sr.hit_pt= ray.o + t * ray.d;
+		w = (-b - e) / 2.0;
+		tmin = w;
+		sr.n = (temp + w * ray.d) / radius;
+		sr.hit_pt= ray.o + w * ray.d;
 		return (true);
-		/*
-		t = (-b + e) / denom;    // larger root
-
-		if (t > kEpsilon) {
-			tmin = t;
-			sr.n = (temp + t * ray.d) / radius;
-			sr.hit_pt= ray.o + t * ray.d;
-			return (true);
-		}
-		*/
 	}
 }

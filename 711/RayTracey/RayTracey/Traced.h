@@ -1,8 +1,9 @@
 #pragma once
 class World;
-
+#include "Point3D.h"
+#include "Normal.h"
 #include "cmatrix"
-typedef std::valarray<double> Vector;
+typedef std::valarray<double> Color;
 class Traced
 {
 public:
@@ -10,11 +11,11 @@ public:
 	Traced(const Traced &traced);
 	~Traced();
 
+	Normal n;
 	bool hit_obj;
-	Vector hit_pt;
-	Vector n;
+	Point3D hit_pt;
 	World &world;
 	double w;
-	Vector color;
+	Color color;
 };
 
