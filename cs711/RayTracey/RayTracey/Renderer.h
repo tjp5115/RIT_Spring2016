@@ -7,8 +7,7 @@
 #else
 #include <GL/glut.h>
 #endif
-#include "cmatrix"
-typedef std::valarray<double> Vector;
+#include "RGBColor.h"
 using namespace std;
 
 struct Vertex
@@ -25,7 +24,7 @@ public:
 	Renderer(int width, int height, int *argcp, char **argv);
 	~Renderer();
 	void add_pixel(int x, int y, double r, double g, double b);
-	void init(Vector background);
+	void init(RGBColor background);
 	int w;
 	int h;
 private:
@@ -33,10 +32,6 @@ private:
 	void setInstance(Renderer *r);
 	virtual void display();
 	vector<Vertex> vertices;
-	//vector<int> vertex1;
-	//vector<float> color1;
-
-
 	int *argcp;
 	char **argv;
 };

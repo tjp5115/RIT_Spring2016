@@ -1,17 +1,18 @@
 #pragma once
-#include "Traced.h"
+#include "IntersectData.h"
 #include "Ray.h"
-#include "cmatrix"
-typedef std::valarray<double> Color;
+#include "Material.h";
+#include "RGBColor.h"
 
 class Object
 {
 public:
 	Object();
 	~Object();
-	virtual bool hit(const Ray &r, double &t, Traced &tr) const = 0;
-	void set_color(const Color c){ color = c; }
-	Color color;
+	virtual bool hit(const Ray &r, double &t, IntersectData &tr) const = 0;
+	void set_color(const RGBColor c){ color = c; }
+	RGBColor color;
+	Material *material;
 protected:
 };
 

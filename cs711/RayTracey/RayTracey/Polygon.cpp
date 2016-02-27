@@ -10,6 +10,6 @@ Polygon::~Polygon()
 {
 }
 
-bool  Polygon::hit(const Ray &r, double &t, Traced &tr) const{
+bool  Polygon::hit(const Ray &r, double &t, IntersectData &tr) const{
 	return false;
 }

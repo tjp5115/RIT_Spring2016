@@ -7,6 +7,6 @@ public:
 	Polygon();
 	~Polygon();
 
-	virtual bool hit(const Ray &r, double &t, Traced &tr) const;
+	virtual bool hit(const Ray &r, double &t, IntersectData &tr) const;
 };
 

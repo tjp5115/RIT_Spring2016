@@ -23,7 +23,7 @@ import java.util.*;
  *
  * @version 20-Feb-2016
  */
-public class AverageDiameterRandomGraph extends Task {
+public class AverageDiameterRandomGraphSmp extends Task {
     // Command line arguments.
     long seed;
     int V,V_total;
@@ -40,21 +40,21 @@ public class AverageDiameterRandomGraph extends Task {
         T = Long.parseLong(args[2]);
         V_total = V;
         P_inc = 0.05;
+        int V_inc = V_total/5;
         System.out.printf ("$ java pj2 AverageDiameterRandomGraphSmp");
         for (String arg : args) System.out.printf (" %s", arg);
         System.out.println();
 
         // set up the first simulation Probability Vs. Average Diameter. Sweeps the vertices around the main simulation
-        int V_inc = V_total/5;
         for( V = V_inc; V <= V_total; V+= V_inc) {
             System.out.println("# Vert\tProb.\tAvg. Diam.");
-            for (P = P_inc; P <= 1.0; P += P_inc){
+            //cheating the precision of floats.
+            for (P = P_inc; P <= 1.01; P += P_inc){
                 seed += 1;
                 monte_carlo_simulation();
             }
-            System.out.println();
+
         }
-        /*
         // set up the second simulation Vertices Vs. Average Diameter. Sweeps the Probability around the main simulation
         P_inc = .2;
         for( P = P_inc; P <= 1.0; P+= P_inc) {
@@ -64,7 +64,6 @@ public class AverageDiameterRandomGraph extends Task {
             }
             System.out.println();
         }
-        */
     }
 
 
@@ -163,7 +162,7 @@ public class AverageDiameterRandomGraph extends Task {
     // Print a usage message and exit.
     private static void usage()
     {
-        System.err.println ("Usage: java pj2 [threads=<K>] AverageDiameterRandomGraphSmp <seed> <V> <P> <T>");
+        System.err.println ("Usage: java pj2 [threads=<K>] AverageDiameterRandomGraphSmp <seed> <V> <T>");
         System.err.println ("<K> = Number of parallel threads");
         System.err.println("<seed> = Random seed");
         System.err.println ("<V> = Number of vertices");

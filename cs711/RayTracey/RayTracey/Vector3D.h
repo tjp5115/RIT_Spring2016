@@ -40,13 +40,20 @@ class Vector3D {
 		
 		Vector3D												// unary minus
 		operator- (void) const;									
-				
+			
+		Vector3D												// unary minus
+		operator- (const double a) const;
+
+
 		double													// length
 		length(void);
 		
 		double													// square of the length
 		len_squared(void);
 		
+		Vector3D reflect(Vector3D n);
+
+
 		Vector3D												// multiplication by a double on the right
 		operator* (const double a) const;
 				
@@ -73,6 +80,9 @@ class Vector3D {
 		
 		Vector3D& 												// return a unit vector, and normalize the vector												
 		hat(void);
+
+
+
 };
 
 
@@ -114,7 +124,13 @@ Vector3D::operator/ (const double a) const {
 	return (Vector3D(x / a, y / a, z / a));	
 }
 
+// ----------------------------------------------------------------------- operator-
+// subtraction by a double
 
+inline Vector3D
+Vector3D::operator- (const double a) const {
+	return (Vector3D(x / a, y / a, z / a));
+}
 // ----------------------------------------------------------------------- operator+
 // addition
 

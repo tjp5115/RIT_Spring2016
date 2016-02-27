@@ -24,8 +24,8 @@
     <Filter Include="Source Files\Renderer">
       <UniqueIdentifier>{94014b58-e9c4-4789-b2c9-ff15e1df4081}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Tracer">
-      <UniqueIdentifier>{0954162f-11ad-4019-b242-ae4d690491ec}</UniqueIdentifier>
+    <Filter Include="Source Files\Illumination">
+      <UniqueIdentifier>{376ed394-1dd8-41a1-b61d-fd1becaeec4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,20 +47,11 @@
     <ClCompile Include="Build_test.cpp">
       <Filter>Source Files\build</Filter>
     </ClCompile>
-    <ClCompile Include="Tracer.cpp">
-      <Filter>Source Files\Tracer</Filter>
-    </ClCompile>
-    <ClCompile Include="Traced.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Polygon.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\wxRaytracer\raytracer\Utilities\Vector3D.h">
-      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Point3D.cpp">
       <Filter>Source Files\Utilities</Filter>
@@ -73,6 +64,21 @@
     </ClCompile>
     <ClCompile Include="Vector3D.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="IntersectData.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="PhongMaterial.cpp">
+      <Filter>Source Files\Illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBColor.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Illumination</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,12 +100,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Source Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Tracer.h">
-      <Filter>Source Files\Tracer</Filter>
-    </ClInclude>
-    <ClInclude Include="Traced.h">
-      <Filter>Source Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Polygon.h">
       <Filter>Source Files\Objects</Filter>
     </ClInclude>
@@ -111,6 +111,24 @@
     </ClInclude>
     <ClInclude Include="Matrix.h">
       <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="IntersectData.h">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Source Files\Illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="PhongMaterial.h">
+      <Filter>Source Files\Illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBColor.h">
+      <Filter>Source Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Source Files\Illumination</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

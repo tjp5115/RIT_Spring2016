@@ -72,7 +72,7 @@ void Renderer::setInstance(Renderer *r){
 void Renderer::displayWrapper(){
 	instance->display();
 }
-void Renderer::init(Vector background)
+void Renderer::init(RGBColor background)
 {
 	glutInit(argcp, argv);
 	//glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -80,7 +80,7 @@ void Renderer::init(Vector background)
 	window = glutCreateWindow("Ray Tracey");
 	glutKeyboardFunc(kbd);
 	glutDisplayFunc(displayWrapper);
-	glClearColor(background[0],background[1],background[2], 0.0);
+	glClearColor(background.r,background.g,background.b, 0.0);
 	glutMainLoop();
 	exit(0);
 }

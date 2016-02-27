@@ -1,12 +1,9 @@
 #include "World.h"
-#include <iostream>
-using namespace std;
 
 World::World(Renderer *renderer_p){
 
 	renderer = renderer_p;
-	background = Vector(1,3);
-	tracer_ptr = new Tracer(this);
+	background = RGBColor();
 
 	//default camera
 	camera.lookat = Point3D(0,0,0);
@@ -27,7 +24,7 @@ void World::add_object(Object *o){
 
 void World::render_scene(){
 
-	Color color;
+	RGBColor color;
 	Ray ray;
 	double pixel[2];
 	int h = renderer->h;
@@ -40,32 +37,32 @@ void World::render_scene(){
 			pixel[0] = (c - 0.5 * w + 0.5);
 			pixel[1] = (r - 0.5 * h + 0.5);
 			ray.d = get_camera_direction(pixel);
-			color = tracer_ptr->trace_ray(ray);
-			renderer->add_pixel(c, r, color[0], color[1], color[2]);
+			color = trace_ray(ray);
+			renderer->add_pixel(c, r, color.r, color.g, color.b);
 		}
 	renderer->init(background);
 }
-Traced World::hit_objects(const Ray &ray){
-	Traced trace(*this);
+IntersectData World::hit_objects(const Ray &ray){
+	IntersectData id(*this);
 	double w;
 	Normal normal;
 	double w_min = BIG_NUMBER;
 	Point3D hit;
 
 	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->hit(ray, w, trace) && (w < w_min)){
+		if (objects[i]->hit(ray, w, id) && (w < w_min)){
 			w_min = w;
-			trace.color = objects[i]->color;
-			trace.hit_obj = true;
-			hit = trace.hit_pt;
-			//cout << "hit" << endl; 
+			id.color = objects[i]->color;
+			id.hit_obj = true;
+			hit = id.hit_pt;
+			id.material = objects[i]->material;
 		}
 	}
-	if (trace.hit_obj){
-		trace.hit_pt = hit;
-		trace.n = normal;
+	if (id.hit_obj){
+		id.hit_pt = hit;
+		id.n = normal;
 	}
-	return trace;
+	return id;
 }
 
 void World::compute_uvw(){
@@ -89,4 +86,27 @@ void World::set_camera(Point3D e, Point3D l, Vector3D up, double vp_dist){
 	camera.up = up;
 	camera.vp_distance = vp_dist;
 	compute_uvw();
+}
+
+
+RGBColor World::trace_ray(const Ray &ray){
+	IntersectData id(hit_objects(ray));
+	if (id.hit_obj){
+			Ray shadow = Ray();
+			RGBColor total_color = RGBColor();
+			shadow.o = id.hit_pt;
+		for (int i = 0; i < lights.size(); ++i){
+			shadow.d = id.hit_pt - lights[i]->position;
+			IntersectData shadow_id(hit_objects(shadow));
+			if (shadow_id.hit_obj){
+				total_color += shadow_id.material->get_illumination(*lights[i], shadow_id);;
+			}
+			else{
+				total_color += shadow_id.material->get_ambient();
+			}
+		}
+		id.color = total_color;
+		return id.color;
+	}
+	return background;
 }

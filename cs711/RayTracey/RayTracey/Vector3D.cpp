@@ -130,3 +130,9 @@ operator* (const Matrix& mat, const Vector3D& v) {
 					mat.m[1][0] * v.x + mat.m[1][1] * v.y + mat.m[1][2] * v.z,
 					mat.m[2][0] * v.x + mat.m[2][1] * v.y + mat.m[2][2] * v.z));
 }
+
+
+Vector3D Vector3D::reflect(Vector3D n){
+	n.normalize();
+	return *this - 2 * (*this * n) * n;
+}

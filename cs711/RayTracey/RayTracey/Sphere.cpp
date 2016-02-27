@@ -13,7 +13,7 @@ Sphere::~Sphere()
 }
 
 
-bool Sphere::hit(const Ray &ray, double &tmin, Traced &sr) const{ 
+bool Sphere::hit(const Ray &ray, double &tmin, IntersectData &sr) const{ 
 	double w;
 	Vector3D temp = ray.o - center;
 	double b = 2.0 * temp * ray.d;

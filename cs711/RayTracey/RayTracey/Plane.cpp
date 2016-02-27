@@ -20,7 +20,7 @@ Plane::~Plane()
 {
 }
 
-bool Plane::hit(const Ray &ray, double &w_min, Traced &tr) const{
+bool Plane::hit(const Ray &ray, double &w_min, IntersectData &tr) const{
 	/*
 	double w = (p - ray.o) * n / (ray.d * n);
 	//cout << ray.o.x << ray.o.y << ray.o.z << endl;

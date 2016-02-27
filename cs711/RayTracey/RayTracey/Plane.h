@@ -10,7 +10,7 @@ public:
 	Plane(const Point3D &point, const Normal &normal,double _w, double _h);
 	~Plane();
 
-	virtual bool hit(const Ray &r, double &w_min, Traced &tr) const;
+	virtual bool hit(const Ray &r, double &w_min, IntersectData &tr) const;
 private:
 	Point3D p;
 	Normal n;
