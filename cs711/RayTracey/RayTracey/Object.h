@@ -10,9 +10,8 @@ public:
 	Object();
 	~Object();
 	virtual bool hit(const Ray &r, double &t, IntersectData &tr) const = 0;
-	void set_color(const RGBColor c){ color = c; }
-	RGBColor color;
 	Material *material;
+	virtual void set_material(Material *m){ material = m; };
 protected:
 };
 

@@ -86,15 +86,6 @@ void Renderer::init(RGBColor background)
 }
 
 void Renderer::add_pixel(int x, int y, double r, double g, double b){
-	/*
-	vertex.push_back(x);
-	vertex.push_back(y);
-	//cout << r << g << b << endl;
-	color.push_back(r);
-	color.push_back(g);
-	color.push_back(b);
-	*/
-
-	Vertex v = { x, y, r, g, b };
-	vertices.push_back(v);
+		Vertex v = { x, y, r, g, b };
+		vertices.push_back(v);
 }

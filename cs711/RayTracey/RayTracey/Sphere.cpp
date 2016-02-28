@@ -26,6 +26,7 @@ bool Sphere::hit(const Ray &ray, double &tmin, IntersectData &sr) const{
 		w = (-b - e) / 2.0;
 		tmin = w;
 		sr.n = (temp + w * ray.d) / radius;
+		sr.n.normalize();
 		sr.hit_pt= ray.o + w * ray.d;
 		return (true);
 	}

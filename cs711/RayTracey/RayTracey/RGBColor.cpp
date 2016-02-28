@@ -3,7 +3,7 @@
 // This file contains the definition of the class RGBColor
 
 #include <math.h>
-
+#include <algorithm>
 #include "RGBColor.h"
 
 // -------------------------------------------------------- default constructor
@@ -62,3 +62,8 @@ RGBColor::powc(float p) const {
 	return (RGBColor(pow(r, p), pow(g, p), pow(b, p)));
 }
 
+void RGBColor::clamp(){
+	std::min(r, 1.0f);
+	std::min(g, 1.0f);
+	std::min(b, 1.0f);
+}

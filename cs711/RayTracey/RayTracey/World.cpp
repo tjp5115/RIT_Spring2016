@@ -1,5 +1,6 @@
 #include "World.h"
-
+#include <iostream>
+using namespace std;
 World::World(Renderer *renderer_p){
 
 	renderer = renderer_p;
@@ -38,7 +39,8 @@ void World::render_scene(){
 			pixel[1] = (r - 0.5 * h + 0.5);
 			ray.d = get_camera_direction(pixel);
 			color = trace_ray(ray);
-			renderer->add_pixel(c, r, color.r, color.g, color.b);
+			if (!(color == background) )
+				renderer->add_pixel(c, r, color.r, color.g, color.b);
 		}
 	renderer->init(background);
 }
@@ -52,10 +54,12 @@ IntersectData World::hit_objects(const Ray &ray){
 	for (int i = 0; i < objects.size(); ++i){
 		if (objects[i]->hit(ray, w, id) && (w < w_min)){
 			w_min = w;
-			id.color = objects[i]->color;
+			id.color = objects[i]->material->get_ambient();
 			id.hit_obj = true;
 			hit = id.hit_pt;
 			id.material = objects[i]->material;
+			id.ray = ray;
+			normal = id.n;
 		}
 	}
 	if (id.hit_obj){
@@ -63,6 +67,7 @@ IntersectData World::hit_objects(const Ray &ray){
 		id.n = normal;
 	}
 	return id;
+
 }
 
 void World::compute_uvw(){
@@ -96,15 +101,19 @@ RGBColor World::trace_ray(const Ray &ray){
 			RGBColor total_color = RGBColor();
 			shadow.o = id.hit_pt;
 		for (int i = 0; i < lights.size(); ++i){
-			shadow.d = id.hit_pt - lights[i]->position;
-			IntersectData shadow_id(hit_objects(shadow));
-			if (shadow_id.hit_obj){
-				total_color += shadow_id.material->get_illumination(*lights[i], shadow_id);;
+			shadow.d = lights[i]->position - id.hit_pt;
+			//IntersectData shadow_id(hit_objects(shadow));
+			
+			if (hit_objects(shadow).hit_obj){
+				RGBColor c = id.material->get_illumination(*lights[i], id,shadow);
+				total_color += c;
 			}
 			else{
-				total_color += shadow_id.material->get_ambient();
+				//total_color += id.color;
+				total_color = RGBColor(1, 0, 0);
 			}
 		}
+		total_color.clamp();
 		id.color = total_color;
 		return id.color;
 	}

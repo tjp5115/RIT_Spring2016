@@ -12,7 +12,6 @@ Plane::Plane(const Point3D &point, const Normal &normal, double _w, double _h)
 	p2 = Point3D(p.x + w, p.y, p.z + h);
 	p3 = Point3D(p.x + w, p.y, p.z - h);
 	p4 = Point3D(p.x - w, p.y, p.z - h);
-
 }
 
 

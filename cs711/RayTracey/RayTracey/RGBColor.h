@@ -34,6 +34,10 @@ class RGBColor {
 		RGBColor 											// multiplication by a float on the right
 		operator* (const float a) const;
 		
+		double												// dot product by a float on the right
+		operator^ (const RGBColor& a) const;
+
+
 		RGBColor& 											// compound multiplication by a float on the right
 		operator*= (const float a);					
 				
@@ -54,6 +58,8 @@ class RGBColor {
 		
 		float												// the average of the components
 		average(void) const;
+
+		void clamp();
 };
 
 
@@ -127,6 +133,7 @@ RGBColor::operator* (const RGBColor& c) const {
 } 
 
 
+
 // ----------------------------------------------------------------------- operator==
 // are two RGBColors the same?
 
@@ -160,5 +167,13 @@ operator* (const float a, const RGBColor& c) {
 	return (RGBColor (a * c.r, a * c.g, a * c.b));	
 }
 
+
+// ----------------------------------------------------------------------- operator^
+// dot product
+
+inline double
+RGBColor::operator^ (const RGBColor& v) const {
+	return (r * v.r + g * v.g + b * v.b);
+}
 
 #endif

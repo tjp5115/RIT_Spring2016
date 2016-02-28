@@ -27,9 +27,9 @@ public:
 	void render_scene();
 	IntersectData hit_objects(const Ray &ray);
 	void set_camera(Point3D l, Point3D e, Vector3D up, double vp_dist);
-
-	vector<Light*> lights;
+	void add_light(Light *l){ lights.push_back(l); };
 private:
+	vector<Light*> lights;
 	Renderer *renderer;
 	const double BIG_NUMBER = 1.0E10;
 	void compute_uvw(void);
