@@ -2,6 +2,7 @@
 #include "Object.h"
 #include "Point3D.h"
 #include "Normal.h"
+
 class Plane :
 	public Object
 {
@@ -11,12 +12,13 @@ public:
 	~Plane();
 
 	virtual bool hit(const Ray &r, double &w_min, IntersectData &tr) const;
+	virtual bool shadow_hit(const Ray &r, double &t) const;
 private:
 	Point3D p;
 	Normal n;
 	double w;
 	double h;
 	Point3D p1, p2, p3, p4;
-
+	static const double kEpsilon;
 };
 

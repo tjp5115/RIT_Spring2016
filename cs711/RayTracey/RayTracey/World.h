@@ -1,10 +1,14 @@
 #pragma once
-#include "ViewPlane.h"
-#include "IntersectData.h"
+#include <vector>
+#include <iostream>
+
+#include "RGBColor.h"
 #include "Object.h"
 #include "Ray.h"
+
+#include "Light.h"
+
 #include "Renderer.h"
-#include <vector>
 using namespace std;
 
 struct Camera 
@@ -25,6 +29,7 @@ public:
 	
 	void add_object(Object *o);
 	void render_scene();
+	IntersectData hit_objects(const Ray &ray,int obj_id);
 	IntersectData hit_objects(const Ray &ray);
 	void set_camera(Point3D l, Point3D e, Vector3D up, double vp_dist);
 	void add_light(Light *l){ lights.push_back(l); };
@@ -37,5 +42,6 @@ private:
 	Vector3D get_camera_direction(double pixel[]);
 
 	RGBColor trace_ray(const Ray &ray) ;
+	RGBColor black;
 };
 

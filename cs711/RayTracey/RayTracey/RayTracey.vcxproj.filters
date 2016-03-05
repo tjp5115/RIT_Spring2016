@@ -47,9 +47,6 @@
     <ClCompile Include="Build_test.cpp">
       <Filter>Source Files\build</Filter>
     </ClCompile>
-    <ClCompile Include="Polygon.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Source Files\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Polygon.h">
-      <Filter>Source Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Point3D.h">
       <Filter>Source Files\Utilities</Filter>

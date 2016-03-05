@@ -17,7 +17,7 @@ public:
 	World &world;
 	double w;
 	Ray ray;
-	RGBColor color;
 	Material *material;
+	int obj_id;
 };
 

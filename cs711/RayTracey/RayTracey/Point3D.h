@@ -40,6 +40,9 @@ class Point3D {
 		Point3D 													// multiplication by a double on the right
 		operator* (const double a) const;
 		
+		bool// comparison by a point 
+		operator== (const Point3D& p) const;
+
 		double														// square of distance bertween two points
 		d_squared(const Point3D& p) const;
 		
@@ -77,6 +80,11 @@ Point3D::operator+ (const Vector3D& v) const {
 	return (Point3D(x + v.x, y + v.y, z + v.z));
 }
 
+//compare two points
+inline bool 
+Point3D::operator== (const Point3D& p) const {
+	return x == p.x && y == p.y && z == p.z;
+}
 
 // -------------------------------------------------------------- operator-
 // subtraction of a vector from a point that returns a new point

@@ -1,7 +1,7 @@
 #include "Plane.h"
 #include <iostream>
 using namespace std;
-
+const double Plane::kEpsilon = 0.00001;
 Plane::Plane(const Point3D &point, const Normal &normal, double _w, double _h)
 {
 	p = point;
@@ -35,7 +35,7 @@ bool Plane::hit(const Ray &ray, double &w_min, IntersectData &tr) const{
 	double w = (p - ray.o) * n / (ray.d * n);
 	//cout << ray.o.x << ray.o.y << ray.o.z << endl;
 	//cout << w << endl;
-	if (w <= 0.0){
+	if (w <= kEpsilon){
 		return false;
 	}
 	w_min = w;
@@ -80,6 +80,51 @@ bool Plane::hit(const Ray &ray, double &w_min, IntersectData &tr) const{
 	
 	if (angle >= 6.2){
 		//cout << "hit" << endl;
+		return true;
+	}
+
+	return false;
+}
+
+
+bool Plane::shadow_hit(const Ray &ray, double &w_min) const{
+	double w = (p - ray.o) * n / (ray.d * n);
+	if (w <= kEpsilon){
+		return false;
+	}
+	w_min = w;
+	Point3D hit_pt = ray.o + w * ray.d;
+
+	double angle = 0;
+	Vector3D v1, v2;
+
+
+	v1 = hit_pt - p1;
+	v2 = hit_pt - p2;
+	v1.normalize();
+	v2.normalize();
+	angle += acos(abs(v1*v2));
+
+	v1 = hit_pt - p2;
+	v2 = hit_pt - p3;
+	v1.normalize();
+	v2.normalize();
+	angle += acos(abs(v1*v2));
+
+	v1 = hit_pt - p3;
+	v2 = hit_pt - p4;
+	v1.normalize();
+	v2.normalize();
+	angle += acos(abs(v1*v2));
+
+	v1 = hit_pt - p4;
+	v2 = hit_pt - p1;
+	v1.normalize();
+	v2.normalize();
+
+	angle += acos(abs(v1*v2));
+
+	if (angle >= 6.2){
 		return true;
 	}
 

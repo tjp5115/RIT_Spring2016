@@ -5,7 +5,8 @@ IntersectData::IntersectData(World &w):
 	hit_pt(),
 	n(),
 	material(),
-	ray()
+	ray(),
+	obj_id(-1)
 {}
 
 
@@ -13,9 +14,9 @@ IntersectData::IntersectData(const IntersectData &t):
 	hit_obj(t.hit_obj),
 	hit_pt(t.hit_pt),
 	world(t.world),
-	color(t.color),
 	n(t.n),
 	material(t.material),
-	ray(t.ray)
+	ray(t.ray),
+	obj_id(t.obj_id)
 {}
 IntersectData::~IntersectData(){}

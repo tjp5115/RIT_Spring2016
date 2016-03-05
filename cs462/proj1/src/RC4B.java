@@ -38,7 +38,7 @@ public class RC4B implements StreamCipher{
     public void setKey(byte[] key) throws IllegalArgumentException{
         if(key.length != keySize()) throw new IllegalArgumentException("RC4B.setKey(key):  key.length != RC4B.keySize() ");
         for (int i = 0; i <= 255; ++i)
-            S[i] = (byte)i;
+            S[i] = (byte)i ;
         j = 0;
         for (int i = 0; i <= 255; ++i) {
             j = (j + S[i] + key[i & 15]) & 255;
@@ -50,7 +50,7 @@ public class RC4B implements StreamCipher{
             t = S[i] & 255;
         }
         K[t] = S[0];
-        int jj = S[j];
+        int jj = S[j] & 255;
         for( int i = 0; i <=255; ++i){
             jj = K[jj] & 255;
             j = (j + S[jj] + key[(i & 15)+16]) & 255;

@@ -8,19 +8,17 @@ Dx(),
 Kd(0),
 Sx(),
 n(0),
-Ks(0),
-ambient()
+Ks(0)
 {
 }
-PhongMaterial::PhongMaterial(RGBColor _Ax, float _Ka, RGBColor _Dx, float _Kd, RGBColor _Sx, float _n, float _Ks, RGBColor _ambient) :
+PhongMaterial::PhongMaterial(RGBColor _Ax, float _Ka, RGBColor _Dx, float _Kd, RGBColor _Sx, float _n, float _Ks) :
 Ax(_Ax),
 Ka(_Ka),
 Dx(_Dx),
 Kd(_Kd),
 Sx(_Sx),
 n(_n),
-Ks(_Ks),
-ambient(_ambient)
+Ks(_Ks)
 {
 }
 
@@ -29,7 +27,7 @@ PhongMaterial::~PhongMaterial()
 }
 
 
-RGBColor PhongMaterial::get_illumination(const Light &light, const IntersectData &id, const Ray &shadow) const {
+RGBColor PhongMaterial::get_illumination(const Light &light, const IntersectData &id) const{
 	RGBColor ret;
 	double t;
 	Vector3D L = light.position - id.hit_pt;
@@ -57,5 +55,5 @@ RGBColor PhongMaterial::get_illumination(const Light &light, const IntersectData
 }
 
 RGBColor PhongMaterial::get_ambient() const{
-	return Ax * Ka * ambient;
+	return Ka * Ax;
 }

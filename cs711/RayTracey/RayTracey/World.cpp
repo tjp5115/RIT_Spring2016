@@ -1,6 +1,5 @@
 #include "World.h"
-#include <iostream>
-using namespace std;
+#include "Material.h"
 World::World(Renderer *renderer_p){
 
 	renderer = renderer_p;
@@ -12,6 +11,8 @@ World::World(Renderer *renderer_p){
 	camera.eye = Point3D(0,0,500);
 	camera.vp_distance = 200;
 	compute_uvw();
+
+	black = RGBColor(0);
 }
 
 
@@ -44,22 +45,30 @@ void World::render_scene(){
 		}
 	renderer->init(background);
 }
+
+
 IntersectData World::hit_objects(const Ray &ray){
+	return hit_objects(ray, -1);
+}
+IntersectData World::hit_objects(const Ray &ray, int obj_id){
 	IntersectData id(*this);
 	double w;
 	Normal normal;
 	double w_min = BIG_NUMBER;
 	Point3D hit;
-
 	for (int i = 0; i < objects.size(); ++i){
-		if (objects[i]->hit(ray, w, id) && (w < w_min)){
+		if (i == obj_id){
+			continue;
+		}
+		if (objects[i]->hit(ray, w, id) && (w < w_min) ){
 			w_min = w;
-			id.color = objects[i]->material->get_ambient();
 			id.hit_obj = true;
 			hit = id.hit_pt;
 			id.material = objects[i]->material;
 			id.ray = ray;
 			normal = id.n;
+			id.obj_id = i;
+			//cout << id.obj_id << " " << obj_id << endl;
 		}
 	}
 	if (id.hit_obj){
@@ -98,24 +107,18 @@ RGBColor World::trace_ray(const Ray &ray){
 	IntersectData id(hit_objects(ray));
 	if (id.hit_obj){
 			Ray shadow = Ray();
-			RGBColor total_color = RGBColor();
+			RGBColor total_color = id.material->get_ambient() * RGBColor (1);
 			shadow.o = id.hit_pt;
 		for (int i = 0; i < lights.size(); ++i){
 			shadow.d = lights[i]->position - id.hit_pt;
-			//IntersectData shadow_id(hit_objects(shadow));
-			
-			if (hit_objects(shadow).hit_obj){
-				RGBColor c = id.material->get_illumination(*lights[i], id,shadow);
-				total_color += c;
+			shadow.d.normalize();
+			if (!lights[i]->in_shadow(shadow,id)){
+				total_color += id.material->get_illumination(*lights[i],id);
 			}
-			else{
-				//total_color += id.color;
-				total_color = RGBColor(1, 0, 0);
-			}
+//				total_color += id.material->get_illumination(*lights[i], id, shadow); 
 		}
 		total_color.clamp();
-		id.color = total_color;
-		return id.color;
+		return total_color;
 	}
 	return background;
 }
