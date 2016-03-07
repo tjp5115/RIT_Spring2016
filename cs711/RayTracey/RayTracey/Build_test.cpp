@@ -39,6 +39,7 @@ int main(int argc, char **argv){
 	Light *light = new Light(Point3D(0,5000,4000), RGBColor(1.0));
 	w->add_light(light);
 
+
 	//set objects
 	double radius_1 = 215;
 	Sphere * sphere_1 = new Sphere(Point3D(-200, -190, -200), radius_1);
