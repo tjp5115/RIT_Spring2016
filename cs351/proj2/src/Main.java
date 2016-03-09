@@ -8,7 +8,7 @@ public class Main {
 
         //ga.degreeDistribution();
         //ga.connectedComponents();
-        ga.degreeCentrility();
-        //ga.closenessCentrality();
+        //ga.degreeCentrility();
+        ga.closenessCentrality();
     }
 }

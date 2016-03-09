@@ -98,6 +98,7 @@ public class GraphAnalysis {
      * @return
      */
     int BFS(int start, int dest) {
+        if(graph.get(start).contains(dest)) return 1;
         HashSet<Integer> seen = new HashSet();
         LinkedList<Path> queue = new LinkedList();
         Path A = new Path(start);
@@ -105,10 +106,9 @@ public class GraphAnalysis {
         seen.add(A.id);
         while (!queue.isEmpty()) {
             A = queue.poll();
-            if (graph.get(A.id).contains(dest)) {
-                return A.dist + 1;
-            }
+
             for (Integer B : graph.get(A.id)) {
+                if (graph.get(B).contains(dest)) return A.dist + 1;
                 if (!seen.contains(B)) {
                     seen.add(B);
                     queue.addLast(new Path(B, A));
@@ -132,7 +132,7 @@ public class GraphAnalysis {
         //initial constructor
         Path(int _id) {
             id = _id;
-            dist = 0;
+            dist = 1;
         }
     }
 
@@ -177,21 +177,17 @@ public class GraphAnalysis {
 
     public void closenessCentrality(){
         TreeMap<Double,Integer> results = new TreeMap<>();
-        LinkedList<Integer> vertices = largestComponent();
-        int src,dest;
-        for (int i = 0; i < vertices.size(); ++i){
+        for (int src = 0; src < V; ++src){
             int count = 0;
             int total = 0;
-            src = vertices.get(i);
-            for(int j = 0; j < vertices.size() && j < 1000; j++) {
-                dest = vertices.get(j);
-                if(i != j){
+            for(int dest = 0; dest  < V; dest++) {
+                if(src != dest){
                     total += BFS(src,dest);
                     count++;
                 }
             }
             results.put((double)total/count, src);
-            System.out.println(i + " of " + vertices.size());
+           System.out.println(src + " of " + V);
         }
         System.out.println("Rank\tVertex\tCloCen");
         int rank = 1;
@@ -199,31 +195,6 @@ public class GraphAnalysis {
             System.out.printf("%d\t%d\t%f%n", rank++, entry.getValue(), entry.getKey());
             if ( rank > 40 )break;
         }
-    }
-
-    public LinkedList<Integer> largestComponent(){
-        LinkedList<Integer> vertices= new LinkedList<>(graph.keySet());
-        LinkedHashMap<Integer,HashSet<Integer>> component = new LinkedHashMap<>();
-        int count = 0;
-        while (!vertices.isEmpty()){
-            //System.out.println(vertices.size());
-            int src = vertices.poll();
-            component.put(count,new HashSet<>());
-            component.get(count).add(src);
-            for(int i = 0; i < vertices.size(); ++i){
-                int dest = vertices.get(i);
-                if( BFS(src,dest) != 0){
-                    vertices.remove(i--);
-                    component.get(count).add(dest);
-                }
-            }
-            count++;
-        }
-        HashSet largest = new HashSet();
-        for(Map.Entry<Integer,HashSet<Integer>> entry : component.entrySet()){
-            if (entry.getValue().size() > largest.size()) largest = entry.getValue();
-        }
-        return new LinkedList(largest);
     }
 
     /**
