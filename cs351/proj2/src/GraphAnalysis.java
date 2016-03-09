@@ -8,17 +8,14 @@ import edu.rit.numeric.ListXYSeries;
 import edu.rit.numeric.XYSeries;
 import edu.rit.numeric.plot.Dots;
 import edu.rit.numeric.plot.Plot;
-import edu.rit.numeric.plot.Strokes;
-import edu.rit.util.Random;
 
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import static edu.rit.numeric.Mathe.*;
 
 /**
- * Created by Crystal on 2/20/2016.
+ * Created by Tyler Paulsen on 2/20/2016.
  */
 public class GraphAnalysis {
     private HashMap<Integer, HashSet<Integer>> graph;
@@ -90,9 +87,9 @@ public class GraphAnalysis {
         return max_hops;
     }
     /**
-     * Breadth first search for a given graph.
+     * Breadth first search for a given graph anc compute the average distance.
      * @param src - What node to start from
-     * @return
+     * @return  double : the average distance for a given node.
      */
     double BFS_avgDist(int src) {
         HashSet<Integer> seen = new HashSet();
@@ -161,45 +158,38 @@ public class GraphAnalysis {
         }
     }
 
-    public void degreeCentrility(){
-        List list = new LinkedList(graph.entrySet());
-        Collections.sort(list, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                HashSet hs1 = (HashSet) ((Map.Entry) (o1)).getValue();
-                HashSet hs2 = (HashSet) ((Map.Entry) (o2)).getValue();
-                return ((Comparable) hs2.size()).compareTo(hs1.size());
+    /**
+     * compute the degree centrality of a graph.
+     */
+    public void degreeCentrality(){
+        // < vert id, degree >
+        TreeMap<Integer,LinkedList<Integer>> results = new TreeMap<>(Collections.reverseOrder());
+        LinkedList<Integer> vertices = largestComponent();
+        int src,degree;
+        for (int i  = 0; i < vertices.size(); ++i){
+            src = vertices.get(i);
+            degree = graph.get(src).size();
+            if (results.containsKey(degree))
+                results.get(degree).add(src);
+            else {
+                LinkedList<Integer> v = new LinkedList();
+                v.add(src);
+                results.put(degree,v);
             }
-        });
-
-        Map result = new LinkedHashMap<>();
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry)it.next();
-            result.put(entry.getKey(), ((HashSet) entry.getValue()).size());
         }
+
         System.out.println("Rank\tVertex\tDegCen");
-        int count = 1;
-        Iterator it = result.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry i = (Map.Entry) it.next();
-            System.out.printf("%d\t%d\t%d%n",count++,i.getKey(),i.getValue());
-            if(count > 40) break;
+        int rank = 1;
+        for(Map.Entry<Integer,LinkedList<Integer>> entry : results.entrySet()) {
+            for ( Integer vertex : entry.getValue())
+                System.out.printf("%d\t%d\t%d%n", rank++, vertex, entry.getKey()) ;
+            if(rank > 40) break;
         }
     }
 
-    public double averageDistance(int src){
-        LinkedList<Integer> vertices= new LinkedList<>(graph.keySet());
-        int count = 0;
-        int total = 0;
-        int dist;
-        for(int i = 0; i < vertices.size(); ++i){
-            if( src != i && (dist = BFS(src,i)) != 0 ){
-                total += dist;
-                count++;
-            }
-        }
-        return (double)total / (double)count;
-    }
-
+    /**
+     * compute the closeness centrality for the largest component in the graph.
+     */
     public void closenessCentrality(){
         TreeMap<Double,Integer> results = new TreeMap<>();
         LinkedList<Integer> vertices = largestComponent();
@@ -246,7 +236,10 @@ public class GraphAnalysis {
 
     }
 
-
+    /**
+     * get the largest component of the graph
+     * @return List of vertices in the largest component.
+     */
     public LinkedList<Integer> largestComponent(){
         LinkedList<Integer> vertices= new LinkedList<>(graph.keySet());
         LinkedHashMap<Integer,HashSet<Integer>> component = new LinkedHashMap<>();
