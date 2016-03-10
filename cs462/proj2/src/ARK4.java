@@ -105,9 +105,27 @@ public class ARK4 implements BlockCipher {
      */
     @Override
     public void decrypt(byte[] text) {
+        for (int i = 1; i < numRounds() + 1; ++i)
+            subkeyRound(i);
+        for (int i = numRounds(); i > 0 ; --i) {
+            /*
+            System.out.print(i + "\t");
+            for (int j = 0; j < text.length; ++ j)
+                System.out.printf ("%02x", text[j]);
+            System.out.print("\t");
+*/
+            round_inv(text);
+/*
+            for (int j = 0; j < text.length; ++ j)
+                System.out.printf ("%02x", text[j]);
+            System.out.print("\t");
 
+            System.out.println();
+*/
+            subkeyRound_inv(i);
+
+        }
     }
-
 
     public int F(byte a, byte b){
      return times(a,b) ^ times(c1,a) ^ times(c2,b) ^ c3;
@@ -149,6 +167,47 @@ public class ARK4 implements BlockCipher {
         System.arraycopy(D,0,text,0,8);
     }
 
+
+    private void round_inv(byte[] text){
+        byte D[] = new byte[8];
+        System.arraycopy(text,0,D,0,8);
+        D[1] = text[0];
+        D[3] = text[1];
+        D[5] = text[2];
+        D[7] = text[3];
+        D[0] = text[4];
+        D[2] = text[5];
+        D[4] = text[6];
+        D[6] = text[7];
+
+
+        D[0] = (byte)( F( D[4], key[0] ) ^ D[0]);
+        D[1] = (byte)( F( D[5], key[1] ) ^ D[1]);
+        D[2] = (byte)( F( D[6], key[2] ) ^ D[2]);
+        D[3] = (byte)( F( D[7], key[3] ) ^ D[3]);
+
+        System.arraycopy(D,0,text,0,8);
+    }
+
+    private void subkeyRound_inv(int round){
+
+        byte K[] = new byte[12];
+        System.arraycopy(key,0,K,0,12);
+
+        for (int i = 0; i < 4; ++i)
+            key[8+i] = (byte)(F(key[4+i],(byte)(round + i)) ^ key[i]);
+
+
+        key[0] = K[4];
+        key[1] = K[5];
+        key[2] = K[6];
+        key[3] = K[7];
+        key[4] = K[8];
+        key[5] = K[9];
+        key[6] = K[10];
+        key[7] = K[11];
+    }
+
     private void subkeyRound(int round){
         byte K[] = new byte[12];
         System.arraycopy(key,0,K,0,12);
@@ -167,5 +226,6 @@ public class ARK4 implements BlockCipher {
 
         for (int i = 0; i < 4; ++i)
             key[i] = (byte)(F(K[i],(byte)(round + i)) ^ K[8+i]);
+
     }
 }
