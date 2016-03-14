@@ -3,12 +3,12 @@
  */
 public class Main {
     public static void main(String args[]) throws Exception{
-        //GraphAnalysis ga = new GraphAnalysis("CA-HepTh-graph.txt");
-        GraphAnalysis ga = new GraphAnalysis("CA-GrQc-graph.txt");
+        GraphAnalysis ga = new GraphAnalysis("CA-HepTh-graph.txt");
+        //GraphAnalysis ga = new GraphAnalysis("CA-GrQc-graph.txt");
 
         //ga.degreeDistribution();
         //ga.connectedComponents();
-        ga.degreeCentrality();
-       // ga.closenessCentrality();
+        //ga.degreeCentrality();
+        ga.closenessCentrality();
     }
 }

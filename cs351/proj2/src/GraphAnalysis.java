@@ -1,8 +1,5 @@
-import java.awt.*;
 import java.io.*;
 import java.util.*;
-
-
 import edu.rit.numeric.Histogram;
 import edu.rit.numeric.ListXYSeries;
 import edu.rit.numeric.XYSeries;
@@ -11,17 +8,43 @@ import edu.rit.numeric.plot.Plot;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.List;
 
 
 /**
  * Created by Tyler Paulsen on 2/20/2016.
+ * Class to compute various network science algorithms for a given graph.
  */
 public class GraphAnalysis {
     private HashMap<Integer, HashSet<Integer>> graph;
     private String graphfile;
     private int V;
-    GraphAnalysis(String f){
+
+    public static void main(String args[]) throws Exception{
+        if (args.length < 2 || args.length > 5) usage();
+        GraphAnalysis ga = new GraphAnalysis(args[0]);
+
+        for(int i = 1; i < args.length; ++i){
+            String arg = args[i];
+            switch (arg){
+                case "degreeDistribution":
+                    ga.degreeDistribution();
+                    break;
+                case "connectedComponents":
+                    ga.connectedComponents();
+                    break;
+                case "closenessCentrality":
+                    ga.closenessCentrality();
+                    break;
+                case "degreeCentrality":
+                    ga.degreeCentrality();
+                    break;
+                default:
+                    usage();
+            }
+        }
+    }
+
+    GraphAnalysis(String f) throws IOException{
         graphfile = new String(f);
         graph = new HashMap();
         construct_graph(new File(f));
@@ -33,7 +56,7 @@ public class GraphAnalysis {
      *  If the spec is not follow, results may vary.
      * @param fileName - name of the graph file
      */
-    void construct_graph(File fileName){
+    void construct_graph(File fileName)throws IOException{
         // The name of the file to open.
         try {
             // FileReader reads text files in the default encoding.
@@ -62,11 +85,13 @@ public class GraphAnalysis {
             System.out.println(
                     "Unable to open file '" +
                             fileName + "'");
+            throw new FileNotFoundException();
         }
         catch(IOException ex) {
             System.out.println(
                     "Error reading file '"
                             + fileName + "'");
+            throw new IOException();
         }
     }
 
@@ -140,6 +165,30 @@ public class GraphAnalysis {
         return 0;
     }
 
+
+    /**
+     * BFS to find a component for a given node.
+     * @param start - What node to start from
+     * @return
+     */
+    HashSet<Integer> BFS_component(int start) {
+        HashSet<Integer> seen = new HashSet();
+        LinkedList<Path> queue = new LinkedList();
+        Path A = new Path(start);
+        queue.addLast(A);
+        seen.add(A.id);
+        while (!queue.isEmpty()) {
+            A = queue.poll();
+            for (Integer B : graph.get(A.id)) {
+                if (!seen.contains(B)) {
+                    seen.add(B);
+                    queue.addLast(new Path(B, A));
+                }
+            }
+        }
+        return seen;
+    }
+
     // Class used in the breadth first search.
     class Path {
         int dist, id;
@@ -210,30 +259,24 @@ public class GraphAnalysis {
      * Find the number of calculated components for a given graph.
      */
     public void connectedComponents(){
-        LinkedList<Integer> vertices= new LinkedList<>(graph.keySet());
         System.out.println("Comp\tSize");
         int comp = 0;
         int largest = -1;
         int smallest = V;
-        while (!vertices.isEmpty()){
-            //System.out.println(vertices.size());
-            int src = vertices.poll();
-            int count = 1;
-            for(int i = 0; i < vertices.size(); ++i){
-                int dest = vertices.get(i);
-                if( BFS(src,dest) != 0){
-                   count++;
-                   vertices.remove(i--);
-                }
-            }
-            System.out.printf("%d\t%d%n",comp++,count);
-            if ( count < smallest ) smallest = count ;
-            if ( count > largest ) largest = count;
-        }
+        LinkedList<Integer> vertices= new LinkedList<>(graph.keySet());
 
+        HashSet<Integer> seen;
+        while (!vertices.isEmpty()) {
+            int src = vertices.poll();
+            seen = BFS_component(src);
+            vertices.removeAll(seen);
+            int size = seen.size();
+            System.out.printf("%d\t%d%n", comp++, size);
+            if ( size < smallest) smallest =  size;
+            if ( size  > largest ) largest = size;
+        }
         System.out.println("Largest Component: " + largest);
         System.out.println("Smallest Component: " + smallest);
-
     }
 
     /**
@@ -242,27 +285,16 @@ public class GraphAnalysis {
      */
     public LinkedList<Integer> largestComponent(){
         LinkedList<Integer> vertices= new LinkedList<>(graph.keySet());
-        LinkedHashMap<Integer,HashSet<Integer>> component = new LinkedHashMap<>();
-        int count = 0;
-        while (!vertices.isEmpty()){
-            //System.out.println(vertices.size());
+        HashSet<Integer> largest = new HashSet<>();
+
+        HashSet<Integer> seen;
+        while (!vertices.isEmpty()) {
             int src = vertices.poll();
-            component.put(count,new HashSet<>());
-            component.get(count).add(src);
-            for(int i = 0; i < vertices.size(); ++i){
-                int dest = vertices.get(i);
-                if( BFS(src,dest) != 0){
-                    vertices.remove(i--);
-                    component.get(count).add(dest);
-                }
-            }
-            count++;
+            seen = BFS_component(src);
+            vertices.removeAll(seen);
+            if ( largest.size() < seen.size() ) largest = seen;
         }
-        HashSet largest = new HashSet();
-        for(Map.Entry<Integer,HashSet<Integer>> entry : component.entrySet()){
-            if (entry.getValue().size() > largest.size()) largest = entry.getValue();
-        }
-        return new LinkedList(largest);
+        return new LinkedList<Integer>(largest);
     }
 
     /**
@@ -330,8 +362,10 @@ public class GraphAnalysis {
     // Print a usage message and exit.
     private static void usage()
     {
-        System.err.println ("Usage: java pj2 GraphAnalysis <graphfile>");
+        System.err.println ("Usage: java pj2 GraphAnalysis <graphfile> <graph measurement>");
         System.err.println ("<graphfile> = graph file name");
+        System.err.println ("<graph measurement> = [ degreeDistribution | connectedComponents | " +
+                "closenessCentrality | degreeCentrality");
         throw new IllegalArgumentException();
     }
 
