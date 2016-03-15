@@ -12,7 +12,7 @@ DiamondSquare::DiamondSquare(Renderer *_r, int levels, float height, unsigned in
 	set_element(0, size - 1, graph_seed);
 	set_element(size - 1, 0, graph_seed);
 	set_element(size - 1, size - 1, graph_seed);
-
+	max_height = graph_seed * 2;
 	create_graph(height);
 	draw_graph();
 }
@@ -65,25 +65,26 @@ void DiamondSquare::create_graph(float height){
 }
 
 void DiamondSquare::draw_graph(){
+	/*
 	for (int i = 0; i < size; ++i){
 		for (int j = 0; j < size; ++j)
-			cout << get_element(i, j) << "\t";
+			cout << get_element(i, j) / max_height << "\t";
 		cout << endl;
 	}
-
+	*/
 	int r;
+	float s = size - 2;
 	for (r = 0; r < size - 1; ++r){
 		int c;
 		for (c = 0; c < size - 1; ++c){
 			// add a square to the renderer
-			renderer->add_point(r, get_element(r, c), c, 0, 1, 0);
-			renderer->add_point(r, get_element(r, c+1), c+1, 0, 1, 0);
-			renderer->add_point(r+1, get_element(r+1, c), c, 0, 1, 0);
-		//	cout << "(" << r << " " << c << ")\t" << "(" << r << " " << c+1 << ")\t" << "(" << r+1 << " " << c << ")"<< endl;
-			renderer->add_point(r+1, get_element(r+1, c), c, 0, 1, 0);
-			renderer->add_point(r,  get_element(r, c+1) , c+1, 0, 1, 0);
-			renderer->add_point(r+1, get_element(r+1, c+1), c+1, 0, 1, 0);
-		//	cout << "(" << r+1 << " " << c << ")\t" << "(" << r << " " << c+1 << ")\t" << "(" << r+1 << " " << c+1 << ")\n"<< endl;
+			renderer->add_point(r / s, get_element(r, c) / max_height, c / s);
+			renderer->add_point(r / s, get_element(r, c + 1) / max_height, (c + 1) / s);
+			renderer->add_point((r + 1) / s, get_element(r + 1, c) / max_height, c / s);
+
+			renderer->add_point((r + 1) / s, get_element(r + 1, c) / max_height, c / s);
+			renderer->add_point(r / s, get_element(r, c + 1) / max_height, (c + 1) / s);
+			renderer->add_point((r + 1) / s, get_element(r + 1, c + 1) / max_height, (c + 1) / s);
 		}
 	}
 

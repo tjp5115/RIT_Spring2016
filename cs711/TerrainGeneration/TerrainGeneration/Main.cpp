@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "DiamondSquare.h"
+#include "ViewParams.h"
 int main(int argc, char **argv){
-	Renderer *render = new Renderer(500,500,&argc,argv);
-	DiamondSquare *ds = new DiamondSquare(render, 4, 50.0, 41412341, 100.0);
+	ViewParams *vp = new ViewParams();
+	Renderer *render = new Renderer(500,500,&argc,argv,vp);
+	DiamondSquare *ds = new DiamondSquare(render, 64, 150.0, 41412341, 300.0);
 }
