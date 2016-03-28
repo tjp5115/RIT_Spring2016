@@ -7,13 +7,13 @@ ViewParams::ViewParams()
 	rotateDefault.push_back(0.0f);
 	rotateDefault.push_back(0.0f);
 
-	translateDefault.push_back(-.4f);
-	translateDefault.push_back(1.0f);
-	translateDefault.push_back(0.0f);
+	translateDefault.push_back(-0.5f);
+	translateDefault.push_back(0.5f);
+	translateDefault.push_back(0);
 
-	scaleDefault.push_back(1.5f);
-	scaleDefault.push_back(1.5f);
-	scaleDefault.push_back(1.5f);
+	scaleDefault.push_back(2.0f);
+	scaleDefault.push_back(2.0f);
+	scaleDefault.push_back(2.0f);
 
 	eyeDefault.push_back(1.5f);
 	eyeDefault.push_back(3.0f);

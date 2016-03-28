@@ -27,7 +27,7 @@ PhongMaterial::~PhongMaterial()
 }
 
 
-RGBColor PhongMaterial::get_illumination(const Light &light, const IntersectData &id) const{
+RGBColor PhongMaterial::get_illumination(const Light &light, const IntersectData &id){
 	RGBColor ret;
 	double t;
 	Vector3D L = light.position - id.hit_pt;
@@ -37,7 +37,7 @@ RGBColor PhongMaterial::get_illumination(const Light &light, const IntersectData
 	Vector3D R(-L);
 	R = R.reflect(id.n);
 
-	RGBColor ambient = get_ambient();
+	RGBColor ambient = get_ambient(id);
 	float diffuse_reflection = std::max(L*id.n,0.0);
 	RGBColor diffuse = Dx * Kd * diffuse_reflection;
 	RGBColor specular = RGBColor();
@@ -54,6 +54,6 @@ RGBColor PhongMaterial::get_illumination(const Light &light, const IntersectData
 	return ret;
 }
 
-RGBColor PhongMaterial::get_ambient() const{
+RGBColor PhongMaterial::get_ambient(const IntersectData &id){
 	return Ka * Ax;
 }

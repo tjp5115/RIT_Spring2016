@@ -6,7 +6,8 @@ IntersectData::IntersectData(World &w):
 	n(),
 	material(),
 	ray(),
-	obj_id(-1)
+	obj_id(-1),
+	texture()
 {}
 
 
@@ -17,6 +18,7 @@ IntersectData::IntersectData(const IntersectData &t):
 	n(t.n),
 	material(t.material),
 	ray(t.ray),
-	obj_id(t.obj_id)
+	obj_id(t.obj_id),
+	texture(t.texture)
 {}
 IntersectData::~IntersectData(){}

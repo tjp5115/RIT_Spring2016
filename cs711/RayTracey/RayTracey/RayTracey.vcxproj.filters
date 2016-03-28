@@ -77,6 +77,9 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\Illumination</Filter>
     </ClCompile>
+    <ClCompile Include="ProceduralShade.cpp">
+      <Filter>Source Files\Illumination</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Plane.h">
@@ -122,6 +125,9 @@
       <Filter>Source Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
+      <Filter>Source Files\Illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="ProceduralShade.h">
       <Filter>Source Files\Illumination</Filter>
     </ClInclude>
   </ItemGroup>

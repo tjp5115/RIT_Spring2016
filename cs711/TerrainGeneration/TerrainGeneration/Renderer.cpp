@@ -82,7 +82,7 @@ void Renderer::draw()
 	glutInit(argcp, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutInitWindowSize(w, h);
-	window = glutCreateWindow("Ray Tracey");
+	window = glutCreateWindow("Terrain Generator");
 	glewInit();
 	// Load shaders and use the resulting shader program
 	program = shaderSetup("shader.vert", "shader.frag");

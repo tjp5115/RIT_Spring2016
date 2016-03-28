@@ -5,6 +5,7 @@
 #include "Plane.h"
 #include "Light.h"
 #include "PhongMaterial.h"
+#include "ProceduralShade.h"
 using namespace std;
 int main(int argc, char **argv){
 
@@ -71,7 +72,7 @@ int main(int argc, char **argv){
 	w->add_object(sphere_2);
 
 
-	Plane *plane = new Plane(Point3D(-300, -900, 0), Normal(0, 1, 0), 40000, 40000);
+	Plane *plane = new Plane(Point3D(-100,-600, -700), Normal(0, 1, 0), 800, 800);
 
 	Ax = (red);
 	ka = 0.25;
@@ -80,7 +81,7 @@ int main(int argc, char **argv){
 	Sx = (white);
 	n = 2;
 	Ks = 0.3;
-	PhongMaterial *material_3 = new PhongMaterial(Ax, ka, Dx, kd, Sx, n, Ks);
+	ProceduralShade *material_3 = new ProceduralShade(red, yellow, 100, Ax, ka, kd, Sx, n, Ks);
 	plane->set_material(material_3);
 
 	w->add_object(plane);

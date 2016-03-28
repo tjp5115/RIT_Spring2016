@@ -8,9 +8,9 @@ public:
 	PhongMaterial(RGBColor _Ax, float _Ka, RGBColor _Dx, float _Kd, RGBColor _Sx, float _n, float _Ks);
 	~PhongMaterial();
 	
-	virtual RGBColor get_illumination(const Light &light, const IntersectData &id) const;
-	virtual RGBColor get_ambient() const;
-private:
+	virtual RGBColor get_illumination(const Light &light, const IntersectData &id);
+	virtual RGBColor get_ambient(const IntersectData &id);
+protected:
 
 	RGBColor Ax;
 	float Ka;

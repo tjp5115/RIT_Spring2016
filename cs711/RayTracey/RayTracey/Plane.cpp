@@ -8,10 +8,10 @@ Plane::Plane(const Point3D &point, const Normal &normal, double _w, double _h)
 	n = normal;
 	w = _w;
 	h = _h;
-	p1 = Point3D(p.x - w, p.y, p.z + h);
-	p2 = Point3D(p.x + w, p.y, p.z + h);
-	p3 = Point3D(p.x + w, p.y, p.z - h);
-	p4 = Point3D(p.x - w, p.y, p.z - h);
+	Xmin = p.x - w;
+	Xmax = p.x + w;
+	Zmax = p.z + h;
+	Zmin = p.z - h;
 }
 
 
@@ -20,113 +20,33 @@ Plane::~Plane()
 }
 
 bool Plane::hit(const Ray &ray, double &w_min, IntersectData &tr) const{
-	/*
-	double w = (p - ray.o) * n / (ray.d * n);
-	//cout << ray.o.x << ray.o.y << ray.o.z << endl;
-	//cout << w << endl;
-	if (w > 0.0){
-		w_min = w;
-		tr.n = n;
-		tr.hit_pt = ray.o + w * ray.d;
-		return true;
-	}
-	*/
 
-	double w = (p - ray.o) * n / (ray.d * n);
+	double w_ = (p - ray.o) * n / (ray.d * n);
 	//cout << ray.o.x << ray.o.y << ray.o.z << endl;
 	//cout << w << endl;
-	if (w <= kEpsilon){
+	if (w_ <= kEpsilon){
 		return false;
 	}
-	w_min = w;
+	w_min = w_;
 	tr.n = n;
-	tr.hit_pt = ray.o + w * ray.d;
+	tr.hit_pt = ray.o + w_ * ray.d;
+	tr.texture.z = (tr.hit_pt.z + h - p.z);
+	tr.texture.x = (tr.hit_pt.x + w - p.x);
 
-	//cout << "hit plane: " << tr.hit_pt.x << tr.hit_pt.y << tr.hit_pt.z << endl;
-	double angle = 0;
-	Vector3D v1, v2;
-
-
-	v1 = tr.hit_pt - p1;
-	v2 = tr.hit_pt - p2;
-	v1.normalize();
-	v2.normalize();
-	angle += acos(abs(v1*v2));
-
-	//cout << acos(abs(v1*v2)) << endl;
-	v1 = tr.hit_pt - p2;
-	v2 = tr.hit_pt - p3;
-	v1.normalize();
-	v2.normalize();
-	angle += acos(abs(v1*v2));
-
-	//cout << acos(abs(v1*v2)) << endl;
-	v1 = tr.hit_pt - p3;
-	v2 = tr.hit_pt - p4;
-	v1.normalize();
-	v2.normalize();
-	angle += acos(abs(v1*v2));
-
-	//cout << acos(abs(v1*v2)) << endl;
-	v1 = tr.hit_pt - p4;
-	v2 = tr.hit_pt - p1;
-	v1.normalize();
-	v2.normalize();
-	//cout << acos(abs(v1*v2)) << endl;
-
-	angle += acos(abs(v1*v2));
-	//cout << acos(abs(v1*v2)) << endl;
-	//cout << angle << endl;
-	
-	if (angle >= 6.2){
-		//cout << "hit" << endl;
+	if (tr.hit_pt.x > Xmin && tr.hit_pt.x < Xmax && tr.hit_pt.z > Zmin && tr.hit_pt.z < Zmax)
 		return true;
-	}
-
 	return false;
 }
 
 
 bool Plane::shadow_hit(const Ray &ray, double &w_min) const{
-	double w = (p - ray.o) * n / (ray.d * n);
-	if (w <= kEpsilon){
+	double w_ = (p - ray.o) * n / (ray.d * n);
+	if (w_ <= kEpsilon){
 		return false;
 	}
-	w_min = w;
-	Point3D hit_pt = ray.o + w * ray.d;
-
-	double angle = 0;
-	Vector3D v1, v2;
-
-
-	v1 = hit_pt - p1;
-	v2 = hit_pt - p2;
-	v1.normalize();
-	v2.normalize();
-	angle += acos(abs(v1*v2));
-
-	v1 = hit_pt - p2;
-	v2 = hit_pt - p3;
-	v1.normalize();
-	v2.normalize();
-	angle += acos(abs(v1*v2));
-
-	v1 = hit_pt - p3;
-	v2 = hit_pt - p4;
-	v1.normalize();
-	v2.normalize();
-	angle += acos(abs(v1*v2));
-
-	v1 = hit_pt - p4;
-	v2 = hit_pt - p1;
-	v1.normalize();
-	v2.normalize();
-
-	angle += acos(abs(v1*v2));
-
-	if (angle >= 6.2){
+	w_min = w_;
+	Point3D hit_pt = ray.o + w_ * ray.d;
+	if (hit_pt.x > Xmin && hit_pt.x < Xmax && hit_pt.z > Zmin && hit_pt.z < Zmax)
 		return true;
-	}
-
 	return false;
 }

@@ -19,5 +19,6 @@ public:
 	Ray ray;
 	Material *material;
 	int obj_id;
+	Point3D  texture;
 };
 

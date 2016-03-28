@@ -107,7 +107,7 @@ RGBColor World::trace_ray(const Ray &ray){
 	IntersectData id(hit_objects(ray));
 	if (id.hit_obj){
 			Ray shadow = Ray();
-			RGBColor total_color = id.material->get_ambient() * RGBColor (1);
+			RGBColor total_color = id.material->get_ambient(id) * RGBColor (1);
 			shadow.o = id.hit_pt;
 		for (int i = 0; i < lights.size(); ++i){
 			shadow.d = lights[i]->position - id.hit_pt;

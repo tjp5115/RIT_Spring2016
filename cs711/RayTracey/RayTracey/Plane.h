@@ -18,7 +18,10 @@ private:
 	Normal n;
 	double w;
 	double h;
-	Point3D p1, p2, p3, p4;
+	float Xmin;
+	float Xmax;
+	float Zmax;
+	float Zmin;
 	static const double kEpsilon;
 };
 

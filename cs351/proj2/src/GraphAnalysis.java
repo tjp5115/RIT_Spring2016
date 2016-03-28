@@ -64,12 +64,21 @@ public class GraphAnalysis {
 
             // Always wrap FileReader in BufferedReader.
             BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+
+
             String line[] = bufferedReader.readLine().split(" ");
+            int E = 0;
+            while(!line[0].equals("g")) {
+                line = bufferedReader.readLine().split(" ");
+            }
+
             V = Integer.parseInt(line[1]);
-            int E = Integer.parseInt(line[2]);
+            E = Integer.parseInt(line[2]);
 
             for (int i = 0; i < V; ++i)
                 graph.put(i, new HashSet());
+
             int v1,v2;
             for (int i = 0; i < E; ++i){
                 line = bufferedReader.readLine().split(" ");

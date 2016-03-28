@@ -83,8 +83,7 @@ void main()
     mat4 modelViewMat = viewMat * modelMat;
 
     // Transform the vertex location into clip space
-    //gl_Position =  projMat * viewMat  * modelMat * vPosition;
-    gl_Position = projMat * viewMat  * vPosition;
+    gl_Position =  projMat * viewMat  * modelMat * vPosition;
 	//gl_Position = vPosition;
 }
 

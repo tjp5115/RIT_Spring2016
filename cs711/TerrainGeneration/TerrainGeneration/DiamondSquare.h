@@ -5,18 +5,18 @@
 class DiamondSquare
 {
 public:
-	DiamondSquare(Renderer *r, int levels, float _height, unsigned int _rnd_seed, float graph_seed);
+	DiamondSquare(Renderer *r, int levels, double height, unsigned int _rnd_seed, double graph_seed);
 	~DiamondSquare();
 private:
-	vector<float> height_map;
+	vector<double> height_map;
 	Renderer *renderer;
 	int size;
-	float max_height;
+	double max_height;
 	unsigned int rnd_seed;
-	void create_graph(float height);
-	void set_element(int r, int c, float val);
-	float get_element(int r, int c);
-	float get_random(float h);
+	void create_graph(double height);
+	void set_element(int r, int c, double val);
+	double get_element(int r, int c);
+	double get_random(double h);
 	void draw_graph();
 };
 
