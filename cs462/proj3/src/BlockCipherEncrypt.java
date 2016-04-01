@@ -46,7 +46,7 @@ public class BlockCipherEncrypt
 		cipher.setKey (key);
 		cipher.encrypt (text);
 		for (int i = 0; i < text.length; ++ i)
-			System.out.printf ("%02x", text[i]);
+			System.out.printf ("%x", text[i]);
 		System.out.println();
 		}
 
