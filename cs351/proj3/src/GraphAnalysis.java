@@ -1,3 +1,6 @@
+import java.awt.*;
+import edu.rit.util.PriorityQueue;
+import edu.rit.util.PriorityQueue.Item;
 import java.io.*;
 import java.util.*;
 import edu.rit.numeric.Histogram;
@@ -58,7 +61,7 @@ public class GraphAnalysis {
      *  If the spec is not follow, results may vary.
      * @param fileName - name of the graph file
      */
-    void construct_graph(File fileName)throws IOException{
+    private void construct_graph(File fileName)throws IOException{
         // The name of the file to open.
         try {
             FileReader fileReader = new FileReader(fileName);
@@ -79,13 +82,12 @@ public class GraphAnalysis {
             int v1,v2;
             float x,y,w;
             Vertex v;
-            splitLine = bufferedReader.readLine().split(" ");
 
             String line;
             //parse the weights
             while((line = bufferedReader.readLine()) != null) {
                 splitLine = line.split(" ");
-                System.out.println(Arrays.toString(splitLine));
+                //System.out.println(Arrays.toString(splitLine));
                 if (splitLine[0].equals("v")) {
                     v1 = Integer.parseInt(splitLine[1]);
                     w = Float.parseFloat(splitLine[2]);
@@ -104,7 +106,6 @@ public class GraphAnalysis {
                     graph.get(v1).addAdjacent(v2);
                     graph.get(v2).addAdjacent(v1);
                 }
-
             }
             bufferedReader.close();
         }
@@ -123,7 +124,7 @@ public class GraphAnalysis {
      * @param src - What node to start from
      * @return  double : the average distance for a given node.
      */
-    double BFS_avgDist(int src) {
+    private double BFS_avgDist(int src) {
         HashSet<Integer> seen = new HashSet();
         LinkedList<Path> queue = new LinkedList();
         Path A = new Path(src);
@@ -151,7 +152,7 @@ public class GraphAnalysis {
      * @param dest - What node we are looking for.
      * @return
      */
-    int BFS(int start, int dest) {
+    private int BFS(int start, int dest) {
         if(graph.get(start).contains(dest)) return 1;
         HashSet<Integer> seen = new HashSet();
         LinkedList<Path> queue = new LinkedList();
@@ -178,7 +179,7 @@ public class GraphAnalysis {
      * @param start - What node to start from
      * @return
      */
-    HashSet<Integer> BFS_component(int start) {
+    private HashSet<Integer> BFS_component(int start) {
         HashSet<Integer> seen = new HashSet();
         LinkedList<Path> queue = new LinkedList();
         Path A = new Path(start);
@@ -197,7 +198,7 @@ public class GraphAnalysis {
     }
 
     // Class used in the breadth first search.
-    class Path {
+    private class Path {
         int dist, id;
         Path parent;
 
@@ -295,9 +296,9 @@ public class GraphAnalysis {
         System.out.println("Smallest Component: " + smallest);
     }
 
-    /**
-     * get the largest component of the graph
-     * @return List of vertices in the largest component.
+    /**h
+     * @return List of vertices in the large
+     * get the largest component of the grapst component.
      */
     public LinkedList<Integer> largestComponent(){
         LinkedList<Integer> vertices= new LinkedList<>(graph.keySet());
@@ -381,9 +382,14 @@ public class GraphAnalysis {
     public void plotGraph(){
 
         ListXYSeries results = new ListXYSeries();
+        Vertex src,dest;
         for (int i = 0; i < graph.size(); ++i) {
-            results.add(graph.get(i).x, graph.get(i).y);
-            System.out.printf("%d\t%.4e\t%.4e%n", i, graph.get(i).x, graph.get(i).y);
+            src = graph.get(i);
+            for(Integer A: src.edges){
+                dest = graph.get(A);
+                results.add(src.x, src.y);
+                results.add(dest.x, dest.y);
+            }
         }
 
         Plot plot = new Plot()
@@ -391,23 +397,95 @@ public class GraphAnalysis {
                 .xAxisLength(650)
                 .yAxisLength(650)
                 .seriesDots(Dots.circle(5))
-                .seriesStroke(null)
-                .xySeries(results);
+                .seriesColor(Color.RED)
+                .segmentedSeries(results);
         plot.getFrame().setVisible(true);
     }
-    // Print a usage message and exit.
-    private static void usage()
-    {
-        System.err.println ("Usage: java pj2 GraphAnalysis <graphfile> <graph measurement>");
-        System.err.println ("<graphfile> = graph file name");
-        System.err.println ("<graph measurement> = [ degreeDistribution | connectedComponents | " +
-                "closenessCentrality | degreeCentrality");
-        throw new IllegalArgumentException();
+
+    /**
+     * Creates a complete graph of the current graph
+     */
+    private void createCompleteGraph(){
+        for(int i = 0; i < V; ++i){
+            for( int k = i; k < V; ++k){
+                graph.get(i).edges.add(k);
+                graph.get(k).edges.add(i);
+            }
+        }
     }
 
+    /**
+     * uses Prim's algorithm to create a minimum spanning tree on the current graph.
+     */
+    public void minDistPrim(){
+        createCompleteGraph();
+        edu.rit.util.PriorityQueue queue = new PriorityQueue();
+        Distance D[] = new Distance[V];
+        for(int i = 0; i<V; ++i){
+            D[i] = new Distance(i, -1, Double.MAX_VALUE);
+            queue.add(D[i]);
+        }
+        Distance V;
+        while( !queue.isEmpty()){
+            V = (Distance)queue.remove();
+            System.out.println(V);
+            for(Integer W: graph.get(V.n).edges){
+                if(D[W].enqueued() && distance(graph.get(W),graph.get(V.n)) < D[W].distance){
+                    D[W].predecessor = V.n;
+                    D[W].distance = distance(graph.get(W),graph.get(V.n));
+                    D[W].increasePriority();
+                }
+            }
+            System.out.println();
+        }
+        for(int i = 0; i < this.V; ++i)
+            System.out.println(D[i]);
+        Vertex v1,v2;
+        for(int i=0; i < this.V; ++i){
+            if (D[i].predecessor == -1) continue;
+            v1 = graph.get(i);
+            v2 = graph.get(D[i].predecessor);
+            v1.edges.clear();
+            v1.edges.add(D[i].predecessor);
+            v2.edges.add(v1.n);
+        }
 
+    }
 
-    class Vertex{
+    /**
+     * used in prim's algo to store a vertex and edge.
+     */
+    private class Distance extends Item{
+        int n,predecessor;
+        double distance;
+        Distance(int n, int predecessor, double distance){
+            this.n = n;
+            this.predecessor = predecessor;
+            this.distance = distance;
+        }
+        public boolean equals(Object obj){
+            return (Integer)obj == n;
+        }
+
+        @Override
+        public boolean comesBefore(Item item) {
+            return this.distance > ((Distance)item).distance;
+        }
+        public String toString(){
+            return "N="+n + " p=" + predecessor + " D=" + distance;
+        }
+    }
+    /**
+     * get the euclidean distance for two points
+     * @param a
+     * @param b
+     * @return distance
+     */
+    private double distance(Vertex a, Vertex b){
+        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+    }
+
+    private class Vertex{
         int n;
         float x,y,w;
         HashSet<Integer> edges;
@@ -433,6 +511,15 @@ public class GraphAnalysis {
         public String toString(){
             return n + " : " + x + " , " + y;
         }
+    }
+    // Print a usage message and exit.
+    private static void usage()
+    {
+        System.err.println ("Usage: java pj2 GraphAnalysis <graphfile> <graph measurement>");
+        System.err.println ("<graphfile> = graph file name");
+        System.err.println ("<graph measurement> = [ degreeDistribution | connectedComponents | " +
+                "closenessCentrality | degreeCentrality");
+        throw new IllegalArgumentException();
     }
 
 }
