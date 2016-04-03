@@ -8,9 +8,11 @@ import edu.rit.numeric.ListXYSeries;
 import edu.rit.numeric.XYSeries;
 import edu.rit.numeric.plot.Dots;
 import edu.rit.numeric.plot.Plot;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.List;
 
 
 /**
@@ -147,32 +149,54 @@ public class GraphAnalysis {
     }
 
     /**
-     * Breadth first search for a given graph.
-     * @param start - What node to start from
-     * @param dest - What node we are looking for.
-     * @return
+     * between centrality BFS
+     * @param src
+     * @param between - keeps track of the betweeness for each vertex
      */
-    private int BFS(int start, int dest) {
-        if(graph.get(start).contains(dest)) return 1;
+    private void BFS_between(int src, Between between[]){
         HashSet<Integer> seen = new HashSet();
         LinkedList<Path> queue = new LinkedList();
-        Path A = new Path(start);
+        Path A = new Path(src);
         queue.addLast(A);
         seen.add(A.id);
         while (!queue.isEmpty()) {
             A = queue.poll();
-
             for (Integer B : graph.get(A.id).edges) {
-                if (graph.get(B).contains(dest)) return A.dist + 1;
+                if (!seen.contains(B)) {
+                    seen.add(B);
+                    queue.addLast(new Path(B, A));
+                    for(Integer i: queue.getLast().getPath(src)){
+                        between[i].total_paths += 1;
+                        between[i].total_distance += A.dist + 1;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     *  shortest path
+     * @param src
+     * @param dest
+     */
+    private Path BFS(int src, int dest ){
+        HashSet<Integer> seen = new HashSet();
+        LinkedList<Path> queue = new LinkedList();
+        Path A = new Path(src);
+        queue.addLast(A);
+        seen.add(A.id);
+        while (!queue.isEmpty()) {
+            A = queue.poll();
+            for (Integer B : graph.get(A.id).edges) {
+                if(B == dest) return new Path(B,A);
                 if (!seen.contains(B)) {
                     seen.add(B);
                     queue.addLast(new Path(B, A));
                 }
             }
         }
-        return 0;
+        return null;
     }
-
 
     /**
      * BFS to find a component for a given node.
@@ -212,6 +236,19 @@ public class GraphAnalysis {
         Path(int _id) {
             id = _id;
             dist = 1;
+        }
+        public HashSet<Integer> getPath(int dest){
+            HashSet<Integer> path = new HashSet<>();
+            if(dest != parent.id) {
+                getPath(path, parent, dest);
+            }
+            return path;
+        }
+        private void getPath(HashSet<Integer> path, Path vertex, int dest){
+            path.add(vertex.id);
+            if(vertex.parent.id == dest)
+                return;
+            getPath(path, vertex.parent, dest);
         }
     }
 
@@ -425,10 +462,10 @@ public class GraphAnalysis {
             D[i] = new Distance(i, -1, Double.MAX_VALUE);
             queue.add(D[i]);
         }
+        D[0].distance = 0.0f;
         Distance V;
         while( !queue.isEmpty()){
             V = (Distance)queue.remove();
-            System.out.println(V);
             for(Integer W: graph.get(V.n).edges){
                 if(D[W].enqueued() && distance(graph.get(W),graph.get(V.n)) < D[W].distance){
                     D[W].predecessor = V.n;
@@ -436,22 +473,53 @@ public class GraphAnalysis {
                     D[W].increasePriority();
                 }
             }
-            System.out.println();
         }
-        for(int i = 0; i < this.V; ++i)
-            System.out.println(D[i]);
-        Vertex v1,v2;
+        double total_distance = 0;
+        for(int i = 0; i < this.V; ++i) {
+            graph.get(i).edges.clear();
+            total_distance += D[i].distance;
+        }
+        System.out.printf("Total Distance: %f%n",total_distance);
+        Vertex v1;
         for(int i=0; i < this.V; ++i){
             if (D[i].predecessor == -1) continue;
             v1 = graph.get(i);
-            v2 = graph.get(D[i].predecessor);
-            v1.edges.clear();
             v1.edges.add(D[i].predecessor);
-            v2.edges.add(v1.n);
         }
 
     }
 
+    public void betweenCentrality(){
+        TreeMap<Double,Integer> results = new TreeMap<>(Collections.reverseOrder());
+        int between[] = new int[V];
+        for( int i = 0; i < V; ++i){
+            between[i] = 0;
+        }
+        Path path;
+        int total = 0;
+        for( int src = 0; src < V; ++src){
+            for(int dest = src+1; dest < V; ++dest) {
+                path = BFS(src, dest);
+                HashSet<Integer> p = path.getPath(src);
+                if (p.size() != path.dist){
+                    System.out.println(p.size() + " " + path.dist);
+                }
+                for(Integer i: p){
+                    between[i] += 1;
+                }
+                total += 1;
+            }
+        }
+        for(int i = 0; i < V; ++i){
+            results.put(between[i] / (double)total,i);
+        }
+        System.out.println("Rank\tVertex\tbetweeness");
+        int rank = 1;
+        for(Map.Entry<Double,Integer> vertex: results.entrySet()) {
+            System.out.printf("%d\t%d\t%f%n", rank++, vertex.getValue(), vertex.getKey());
+            if(rank > 40) break;
+        }
+    }
     /**
      * used in prim's algo to store a vertex and edge.
      */
@@ -469,10 +537,24 @@ public class GraphAnalysis {
 
         @Override
         public boolean comesBefore(Item item) {
-            return this.distance > ((Distance)item).distance;
+            return this.distance < ((Distance)item).distance;
         }
         public String toString(){
             return "N="+n + " p=" + predecessor + " D=" + distance;
+        }
+    }
+
+    /**
+     * used to calculate the betweeness
+     */
+    class Between{
+        int total_paths;
+        int total_distance;
+        Between(){
+            total_distance = total_paths = 0;
+        }
+        double get_betweeness(){
+            return (double)total_distance/total_paths;
         }
     }
     /**

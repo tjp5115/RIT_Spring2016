@@ -3,8 +3,9 @@
  */
 public class testMain {
     public static void main(String args[]) throws Exception{
-        GraphAnalysis ga = new GraphAnalysis("rome-cities.txt");
-        ga.minDistPrim();
-        ga.plotGraph();
+        GraphAnalysis ga = new GraphAnalysis("rome-roads.txt");
+        //ga.minDistPrim();
+//        ga.plotGraph();
+        ga.betweenCentrality();
     }
 }
