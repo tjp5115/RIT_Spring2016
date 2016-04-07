@@ -26,27 +26,17 @@
       <file leaf-file-name="GraphAnalysis.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GraphAnalysis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="247" column="12" selection-start-line="247" selection-start-column="12" selection-end-line="247" selection-end-column="12" />
+            <state relative-caret-position="176">
+              <caret line="468" column="29" selection-start-line="468" selection-start-column="29" selection-end-line="468" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
                 <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
-                <element signature="method#closenessCentrality#0;class#GraphAnalysis#0" expanded="false" />
                 <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
                 <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
                 <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
-                <element signature="method#plotGraph#0;class#GraphAnalysis#0" expanded="false" />
                 <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
-                <element signature="method#minDistPrim#0;class#GraphAnalysis#0" expanded="false" />
                 <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
-                <element signature="e#18404#18405#0" expanded="true" />
-                <element signature="e#18476#18477#0" expanded="true" />
-                <element signature="e#18742#18743#0" expanded="true" />
-                <element signature="e#18798#18799#0" expanded="true" />
-                <element signature="e#18831#18832#0" expanded="true" />
-                <element signature="e#18896#18897#0" expanded="true" />
-                <element signature="class#Vertex#0;class#GraphAnalysis#0" expanded="false" />
                 <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
               </folding>
             </state>
@@ -56,8 +46,18 @@
       <file leaf-file-name="testMain.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/testMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+            <state relative-caret-position="154">
+              <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="graphFile.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/graphFile.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="837">
+              <caret line="200" column="0" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -81,8 +81,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Vertex.java" />
-        <option value="$PROJECT_DIR$/src/testMain.java" />
+        <option value="$PROJECT_DIR$/graphFile.txt" />
         <option value="$PROJECT_DIR$/src/GraphAnalysis.java" />
+        <option value="$PROJECT_DIR$/src/testMain.java" />
       </list>
     </option>
   </component>
@@ -166,7 +167,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../proj2" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -259,6 +260,65 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
       <method />
     </configuration>
     <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
@@ -375,12 +435,74 @@
       <patterns />
       <method />
     </configuration>
+    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SCRATCH_FILE_ID" value="0" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="proj3" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -425,6 +547,34 @@
       <listeners />
       <method />
     </configuration>
+    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-interpreter>project</node-interpreter>
       <node-options />
@@ -432,6 +582,13 @@
       <tasks />
       <arguments />
       <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <node-interpreter value="project" />
       <envs />
       <method />
     </configuration>
@@ -467,27 +624,30 @@
       <workItem from="1459357080156" duration="34000" />
       <workItem from="1459599608005" duration="10433000" />
       <workItem from="1459635310707" duration="7165000" />
+      <workItem from="1459780206744" duration="607000" />
+      <workItem from="1459965338097" duration="4259000" />
+      <workItem from="1459970406630" duration="454000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21258000" />
+    <option name="totallyTimeSpent" value="26578000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3369803" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -500,8 +660,8 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -529,27 +689,103 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/GraphAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1804">
+          <caret line="82" column="40" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphFile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphAnalysis.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#closenessCentrality#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#plotGraph#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#minDistPrim#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="e#18404#18405#0" expanded="true" />
-            <element signature="e#18476#18477#0" expanded="true" />
-            <element signature="e#18742#18743#0" expanded="true" />
-            <element signature="e#18798#18799#0" expanded="true" />
-            <element signature="e#18831#18832#0" expanded="true" />
-            <element signature="e#18896#18897#0" expanded="true" />
-            <element signature="class#Vertex#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphAnalysis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphAnalysis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
+            <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
           </folding>
         </state>
@@ -571,21 +807,11 @@
             <element signature="imports" expanded="true" />
             <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#closenessCentrality#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#plotGraph#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#minDistPrim#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="e#18404#18405#0" expanded="true" />
-            <element signature="e#18476#18477#0" expanded="true" />
-            <element signature="e#18742#18743#0" expanded="true" />
-            <element signature="e#18798#18799#0" expanded="true" />
-            <element signature="e#18831#18832#0" expanded="true" />
-            <element signature="e#18896#18897#0" expanded="true" />
-            <element signature="class#Vertex#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
           </folding>
         </state>
@@ -621,21 +847,11 @@
             <element signature="imports" expanded="true" />
             <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#closenessCentrality#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#plotGraph#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#minDistPrim#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="e#18404#18405#0" expanded="true" />
-            <element signature="e#18476#18477#0" expanded="true" />
-            <element signature="e#18742#18743#0" expanded="true" />
-            <element signature="e#18798#18799#0" expanded="true" />
-            <element signature="e#18831#18832#0" expanded="true" />
-            <element signature="e#18896#18897#0" expanded="true" />
-            <element signature="class#Vertex#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
           </folding>
         </state>
@@ -663,13 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rome-cities.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Vertex.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -677,37 +886,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/filename.txt" />
+    <entry file="file://$PROJECT_DIR$/rome-cities.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rome-roads.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="3" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/testMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        <state relative-caret-position="154">
+          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphFile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="837">
+          <caret line="200" column="0" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GraphAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="247" column="12" selection-start-line="247" selection-start-column="12" selection-end-line="247" selection-end-column="12" />
+        <state relative-caret-position="176">
+          <caret line="468" column="29" selection-start-line="468" selection-start-column="29" selection-end-line="468" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#BFS_component#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeCentrality#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#closenessCentrality#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#connectedComponents#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#largestComponent#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#degreeDistribution#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#plotGraph#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#createCompleteGraph#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="method#minDistPrim#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="class#Distance#0;class#GraphAnalysis#0" expanded="false" />
-            <element signature="e#18404#18405#0" expanded="true" />
-            <element signature="e#18476#18477#0" expanded="true" />
-            <element signature="e#18742#18743#0" expanded="true" />
-            <element signature="e#18798#18799#0" expanded="true" />
-            <element signature="e#18831#18832#0" expanded="true" />
-            <element signature="e#18896#18897#0" expanded="true" />
-            <element signature="class#Vertex#0;class#GraphAnalysis#0" expanded="false" />
             <element signature="method#usage#0;class#GraphAnalysis#0" expanded="false" />
           </folding>
         </state>

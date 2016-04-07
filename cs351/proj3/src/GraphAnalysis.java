@@ -57,7 +57,51 @@ public class GraphAnalysis {
         construct_graph(new File(f));
         //System.out.println(graph);
     }
+    public void createGraphFile(){
+        try {
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream("graphFile.txt", false),
+                            "utf-8")
+            );
+            int E = 0;
+            int V = 0;
+            LinkedList<String> lines = new LinkedList<>();
 
+            HashSet<HashSet<Integer>> edge = new HashSet<>();
+            String l;
+            //write the g tag <V> <E>
+            HashSet<Integer> hs;
+            for(Vertex v: graph.values()) {
+                V += 1;
+                lines.addFirst("d " + v.n + " " + v.x + " " + v.y);
+                for(Integer e: v.edges) {
+                    l = "e " + v.n + " " + e;
+                    hs = new HashSet();
+                    hs.add(v.n);
+                    hs.add(e);
+                    if(!edge.contains(hs)) {
+                        E += 1;
+                        lines.addLast(l);
+                        edge.add(hs);
+                    }
+                }
+            }
+            lines.addFirst("g " + V + " " + E);
+
+            for(String line: lines) {
+                writer.write(line);
+                writer.newLine();
+            }
+            writer.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Construct a graph from a file. Must conform to the spec: https://cs.rit.edu/~ark/351/analysis/graphfile.shtml
      *  If the spec is not follow, results may vary.
@@ -469,28 +513,32 @@ public class GraphAnalysis {
             for(Integer W: graph.get(V.n).edges){
                 if(D[W].enqueued() && distance(graph.get(W),graph.get(V.n)) < D[W].distance){
                     D[W].predecessor = V.n;
+                    D[W].predecessor = V.n;
                     D[W].distance = distance(graph.get(W),graph.get(V.n));
                     D[W].increasePriority();
                 }
             }
         }
         double total_distance = 0;
+        //clear all the edges from the current graph, so we can add new ones.
         for(int i = 0; i < this.V; ++i) {
             graph.get(i).edges.clear();
             total_distance += D[i].distance;
         }
         System.out.printf("Total Distance: %f%n",total_distance);
-        Vertex v1;
+        Vertex v1,v2;
         for(int i=0; i < this.V; ++i){
             if (D[i].predecessor == -1) continue;
             v1 = graph.get(i);
+            v2 = graph.get(D[i].predecessor);
             v1.edges.add(D[i].predecessor);
+            v2.edges.add(i);
         }
 
     }
 
     public void betweenCentrality(){
-        TreeMap<Double,Integer> results = new TreeMap<>(Collections.reverseOrder());
+        TreeMap<Double,LinkedList<Integer>> results = new TreeMap<>(Collections.reverseOrder());
         int between[] = new int[V];
         for( int i = 0; i < V; ++i){
             between[i] = 0;
@@ -499,25 +547,35 @@ public class GraphAnalysis {
         int total = 0;
         for( int src = 0; src < V; ++src){
             for(int dest = src+1; dest < V; ++dest) {
-                path = BFS(src, dest);
+                if ( ( path = BFS(src, dest) ) == null) continue;
+
                 HashSet<Integer> p = path.getPath(src);
-                if (p.size() != path.dist){
-                    System.out.println(p.size() + " " + path.dist);
-                }
                 for(Integer i: p){
                     between[i] += 1;
                 }
                 total += 1;
             }
         }
+        double result;
+        LinkedList<Integer> ll;
         for(int i = 0; i < V; ++i){
-            results.put(between[i] / (double)total,i);
+            result = between[i] / (double)total;
+            if(results.containsKey(result)){
+                results.get(result).add(i);
+            }else{
+                ll = new LinkedList();
+                ll.add(i);
+                results.put(result, ll);
+            }
         }
         System.out.println("Rank\tVertex\tbetweeness");
         int rank = 1;
-        for(Map.Entry<Double,Integer> vertex: results.entrySet()) {
-            System.out.printf("%d\t%d\t%f%n", rank++, vertex.getValue(), vertex.getKey());
-            if(rank > 40) break;
+        for(Map.Entry<Double,LinkedList<Integer>> entry : results.entrySet()) {
+            for ( Integer vertex : entry.getValue()) {
+                System.out.printf("%d\t%d\t%f%n", rank++, vertex, entry.getKey());
+                graph.get(vertex).betweeness = entry.getKey();
+                total += entry.getKey();
+            }
         }
     }
     /**
@@ -570,6 +628,7 @@ public class GraphAnalysis {
     private class Vertex{
         int n;
         float x,y,w;
+        double betweeness = -1;
         HashSet<Integer> edges;
         Vertex(int n){
             this.n = n;

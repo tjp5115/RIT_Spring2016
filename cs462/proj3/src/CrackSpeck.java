@@ -14,83 +14,52 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class CrackSpeck {
-
-
-
-
-    private class Guess_1{
-        int sk_0;
-        int sk_1;
-        Guess_1(int sk_0,int sk_1){
-            this.sk_0 = sk_0;
-            this.sk_1 = sk_1;
-        }
-        public String toString(){
-            return "";
+    class Guess{
+        PTCT ptct;
+        Guess(PTCT ptct){
+            this.ptct = ptct;
         }
 
-        boolean isViable(PTCT ptct){
-            round(ptct.pt_xy, sk_0);
-            round(ptct.pt_xy, sk_1);
-            return ptct.pt_xy[1] == ptct.ct_y;
+        public void newGuess(int sk_0){
+            ptct.reset();
+            round(ptct.pt24,sk_0);
+            round2CT();
+            isViable();
         }
-    }
-
-    private class Guess_2{
-        public int sk_1;
-        public int sk_2;
-
-        public Guess_2(int sk_1, int sk_2, int ct){
-
-        }
-
-        public boolean isViable(int pt[], int ct[]){
-            return false;
+        private void round2CT(){
+            int y = ptct.pt24[1];
+            y = rotateLeft(y, 3);
+            ptct.ct2[0] = y ^ ptct.ct2[1];
         }
 
     }
-
     public static void main(String args[]) throws IOException{
         CrackSpeck cs = new CrackSpeck();
         cs.run(args);
     }
 
-    private void run(String args[]){
-
-        DList<Guess_1> guessList = new DList();;
-        // list of first round SK
-        for(int sk_0 = 0; sk_0 < 16777216; ++sk_0 ){
-            guessList.addLast(new Guess_1(sk_0, 0));
-        }
-        System.out.println("Added Guesses");
-        //get the input to the CT
+    public void run(String []args){
         PTCT ptct[] = new PTCT[args.length / 2];
         int c=0;
         int size = args.length / 2;
+        byte[] pt,ct;
         for(int i = 0; i < size; i += 1){
-            ptct[c++] = new PTCT(args[i], args[i+1]);
+            try {
+                pt = Hex.toByteArray(args[i]);
+                ct = Hex.toByteArray(args[i + 1]);
+                ptct[c++] = new PTCT(pt,ct);
+            }catch(IllegalArgumentException iae){
+                useage();
+            }
         }
 
-        boolean unique = false;
-        int ptct_count = 0;
-        while(! unique && ptct_count < size) {
-            unique = true;
-            DListEntry<Guess_1> curr = guessList.first();
-            while (curr != null) {
-                DListEntry<Guess_1> succ = curr.succ();
-                if (!curr.item().isViable(ptct[ ptct_count ]))
-                    curr.remove();
-                curr = succ;
-            }
-            if(guessList.size() != 1 && guessList.size() > 1)
-                unique = false;
-            System.out.println("Keys: " + guessList.size());
+
+        Guess guess  = new Guess(ptct[0]);
+        for(int sk_0 = 0; sk_0 < 16777216; ++sk_0 ){
+            guess.newGuess(sk_0);
         }
     }
-
-
-
-    private void round(int a[], int k){
+   private void round(int a[], int k){
         //System.out.printf("key = %02x%n",k);
         a[0] = rotateRight(a[0], 8);
         a[0] = (a[0] + a[1]) & 0xFFFFFF;
@@ -129,27 +98,36 @@ public class CrackSpeck {
 
 
     class PTCT{
-        int ct_y;
-        int ct,pt;
-        int pt_xy[] = new int[2];
-        int ct_xy[] = new int[2];
-        PTCT(String plaintext, String ciphertext){
-            this.pt = Hex.toInt(plaintext);
-            this.ct = Hex.toInt(ciphertext);
-            byte []ct = Hex.toByteArray(ciphertext);
-            byte []pt = Hex.toByteArray(plaintext);
-            pt_xy[0] = pack24(pt[0], pt[1], pt[2]);
-            pt_xy[1] = pack24(pt[3], pt[4], pt[5]);
-            int ct_x;
-            ct_x = pack24(ct[0], ct[1], ct[2]);
-            ct_y = pack24(ct[3], ct[4], ct[5]);
-            ct_xy[0] = ct_x;
-            ct_xy[1] = ct_y;
-            ct_y ^= ct_x;
-            ct_y = rotateRight(ct_y, 3);
+        int ct2[];
+        byte []ct,pt;
+        public int[] pt24;
+        private int[]pt24_save;
+        PTCT(byte[] plaintext, byte[] ciphertext){
+            pt = plaintext;
+            pt24_save = new int[2];
+            pt24 = new int[2];
+            ct2 = new int[2];
+            pt24_save[0] = pt24[0] = pack24(pt[0], pt[1], pt[2]);
+            pt24_save[1] = pt24[1] = pack24(pt[3], pt[4], pt[5]);
+
+            ct = ciphertext;
+            int ct_x = pack24(ct[0], ct[1], ct[2]);
+            int ct_y = pack24(ct[3], ct[4], ct[5]);
+            ct2[1] ^= ct_x;
+            ct2[1] = rotateRight(ct_y, 3);
+        }
+        public void reset(){
+            pt24[0] = pt24_save[0];
+            pt24[1] = pt24_save[1];
         }
         public String toString(){
             return Hex.toString(ct);
         }
+    }
+    public static void useage(){
+        System.err.println("java CrackSpeck <pt1> <ct1> [<pt2> <ct2> ...]\n" +
+                "<pt1> is a known plaintext. It must be a 12-digit hexadecimal number (uppercase or lowercase).\n" +
+                "<ct1> is the ciphertext corresponding to <pt1>." +
+                " It must be a 12-digit hexadecimal number (uppercase or lowercase).");
     }
 }
