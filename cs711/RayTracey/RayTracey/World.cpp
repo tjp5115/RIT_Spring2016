@@ -1,10 +1,9 @@
 #include "World.h"
 #include "Material.h"
 World::World(Renderer *renderer_p){
-
 	renderer = renderer_p;
 	background = RGBColor();
-
+	DEPTH = 1;
 	//default camera
 	camera.lookat = Point3D(0,0,0);
 	camera.up = Vector3D(0,1,0);
@@ -106,16 +105,9 @@ void World::set_camera(Point3D e, Point3D l, Vector3D up, double vp_dist){
 RGBColor World::trace_ray(const Ray &ray){
 	IntersectData id(hit_objects(ray));
 	if (id.hit_obj){
-			Ray shadow = Ray();
-			RGBColor total_color = id.material->get_ambient(id) * RGBColor (1);
-			shadow.o = id.hit_pt;
+		RGBColor total_color = id.material->get_ambient(id) * RGBColor (1);
 		for (int i = 0; i < lights.size(); ++i){
-			shadow.d = lights[i]->position - id.hit_pt;
-			shadow.d.normalize();
-			if (!lights[i]->in_shadow(shadow,id)){
-				total_color += id.material->get_illumination(*lights[i],id);
-			}
-//				total_color += id.material->get_illumination(*lights[i], id, shadow); 
+			total_color += id.material->get_illumination(*lights[i],id,DEPTH);
 		}
 		total_color.clamp();
 		return total_color;

@@ -33,6 +33,7 @@ public:
 	IntersectData hit_objects(const Ray &ray);
 	void set_camera(Point3D l, Point3D e, Vector3D up, double vp_dist);
 	void add_light(Light *l){ lights.push_back(l); };
+	unsigned int DEPTH;
 private:
 	vector<Light*> lights;
 	Renderer *renderer;

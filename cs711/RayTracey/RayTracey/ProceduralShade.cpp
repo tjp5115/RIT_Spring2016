@@ -15,9 +15,9 @@ ProceduralShade::~ProceduralShade()
 }
 
 
-RGBColor ProceduralShade::get_illumination(const Light &light, const IntersectData &id){
+RGBColor ProceduralShade::get_illumination(Light &light, const IntersectData &id, unsigned int depth){
 	set_color(id);
-	return PhongMaterial::get_illumination(light, id);
+	return PhongMaterial::get_illumination(light, id, depth);
 }
 
 RGBColor ProceduralShade::get_ambient(const IntersectData &id){

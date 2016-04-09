@@ -26,6 +26,7 @@ int main(int argc, char **argv){
 
 	Renderer *r = new Renderer(244, 244, &argc, argv);
 	World *w = new World(r);
+	w->DEPTH = 8;
 	w->background = RGBColor(0.050, 0.206, 0.342);
 
 	//set camera
@@ -43,7 +44,7 @@ int main(int argc, char **argv){
 
 	//set objects
 	double radius_1 = 215;
-	Sphere * sphere_1 = new Sphere(Point3D(-200, -190, -200), radius_1);
+	Sphere * sphere_1 = new Sphere(Point3D(-300, -190, -200), radius_1);
 
 	RGBColor Ax(light_gray);
 	float ka = 0.25f;
@@ -53,6 +54,7 @@ int main(int argc, char **argv){
 	float n = 6;
 	float Ks = 0.7;
 	PhongMaterial *material_1 = new PhongMaterial(Ax, ka, Dx, kd, Sx, n, Ks);
+	material_1->Kr = 0.9;
 	sphere_1->set_material(material_1);
 	w->add_object(sphere_1);
 
@@ -72,7 +74,7 @@ int main(int argc, char **argv){
 	w->add_object(sphere_2);
 
 
-	Plane *plane = new Plane(Point3D(-100,-600, -700), Normal(0, 1, 0), 800, 800);
+	Plane *plane = new Plane(Point3D(-100,-600, -700), Normal(0, 1, 0), 800, 1100);
 
 	Ax = (red);
 	ka = 0.25;
