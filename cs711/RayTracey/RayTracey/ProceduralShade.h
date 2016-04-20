@@ -14,5 +14,6 @@ private:
 	float square_size;
 
 	void set_color(const IntersectData &id) ;
+
 };
 

@@ -13,8 +13,9 @@ public:
 	virtual RGBColor local_illumination(Light &light, const IntersectData &id);
 	float Kr;
 	float Kt;
+	float N;
 protected:
-
+	Normal faceForward(Normal A, Vector3D B);
 
 	RGBColor Ax;
 	float Ka;
@@ -26,6 +27,5 @@ protected:
 
 	float n;
 	float Ks;
-
 };
 

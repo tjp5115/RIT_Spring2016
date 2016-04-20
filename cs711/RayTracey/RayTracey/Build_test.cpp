@@ -20,13 +20,14 @@ int main(int argc, char **argv){
 	RGBColor darkPurple(0.5, 0, 1);									// dark purple
 	RGBColor dark_grey(0.09);											// grey
 	RGBColor light_gray(0.28);											// grey
+	RGBColor grey(0.7);
 	RGBColor red(1,.05,.05);											// red
-	RGBColor white(1,.8,.9);											// red
+	RGBColor white(1);											// red
 
 
 	Renderer *r = new Renderer(244, 244, &argc, argv);
 	World *w = new World(r);
-	w->DEPTH = 8;
+	w->DEPTH = 1;
 	w->background = RGBColor(0.050, 0.206, 0.342);
 
 	//set camera
@@ -43,33 +44,39 @@ int main(int argc, char **argv){
 
 
 	//set objects
+
+	//mirror sphere
 	double radius_1 = 215;
 	Sphere * sphere_1 = new Sphere(Point3D(-300, -190, -200), radius_1);
-
-	RGBColor Ax(light_gray);
-	float ka = 0.25f;
-	RGBColor Dx(light_gray);
-	float kd = 0.55f;
+	RGBColor Ax(grey);
+	RGBColor Dx(grey);
 	RGBColor Sx(white);
-	float n = 6;
-	float Ks = 0.7;
+	float ka = 0.15f;
+	float kd = 0.25f;
+	float n = 20;
+	float Ks = 1.0;
 	PhongMaterial *material_1 = new PhongMaterial(Ax, ka, Dx, kd, Sx, n, Ks);
-	material_1->Kr = 0.9;
+	material_1->Kr = 0.75;
+	material_1->Kt = 0.0;
 	sphere_1->set_material(material_1);
 	w->add_object(sphere_1);
 
 	double radius_2 = 220;
 	Sphere * sphere_2 = new Sphere(Point3D(100,0,0), radius_2);
 
-	Ax = (dark_grey);
-	ka = 0.25;
-	Dx = (dark_grey);
-	kd = 0.75;
+	//glass sphere
+	Ax = (white);
+	ka = 0.075;
+	Dx = (white);
+	kd = 0.075;
 	Sx = (white);
-	n = 4;
-	Ks = 0.3;
+	n = 20;
+	Ks = 0.2;
 
 	PhongMaterial *material_2 = new PhongMaterial(Ax, ka, Dx, kd, Sx, n, Ks);
+	material_2->Kr = 0.01;
+	material_2->Kt = 0.8;
+	material_2->N = 0.95;
 	sphere_2->set_material(material_2);
 	w->add_object(sphere_2);
 

@@ -62,7 +62,9 @@ class Vector3D {
 		
 		Vector3D												// addition
 		operator+ (const Vector3D& v) const;
-		
+		Vector3D												// addition
+		operator+ (const double a) const;
+
 		Vector3D& 												// compound addition
 		operator+= (const Vector3D& v);					
 		
@@ -80,7 +82,6 @@ class Vector3D {
 		
 		Vector3D& 												// return a unit vector, and normalize the vector												
 		hat(void);
-
 
 
 };
@@ -114,6 +115,14 @@ Vector3D::len_squared(void) {
 inline Vector3D
 Vector3D::operator* (const double a) const {	
 	return (Vector3D(x * a, y * a, z * a));	
+}
+
+// ----------------------------------------------------------------------- operator+
+// addition by a double on the right
+
+inline Vector3D
+Vector3D::operator+ (const double a) const {
+	return (Vector3D(x + a, y + a, z + a));
 }
 
 // ----------------------------------------------------------------------- operator/

@@ -1,17 +1,18 @@
 import edu.rit.util.Hex;
 import edu.rit.util.Packing;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
+
 /**
  * Created by Tyler on 3/30/2016.
  * A structural attack on the block cipher Speck that is reduced to three rounds.
  */
 public class CrackSpeck {
+
     /**
      * class used to store the secrete subkeys.
      */
-    class key{
+    class Key{
         //keys
         int sk_0;
         int sk_1;
@@ -38,65 +39,6 @@ public class CrackSpeck {
         }
     }
 
-    /**
-     * class to keep track of the viable guesses per PT/CT combination
-     */
-    class Guess{
-        PTCT ptct;
-        LinkedList<key> key = new LinkedList<>();
-        //constructor
-        Guess(PTCT ptct){
-            this.ptct = ptct;
-        }
-
-        /**
-         * first guess creates all the subkey pairs
-         * @param sk_0 - first subkey guess -- generates sk_1 and sk_2
-         */
-        public void firstGuess(int sk_0){
-            key k = new key();
-            k.sk_0 = sk_0;
-            round(ptct.pt, sk_0);
-            round2CT();
-            getKeys(k);
-            key.add(k);
-            ptct.reset();
-        }
-
-        /**
-         * takes the key, and checks to see if it is viable with the given PT/CT.
-         * Viability is based off if the CT is the same after 3 rounds using the given keys.
-         * @param k
-         * @return
-         */
-        public boolean isViable(key k){
-            ptct.reset();
-            round(ptct.pt, k.sk_0);
-            round(ptct.pt, k.sk_1);
-            round(ptct.pt, k.sk_2);
-            return ptct.pt[0] == ptct.ct_orig[0] && ptct.pt[1] == ptct.ct_orig[1];
-        }
-
-        /**
-         * sets the keys using the structure of a given round.
-         * @param k - current keys.
-         */
-        public void getKeys(key k){
-            k.sk_1 = ptct.ct2[0] ^ ((rotateRight(ptct.pt[0],8) + ptct.pt[1]) & 0xFFFFFF);
-            k.sk_2 = ptct.ct_orig[0] ^ ((rotateRight(ptct.ct2[0],8) + ptct.ct2[1]) & 0xFFFFFF);
-        }
-
-        /**
-         * finds the round 2 Cipher Text
-         */
-        private void round2CT(){
-            int y = ptct.pt[1];
-            y = rotateLeft(y, 3);
-            ptct.ct2[0] = y ^ ptct.ct2[1];
-
-        }
-
-    }
     //program entry point
     public static void main(String args[]) throws IOException{
         CrackSpeck cs = new CrackSpeck();
@@ -108,9 +50,9 @@ public class CrackSpeck {
      * @param args - plaintext ciphertext pairs.
      */
     public void run(String []args){
+        final long startTime = System.currentTimeMillis();
         if(args.length < 2 || args.length % 2 != 0) usage();
-        int num_ptct = args.length / 2;
-        PTCT ptct[] = new PTCT[num_ptct];
+        ArrayList<PTCT> p = new ArrayList<>();
         byte[] pt,ct;
         //create PT/CT combinations
         for(int i = 0; i < args.length ; i += 2){
@@ -118,34 +60,85 @@ public class CrackSpeck {
                 pt = Hex.toByteArray(args[i]);
                 ct = Hex.toByteArray(args[i + 1]);
                 if(ct.length != 6 || pt.length != 6) throw new IllegalArgumentException();
-                ptct[i/2] = new PTCT(pt,ct);
+                p.add(new PTCT(pt,ct));
             }catch(IllegalArgumentException iae){
                 usage();
             }
         }
         //create the inital viable key combination based off the first PT/CT
-        Guess guess  = new Guess(ptct[0]);
+        LinkedList<Key> keys  = new LinkedList<>();
         for(int sk_0 = 0; sk_0 < 16777216; ++sk_0 ){
-            guess.firstGuess(sk_0);
+            PTCT curr = p.get(0);
+            Key key = firstGuess(sk_0,curr);
+            boolean isViable = true;
+            for(int i = 1; i < p.size() && isViable; i++){
+                curr = p.get(i);
+                isViable = isViable(key, curr);
+                curr.reset();
+            }
 
-        }
-        //begin to find the correct Sub Keys
-        int num = 1;
-        while( num < num_ptct){
-            guess.ptct = ptct[num++];
-            //iterate through all the keys, if it is viable, keep it.
-            for(Iterator<key> item = guess.key.iterator(); item.hasNext();){
-                if( !guess.isViable(item.next())) item.remove();
+            if(isViable){
+                keys.add(key);
             }
         }
+
         //output the results
-        if(guess.key.size() == 0){
+        if(keys.size() == 0){
             System.out.println("No subkeys found");
-        }else if(guess.key.size() > 1){
+        }else if(keys.size() > 1){
             System.out.println("Multiple subkeys found");
         }else {
-            System.out.println(guess.key.getFirst());
+            System.out.println(keys.get(0));
         }
+    }
+    /**
+     * takes the key, and checks to see if it is viable with the given PT/CT.
+     * Viability is based off if the CT is the same after 3 rounds using the given keys.
+     * @param k
+     * @return
+     */
+    public boolean isViable(Key k, PTCT ptct){
+        round(ptct.pt, k.sk_0);
+        round(ptct.pt, k.sk_1);
+        round(ptct.pt, k.sk_2);
+        return ptct.pt[0] == ptct.ct_orig[0] && ptct.pt[1] == ptct.ct_orig[1];
+    }
+
+    /**
+     * guess the first set of keys for a given plaintext
+     * @param sk_0 - key
+     * @param ptct - plaintext
+     * @return
+     */
+    public Key firstGuess(int sk_0, PTCT ptct){
+        Key key = new Key();
+        key.sk_0 = sk_0;
+        round(ptct.pt, sk_0);
+        round2CT(ptct);
+        getKeys(key, ptct);
+        ptct.reset();
+        return key;
+    }
+
+    /**
+     * sets the keys using the structure of a given round.
+     * @param k - current keys.
+     * @param ptct - plaintext
+     */
+    public void getKeys(Key k, PTCT ptct) {
+        k.sk_1 = ptct.ct2[0] ^ ((rotateRight(ptct.pt[0], 8) + ptct.pt[1]) & 0xFFFFFF);
+        k.sk_2 = ptct.ct_orig[0] ^ ((rotateRight(ptct.ct2[0], 8) + ptct.ct2[1]) & 0xFFFFFF);
+    }
+
+    /**
+     * finds the round 2 Cipher Text
+     * @param ptct - plaintext
+     */
+    private void round2CT(PTCT ptct) {
+        int y = ptct.pt[1];
+        y = rotateLeft(y, 3);
+        ptct.ct2[0] = y ^ ptct.ct2[1];
+
     }
 
     /**
@@ -232,6 +225,7 @@ public class CrackSpeck {
             pt[1] = pt_orig[1];
         }
     }
+    //usage statement.
     public static void usage(){
         System.err.println("java CrackSpeck <pt1> <ct1> [<pt2> <ct2> ...]\n" +
                 "<pt1> is a known plaintext. It must be a 12-digit hexadecimal number (uppercase or lowercase).\n" +

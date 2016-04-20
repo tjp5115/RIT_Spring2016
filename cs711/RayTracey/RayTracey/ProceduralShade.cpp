@@ -38,3 +38,4 @@ void ProceduralShade::set_color(const IntersectData &id){
 	else
 		Dx = Ax = same_color;
 }
+

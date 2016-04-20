@@ -1,6 +1,7 @@
 #include "PhongMaterial.h"
 
 #include <algorithm>
+#include <cmath>
 PhongMaterial::PhongMaterial() :
 Ax(),
 Ka(0),
@@ -10,7 +11,8 @@ Sx(),
 n(0),
 Ks(0),
 Kr(0),
-Kt(0)
+Kt(0),
+N(0)
 {
 }
 PhongMaterial::PhongMaterial(RGBColor _Ax, float _Ka, RGBColor _Dx, float _Kd, RGBColor _Sx, float _n, float _Ks) :
@@ -63,7 +65,37 @@ RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, 
 	}
 
 	if (Kt > 0.0){
-
+		/*
+		spawn transmission ray
+		retcolor += kt * illuminate(trans ray, depth + 1)
+		Vector3D D = id.ray.d;
+		Normal n = faceForward(id.n, -D);
+		float det = 1 + (N*N*(((-D*n)*(-D*n)) - 1));
+		if (det < 0){
+			Ray reflect = Ray();
+			reflect.o = id.hit_pt;
+			reflect.d = id.ray.d - 2 * n * (id.ray.d * id.n);
+			IntersectData data = id.world.hit_objects(reflect);
+			if (data.hit_obj){
+				retcolor += Kt * data.material->get_illumination(light, data, --depth);
+			}
+			else{
+				retcolor += id.world.background;
+			}
+		}else{
+			Ray trans = Ray();
+			trans.o = id.hit_pt;
+			trans.d = N*D + (N * (-D * n) - sqrt(det))*n;
+			IntersectData data = id.world.hit_objects(trans);
+			if (data.hit_obj){
+				retcolor += Kt * data.material->get_illumination(light, data, --depth);
+			}
+			else{
+				retcolor += id.world.background;
+			}
+			
+		}
+		*/
 	}
 
 	return retcolor;
@@ -107,4 +139,13 @@ RGBColor PhongMaterial::local_illumination(Light &light, const IntersectData &id
 
 RGBColor PhongMaterial::get_ambient(const IntersectData &id){
 	return Ka * Ax;
+}
+
+Normal PhongMaterial::faceForward(Normal A, Vector3D B)
+{
+	// For acute angles, dot product is non-negative
+	if (A*B >= 0) return A;
+	// Obtuse angle, reverse the first vector
+	A = A*-1;
+	return A;
 }
