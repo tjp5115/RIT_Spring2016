@@ -9,6 +9,7 @@ class IntersectData
 {
 public:
 	IntersectData(World &world);
+	IntersectData();
 	IntersectData(const IntersectData &IntersectData);
 	~IntersectData();
 	Normal n;

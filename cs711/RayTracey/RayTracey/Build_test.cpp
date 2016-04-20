@@ -6,6 +6,9 @@
 #include "Light.h"
 #include "PhongMaterial.h"
 #include "ProceduralShade.h"
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 using namespace std;
 int main(int argc, char **argv){
 
@@ -27,7 +30,7 @@ int main(int argc, char **argv){
 
 	Renderer *r = new Renderer(244, 244, &argc, argv);
 	World *w = new World(r);
-	w->DEPTH = 1;
+	w->DEPTH = 10;
 	w->background = RGBColor(0.050, 0.206, 0.342);
 
 	//set camera

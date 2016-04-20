@@ -10,7 +10,6 @@ IntersectData::IntersectData(World &w):
 	texture()
 {}
 
-
 IntersectData::IntersectData(const IntersectData &t): 
 	hit_obj(t.hit_obj),
 	hit_pt(t.hit_pt),

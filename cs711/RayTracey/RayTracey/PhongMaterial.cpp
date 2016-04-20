@@ -49,15 +49,15 @@ RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, 
  */
 	if (depth == 0 )
 		return RGBColor();
-	
+	depth -= 1;
 	RGBColor retcolor = id.material->local_illumination(light, id);
 	if (Kr > 0.0){
 		Ray reflect = Ray();
 		reflect.o = id.hit_pt;
 		reflect.d = id.ray.d - 2 * id.n * (id.ray.d * id.n);
-		IntersectData data = id.world.hit_objects(reflect);
-		if (data.hit_obj){
-			retcolor += Kr * data.material->get_illumination(light, data, --depth);
+		IntersectData data1 = id.world.hit_objects(reflect);
+		if (data1.hit_obj){
+			retcolor += Kr * data1.material->get_illumination(light, data1, depth);
 		}
 		else{
 			retcolor += id.world.background;
@@ -68,6 +68,7 @@ RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, 
 		/*
 		spawn transmission ray
 		retcolor += kt * illuminate(trans ray, depth + 1)
+		*/
 		Vector3D D = id.ray.d;
 		Normal n = faceForward(id.n, -D);
 		float det = 1 + (N*N*(((-D*n)*(-D*n)) - 1));
@@ -75,9 +76,9 @@ RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, 
 			Ray reflect = Ray();
 			reflect.o = id.hit_pt;
 			reflect.d = id.ray.d - 2 * n * (id.ray.d * id.n);
-			IntersectData data = id.world.hit_objects(reflect);
-			if (data.hit_obj){
-				retcolor += Kt * data.material->get_illumination(light, data, --depth);
+			IntersectData data2 = id.world.hit_objects(reflect);
+			if (data2.hit_obj){
+				retcolor += Kt * data2.material->get_illumination(light, data2, depth);
 			}
 			else{
 				retcolor += id.world.background;
@@ -86,16 +87,15 @@ RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, 
 			Ray trans = Ray();
 			trans.o = id.hit_pt;
 			trans.d = N*D + (N * (-D * n) - sqrt(det))*n;
-			IntersectData data = id.world.hit_objects(trans);
-			if (data.hit_obj){
-				retcolor += Kt * data.material->get_illumination(light, data, --depth);
+			IntersectData data3 = id.world.hit_objects(trans);
+			if (data3.hit_obj){
+				retcolor += Kt * data3.material->get_illumination(light, data3, depth);
 			}
 			else{
 				retcolor += id.world.background;
 			}
 			
 		}
-		*/
 	}
 
 	return retcolor;
