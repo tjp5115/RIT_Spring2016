@@ -1,0 +1,2 @@
+http://gamedev.stackexchange.com/questions/111875/terrain-shader-from-heightmap-opengl-glsl
+http://www.mbsoftworks.sk/index.php?page=tutorials&series=1&tutorial=24

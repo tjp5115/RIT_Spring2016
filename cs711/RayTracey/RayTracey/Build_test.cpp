@@ -30,7 +30,7 @@ int main(int argc, char **argv){
 
 	Renderer *r = new Renderer(244, 244, &argc, argv);
 	World *w = new World(r);
-	w->DEPTH = 10;
+	w->DEPTH = 20;
 	w->background = RGBColor(0.050, 0.206, 0.342);
 
 	//set camera
@@ -50,7 +50,7 @@ int main(int argc, char **argv){
 
 	//mirror sphere
 	double radius_1 = 215;
-	Sphere * sphere_1 = new Sphere(Point3D(-300, -190, -200), radius_1);
+	Sphere * sphere_1 = new Sphere(Point3D(-200, -190, -300), radius_1);
 	RGBColor Ax(grey);
 	RGBColor Dx(grey);
 	RGBColor Sx(white);

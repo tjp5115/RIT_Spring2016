@@ -37,6 +37,7 @@ void Renderer::display()
 	// bind our element array buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebuffer);
 
+
 	glUseProgram(program);
 
 	// set up our attribute variables
