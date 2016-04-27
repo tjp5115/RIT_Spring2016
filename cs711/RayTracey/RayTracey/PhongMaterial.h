@@ -16,7 +16,8 @@ public:
 	float N;
 protected:
 	Normal faceForward(Normal A, Vector3D B);
-
+	RGBColor transColor(Light &light, const IntersectData &id, unsigned int depth);
+	RGBColor reflectColor(Light &light, const IntersectData &id, unsigned int depth);
 	RGBColor Ax;
 	float Ka;
 

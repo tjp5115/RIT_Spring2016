@@ -2,6 +2,7 @@ import java.math.BigInteger;
 
 /**
  * Created by Tyler on 4/20/2016.
+ * Cracks an RSA private key from the given RSA public key (Exponent e and public modulus n).
  */
 public class CrackRsa {
     public static void main(String args[]){
@@ -62,5 +63,6 @@ public class CrackRsa {
         System.err.println("Usage:  java CrackRsa <e> <n>\n" +
                 "<e> is the exponent of an RSA public key. It must be a decimal number.\n" +
                 "<n> is the modulus of an RSA public key. It must be a decimal number less than 81 bits.");
+        System.exit(1);
     }
 }

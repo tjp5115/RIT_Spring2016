@@ -79,7 +79,7 @@ int main(int argc, char **argv){
 	PhongMaterial *material_2 = new PhongMaterial(Ax, ka, Dx, kd, Sx, n, Ks);
 	material_2->Kr = 0.01;
 	material_2->Kt = 0.8;
-	material_2->N = 0.95;
+	material_2->N = .98;
 	sphere_2->set_material(material_2);
 	w->add_object(sphere_2);
 

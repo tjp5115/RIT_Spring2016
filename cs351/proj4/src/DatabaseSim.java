@@ -21,22 +21,87 @@ public class DatabaseSim {
 	private static Simulation sim;
 	private static ServerCluster serverCluster;
 	private static Generator generator;
+	private static boolean transcript = false;
+	private static final int MONTE_CARLO_RUNS = 2000;
 
 	/**
 	 * Main program.
 	 */
 	public static void main(String[] args) {
 		// Parse command line arguments.
-		if (args.length != 7) usage();
-		tproc = Double.parseDouble (args[0]);
-		treq = Double.parseDouble(args[1]);
-		nreq = Integer.parseInt(args[2]);
-		V = Integer.parseInt(args[3]);
-		k = Integer.parseInt(args[4]);
-		p = Float.parseFloat(args[5]);
-		seed = Long.parseLong(args[6]);
 
+		switch(args[0]){
+			case "sweep_p":
+				parse(args);
+				sweep_p();
+				break;
+			case "sweep_k":
+				parse(args);
+				sweep_k();
+				break;
+			case "single":
+				parse(args);
+				single();
+				break;
+			default:
+				usage();
+		}
 
+	}
+
+	private static void sweep_k(){
+		System.out.println("k\tmean");
+		int seed_count = 0;
+		for(int i = 1; i < k; ++i) {
+			float mean = 0.0f;
+			for(int T = 0; T < MONTE_CARLO_RUNS; ++T) {
+				// Set up pseudorandom number generator.
+				prng = new Random(seed + seed_count++);
+				// Set up simulation.
+				sim = new Simulation();
+				// Set up one serverCluster.
+				serverCluster = new ServerCluster(sim, tproc, V, i, p, prng);
+				serverCluster.transcript = transcript;
+				// Set up request generator and generate first request.
+				generator = new Generator(sim, treq, nreq, prng, serverCluster);
+				// Run the simulation.
+				sim.run();
+				//gather stats
+				Series.Stats stats = generator.responseTimeStats();
+				mean += stats.mean;
+				//System.out.println(T);
+			}
+			System.out.printf ("%d\t%.3f%n", i, mean/MONTE_CARLO_RUNS);
+		}
+	}
+
+	private static void sweep_p(){
+
+		System.out.println("prob\tmean");
+		int seed_count = 0;
+		for(float i = 0; i < 1.0; i += p) {
+			float mean = 0.0f;
+			for(int T = 0; T < MONTE_CARLO_RUNS; ++T) {
+				// Set up pseudorandom number generator.
+				prng = new Random(seed + seed_count++);
+				// Set up simulation.
+				sim = new Simulation();
+				// Set up one serverCluster.
+				serverCluster = new ServerCluster(sim, tproc, V, k, i, prng);
+				serverCluster.transcript = transcript;
+				// Set up request generator and generate first request.
+				generator = new Generator(sim, treq, nreq, prng, serverCluster);
+				// Run the simulation.
+				sim.run();
+				//gather stats
+				Series.Stats stats = generator.responseTimeStats();
+				mean += stats.mean;
+			}
+			System.out.printf ("%.02f\t%.3f%n", i, mean/MONTE_CARLO_RUNS);
+		}
+	}
+
+	private static void single(){
 		// Set up pseudorandom number generator.
 		prng = new Random (seed);
 
@@ -45,6 +110,7 @@ public class DatabaseSim {
 
 		// Set up one serverCluster.
 		serverCluster = new ServerCluster(sim, tproc, V, k, p, prng);
+		serverCluster.transcript = transcript;
 
 		// Set up request generator and generate first request.
 		generator = new Generator (sim, treq, nreq, prng, serverCluster);
@@ -59,10 +125,35 @@ public class DatabaseSim {
 	}
 
 	/**
+	 * parses the args for a single simulation
+	 * @param args
+	 */
+	private static void parse(String args[]){
+		if (args.length < 8 || args.length	> 9) usage();
+		try {
+			tproc = Double.parseDouble(args[1]);
+			treq = Double.parseDouble(args[2]);
+			nreq = Integer.parseInt(args[3]);
+			V = Integer.parseInt(args[4]);
+			k = Integer.parseInt(args[5]);
+			p = Float.parseFloat(args[6]);
+			seed = Long.parseLong(args[7]);
+			if (args.length == 9)
+				transcript = Boolean.parseBoolean(args[8]);
+		} catch (Exception e) {
+			e.printStackTrace();
+			usage();
+		}
+	}
+	/**
 	 * Print a usage message and exit.
 	 */
 	private static void usage() {
-		System.err.println ("Usage: java DatabaseSim <tproc> <treq> <nreq> <V> <k> <p> <seed>");
+		System.err.println ("Usage: java DatabaseSim <type> <tproc> <treq> <nreq> <V> <k> <p> <seed>");
+		System.err.println ("<type> = Type of the project. " +
+				"\n\t sweep_p : sweeps the p variable" +
+				"\n\t sweep_k : swwp the k variable" +
+				"\n\t single : run a single simulation");
 		System.err.println ("<tproc> = Mean request processing time");
 		System.err.println ("<treq> = Mean request interarrival time");
 		System.err.println ("<nreq> = Number of requests");

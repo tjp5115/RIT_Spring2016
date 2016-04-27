@@ -32,72 +32,61 @@ PhongMaterial::~PhongMaterial()
 
 
 RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, unsigned int depth){
-	/*
-	find closest intersection
-	if ( !intersection )
-		retcolor = background color
-	else
-		spawn shadow ray
-	retcolor = local illumination
-	if ( kr > 0 )
-		spawn reflection ray
-		retcolor += kr * illuminate ( reflect ray )
-	if ( kt > 0 )
-		spawn transmission ray
-		retcolor += kt * illuminate ( transmission ray )
-	 return retcolor
- */
-	if (depth == 0 )
-		return RGBColor();
-	depth -= 1;
+	if (!id.hit_obj)
+		return id.world.background;
+
 	RGBColor retcolor = id.material->local_illumination(light, id);
-	if (Kr > 0.0){
-		Ray reflect = Ray();
-		reflect.o = id.hit_pt;
-		reflect.d = id.ray.d - 2 * id.n * (id.ray.d * id.n);
-		IntersectData data1 = id.world.hit_objects(reflect);
-		if (data1.hit_obj){
-			retcolor += Kr * data1.material->get_illumination(light, data1, depth);
+
+	if (depth != 0) {
+		depth -= 1;
+		if (Kr > 0.0){
+			retcolor += Kr * reflectColor(light, id, depth);
+		}
+
+		if (Kt > 0.0){
+			retcolor += Kt * transColor(light, id, depth);
+		}
+	}
+	return retcolor;
+}
+
+RGBColor PhongMaterial::transColor(Light &light, const IntersectData &id, unsigned int depth){
+	Vector3D D = id.ray.d;
+	RGBColor retcolor(0);
+	Normal n = faceForward(id.n, -D);
+	float cos = -D * n;
+	float det = 1 + (N*N*(cos * cos - 1));
+	if (det < 0){
+		retcolor = reflectColor(light, id, depth);
+	}else{
+		Ray trans = Ray();
+		trans.o = id.hit_pt;
+		trans.d = N*D + (N * cos - sqrt(det))*n;
+		IntersectData data3 = id.world.hit_objects(trans, id.obj_id);
+		if (data3.hit_obj){
+			retcolor = data3.material->get_illumination(light, data3, depth);
 		}
 		else{
-			retcolor += id.world.background;
+			retcolor = id.world.background;
 		}
-	}
 
-	if (Kt > 0.0){
-		/*
-		spawn transmission ray
-		retcolor += kt * illuminate(trans ray, depth + 1)
-		*/
-		Vector3D D = id.ray.d;
-		Normal n = faceForward(id.n, -D);
-		float det = 1 + (N*N*(((-D*n)*(-D*n)) - 1));
-		if (det < 0){
-			Ray reflect = Ray();
-			reflect.o = id.hit_pt;
-			reflect.d = id.ray.d - 2 * n * (id.ray.d * id.n);
-			IntersectData data2 = id.world.hit_objects(reflect);
-			if (data2.hit_obj){
-				retcolor += Kt * data2.material->get_illumination(light, data2, depth);
-			}
-			else{
-				retcolor += id.world.background;
-			}
-		}else{
-			Ray trans = Ray();
-			trans.o = id.hit_pt;
-			trans.d = N*D + (N * (-D * n) - sqrt(det))*n;
-			IntersectData data3 = id.world.hit_objects(trans);
-			if (data3.hit_obj){
-				retcolor += Kt * data3.material->get_illumination(light, data3, depth);
-			}
-			else{
-				retcolor += id.world.background;
-			}
-			
-		}
 	}
+	return retcolor;
+}
 
+
+RGBColor PhongMaterial::reflectColor(Light &light, const IntersectData &id, unsigned int depth){
+	RGBColor retcolor(0);
+	Ray reflect = Ray();
+	reflect.o = id.hit_pt;
+	reflect.d = id.ray.d - 2 * id.n * (id.ray.d * id.n);
+	IntersectData data1 = id.world.hit_objects(reflect, id.obj_id);
+	if (data1.hit_obj){
+		retcolor = data1.material->get_illumination(light, data1, depth);
+	}
+	else{
+		retcolor = id.world.background;
+	}
 	return retcolor;
 }
 
@@ -111,7 +100,6 @@ RGBColor PhongMaterial::local_illumination(Light &light, const IntersectData &id
 	if (light.in_shadow(shadow, id)){
 		return RGBColor();
 	}
-
 
 	double t;
 	Vector3D L = light.position - id.hit_pt;
@@ -141,11 +129,9 @@ RGBColor PhongMaterial::get_ambient(const IntersectData &id){
 	return Ka * Ax;
 }
 
-Normal PhongMaterial::faceForward(Normal A, Vector3D B)
-{
+Normal PhongMaterial::faceForward(Normal A, Vector3D B){
 	// For acute angles, dot product is non-negative
 	if (A*B >= 0) return A;
 	// Obtuse angle, reverse the first vector
-	A = A*-1;
-	return A;
+	return A * -1;
 }

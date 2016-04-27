@@ -48,6 +48,8 @@ public class Generator {
 	private void generateRequest() {
 		int currentDatabase = prng.nextInt(serverCluster.getV());
 		int databaseNeeded = prng.nextInt(serverCluster.getV());
+		while(!serverCluster.containsPath(currentDatabase,databaseNeeded))
+			databaseNeeded = prng.nextInt(serverCluster.getV());
 		serverCluster.add (new Request (sim, databaseNeeded, currentDatabase, respTimeSeries));
 		++n;
 		if (n < nreq){
