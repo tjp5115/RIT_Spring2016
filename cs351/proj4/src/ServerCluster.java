@@ -17,7 +17,8 @@ public class ServerCluster {
 	private int V, k;
 	private float p;
 	private Random prng;
-	public boolean debug = false;
+	public boolean debug = false ;
+	public boolean hasError;
 	Node[] graph;
 
 	/**
@@ -33,7 +34,7 @@ public class ServerCluster {
 	 * @param  tproc  Mean request processing time.
 	 * @param  prng   Pseudorandom number generator.
 	 */
-	public ServerCluster(Simulation sim, double tproc, int V, int k, float p, Random prng) {
+	private ServerCluster(Simulation sim, double tproc, int V, int k, float p, Random prng) {
 		this.sim = sim;
 		this.tprocPrng = new ExponentialPrng (prng, 1.0/tproc);
 		this.V = V;
@@ -41,10 +42,41 @@ public class ServerCluster {
 		this.p = p;
 		this.prng = prng;
 		graph = new Node[V];
+		hasError = false;
 		for(int i = 0; i < V; ++i)
 			graph[i] = new Node(i);
 		generateSmallGraph();
 	}
+	public static ServerCluster generateCluster(Simulation sim, double tproc, int V, int k, float p, Random prng){
+		ServerCluster sc = new ServerCluster(sim,tproc, V, k, p, prng);
+		//System.out.println(sc.hasError);
+		//stem.out.println(isConnectedGraph(sc));
+		while(sc.hasError || !isConnectedGraph(sc)){
+			//stem.out.println("error)=:::);");
+			sc = new ServerCluster(sim,tproc, V, k, p, prng);
+		}
+		return sc;
+	}
+
+	public static boolean isConnectedGraph(ServerCluster sc){
+		Node graph[] = sc.graph;
+		HashSet<Integer> seen = new HashSet();
+		LinkedList<Integer> queue = new LinkedList();
+		int A = 0;
+		queue.addLast(A);
+		seen.add(A);
+		while (!queue.isEmpty()) {
+			A = queue.poll();
+			for (Node B : graph[A].nodes) {
+				if (!seen.contains(B.id)) {
+					seen.add(B.id);
+					queue.addLast(B.id);
+				}
+			}
+		}
+		return seen.size() == sc.getV();
+	}
+
 
 	/**
 	 * Add the given request to this server's queue.
@@ -104,6 +136,7 @@ public class ServerCluster {
 	 * print the graph. Used to debug.
 	 */
 	private void printGraph(){
+		if(debug)System.out.println("\nGraph:");
 		for(int i=0; i < V & debug; ++i)
 			System.out.println(graph[i]);
 	}
@@ -128,16 +161,14 @@ public class ServerCluster {
 				B = graph[(i+j) % V];
 				if(prng.nextFloat() < p){
 					C = graph[prng.nextInt(V)];
-					boolean skip = false;
 					while(C.equals(A) || C.equals(B) || C.isAdjacent(A) ) {
-						if ((skip = completeNode(A,B))) {
-							//System.out.println("Complete");
-							//if(A.nodes.size() >= V) System.out.println(A);
-							break;
+						if (completeNode(A,B)) {
+							hasError = true;
+							return;
 						}
 						C = graph[prng.nextInt(V)];
 					}
-					if (! skip) B = C;
+					B = C;
 				}
 				A.addNeighbor(B);
 			}
@@ -145,14 +176,7 @@ public class ServerCluster {
 		printGraph();
 	}
 	private boolean completeNode(Node A, Node B){
-		boolean contains = false;
-		for(Node node: A.nodes){
-			if(node.id == B.id){
-				contains = true;
-				break;
-			}
-		}
-		return (!contains && (A.nodes.size() + 2) == V) || A.nodes.size()+1 >= V;
+		return (!A.nodes.contains(B.id) && (A.nodes.size() + 2) >= V);
 	}
 	/**
 	 * represents a node in the graph.
@@ -162,7 +186,7 @@ public class ServerCluster {
 		int id;
 		Node(int id){
 			this.id = id;
-			nodes = new HashSet<Node>();
+			nodes = new HashSet<>();
 		}
 		@Override
 		public boolean equals(Object o){
@@ -177,12 +201,18 @@ public class ServerCluster {
 		public int getRandomNeighbor(int curr){
 			ArrayList<Node> random = new ArrayList(nodes);
 			Collections.shuffle(random);
-			int ret = random.iterator().next().id;
-			while(ret == curr) {
-				Collections.shuffle(random);
-				ret = random.iterator().next().id;
+			try {
+				int ret = random.iterator().next().id;
+				while (ret == curr) {
+					Collections.shuffle(random);
+					ret = random.iterator().next().id;
+				}
+				return ret;
+			}catch(NoSuchElementException nsee){
+				System.out.println(random);
+				System.out.println(nodes);
 			}
-			return ret;
+			return -1;
 		}
 		/**
 		 * remove the link between two nodes
@@ -227,66 +257,13 @@ public class ServerCluster {
 		}
 
 		//to string
-		public String toString(){
+		public String toString() {
 			String ret = id + " : ";
-			for(Node n: nodes)
+			for (Node n : nodes)
 				ret += n.id + " ";
 			return ret;
 		}
 
-		public boolean contains(int id){
-			boolean contains = false;
-			for(Node node: nodes){
-				if(node.id == id){
-					contains = true;
-					break;
-				}
-			}
-			return contains;
-		}
-
 	}
 
-	/**
-	 * Breadth first search for a given graph.
-	 * @param start - What node to start from
-	 * @param dest - What node we are looking for.
-	 * @return
-	 */
-	boolean containsPath(int start, int dest) {
-		if(graph[start].contains(dest)) return true;
-		HashSet<Integer> seen = new HashSet();
-		LinkedList<Integer> queue = new LinkedList();
-		int A = start;
-		queue.addLast(A);
-		seen.add(A);
-		while (!queue.isEmpty()) {
-			A = queue.poll();
-			for (Node B : graph[A].nodes) {
-				if (graph[B.id].contains(dest)) return true;
-				if (!seen.contains(B.id)) {
-					seen.add(B.id);
-					queue.addLast(B.id);
-				}
-			}
-		}
-		return false;
-	}
-	// Class used in the breadth first search.
-	class Path {
-		int dist, id;
-		Path parent;
-
-		//constructor, keeps tract of the distance by adding one to the previous.
-		Path(int _id, Path _parent) {
-			id = _id;
-			parent = _parent;
-			dist = parent.dist + 1;
-		}
-		//initial constructor
-		Path(int _id) {
-			id = _id;
-			dist = 1;
-		}
-	}
 }

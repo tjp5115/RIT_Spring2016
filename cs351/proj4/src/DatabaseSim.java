@@ -29,7 +29,6 @@ public class DatabaseSim {
 	 */
 	public static void main(String[] args) {
 		// Parse command line arguments.
-
 		switch(args[0]){
 			case "sweep_p":
 				parse(args);
@@ -60,7 +59,9 @@ public class DatabaseSim {
 				// Set up simulation.
 				sim = new Simulation();
 				// Set up one serverCluster.
-				serverCluster = new ServerCluster(sim, tproc, V, i, p, prng);
+				//System.out.println(T);
+				serverCluster = ServerCluster.generateCluster(sim, tproc, V, i, p, prng);
+				//serverCluster = new ServerCluster(sim, tproc, V, i, p, prng);
 				serverCluster.transcript = transcript;
 				// Set up request generator and generate first request.
 				generator = new Generator(sim, treq, nreq, prng, serverCluster);
@@ -79,7 +80,7 @@ public class DatabaseSim {
 
 		System.out.println("prob\tmean");
 		int seed_count = 0;
-		for(float i = 0; i < 1.0; i += p) {
+		for(float i = 0; i < p; i += 0.01f) {
 			float mean = 0.0f;
 			for(int T = 0; T < MONTE_CARLO_RUNS; ++T) {
 				// Set up pseudorandom number generator.
@@ -87,7 +88,8 @@ public class DatabaseSim {
 				// Set up simulation.
 				sim = new Simulation();
 				// Set up one serverCluster.
-				serverCluster = new ServerCluster(sim, tproc, V, k, i, prng);
+				//serverCluster = new ServerCluster(sim, tproc, V, k, i, prng);
+				serverCluster = ServerCluster.generateCluster(sim, tproc, V, k, i, prng);
 				serverCluster.transcript = transcript;
 				// Set up request generator and generate first request.
 				generator = new Generator(sim, treq, nreq, prng, serverCluster);
@@ -109,7 +111,7 @@ public class DatabaseSim {
 		sim = new Simulation();
 
 		// Set up one serverCluster.
-		serverCluster = new ServerCluster(sim, tproc, V, k, p, prng);
+		serverCluster = ServerCluster.generateCluster(sim, tproc, V, k, p, prng);
 		serverCluster.transcript = transcript;
 
 		// Set up request generator and generate first request.
@@ -152,14 +154,16 @@ public class DatabaseSim {
 		System.err.println ("Usage: java DatabaseSim <type> <tproc> <treq> <nreq> <V> <k> <p> <seed>");
 		System.err.println ("<type> = Type of the project. " +
 				"\n\t sweep_p : sweeps the p variable" +
-				"\n\t sweep_k : swwp the k variable" +
+				"\n\t sweep_k : sweeps the k variable" +
 				"\n\t single : run a single simulation");
 		System.err.println ("<tproc> = Mean request processing time");
 		System.err.println ("<treq> = Mean request interarrival time");
 		System.err.println ("<nreq> = Number of requests");
 		System.err.println ("<V> = Number of vertices");
-		System.err.println ("<k> = Density parameter");
-		System.err.println ("<p> = rewiring probability");
+		System.err.println ("<k> = Density parameter" +
+				"\n\t sweep_k : sweeps up to the k value given");
+		System.err.println ("<p> = rewiring probability" +
+				"\n\t sweep_p : sweeps up to the p value given");
 		System.err.println ("<seed> = Random seed");
 		System.exit (1);
 	}
