@@ -151,7 +151,7 @@ public class DatabaseSim {
 	 * Print a usage message and exit.
 	 */
 	private static void usage() {
-		System.err.println ("Usage: java DatabaseSim <type> <tproc> <treq> <nreq> <V> <k> <p> <seed>");
+		System.err.println ("Usage: java DatabaseSim <type> <tproc> <treq> <nreq> <V> <k> <p> <seed> [transcript]");
 		System.err.println ("<type> = Type of the project. " +
 				"\n\t sweep_p : sweeps the p variable" +
 				"\n\t sweep_k : sweeps the k variable" +
@@ -165,6 +165,7 @@ public class DatabaseSim {
 		System.err.println ("<p> = rewiring probability" +
 				"\n\t sweep_p : sweeps up to the p value given");
 		System.err.println ("<seed> = Random seed");
+		System.err.println ("[transcript] = turn the transcript on/off for a simulation. Default off. (true or false).");
 		System.exit (1);
 	}
 }

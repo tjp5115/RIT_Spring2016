@@ -27,14 +27,21 @@ public:
 	Renderer(int width, int height, int *argcp, char **argv, ViewParams *vp);
 	~Renderer();
 	void add_point(float x, float y, float z);
+	void add_tex(float u, float v);
 	void draw();
+	GLuint getProgram(){ return program; };
+	double getMinY(){ return minY; };
+	double getMaxY(){ return maxY; };
 	int w;
 	int h;
 private:
+	void init();
+	double minY, maxY;
 	static void displayWrapper();
 	void setInstance(Renderer *r);
 	virtual void display();
 	vector<float> vertices;
+	vector<float> tex;
 	int *argcp;
 	char **argv;
 	GLuint program, vbuffer, ebuffer;

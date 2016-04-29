@@ -24,6 +24,16 @@ uniform float bottom;
 uniform float near;
 uniform float far;
 
+//height map
+uniform float maxHeight;
+uniform float minHeight;
+//texture
+attribute vec2 vTexCoord;
+
+// OUTGOING DATA
+varying vec2 texCoord;
+varying vec3 v_position;
+
 void main()
 {
     // Compute the sines and cosines of each rotation about each axis
@@ -84,6 +94,9 @@ void main()
 
     // Transform the vertex location into clip space
     gl_Position =  projMat * viewMat  * modelMat * vPosition;
-	//gl_Position = vPosition;
+
+	// send the position to interpolate
+    v_position =  vec3( vPosition);
+	texCoord = vTexCoord;
 }
 
