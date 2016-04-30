@@ -7,7 +7,7 @@ DiamondSquare::DiamondSquare(Renderer *_r, int levels, double height, unsigned i
 	renderer = _r;
 	size = levels + 1;
 	height_map = vector<double>(size*size);;
-	tex_map = vector<double*>(size*size);;
+	tex_map = vector<vector<double>>(size*size);;
 	// initialze the array;
 	set_height_element(0, 0, graph_seed);
 	set_height_element(0, size - 1, graph_seed);
@@ -18,7 +18,6 @@ DiamondSquare::DiamondSquare(Renderer *_r, int levels, double height, unsigned i
 	set_texture();
 	draw_graph();
 	rnd_seed = _rnd_seed;
-
 }
 
 
@@ -69,24 +68,43 @@ void DiamondSquare::create_graph(double height){
 }
 
 void DiamondSquare::set_texture(){
+
+
+
 	unsigned int fungus = SOIL_load_OGL_texture("fungus.png", SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
-	glBindTexture(GL_TEXTURE_2D, fungus);
+	int fungus_location = glGetUniformLocation(renderer->getProgram(), "fungus");
+	glUniform1i(fungus_location, 0);
+
 
 	unsigned int sandGrass = SOIL_load_OGL_texture("sandGrass.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-	glBindTexture(GL_TEXTURE_2D, sandGrass);
+	int sand_location = glGetUniformLocation(renderer->getProgram(), "sand");
+	glUniform1i(sand_location, 1);
+
 
 	unsigned int rocks = SOIL_load_OGL_texture("rocks.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+	int rocks_location = glGetUniformLocation(renderer->getProgram(), "rocks");
+	glUniform1i(rocks_location, 2);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, fungus);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, sandGrass);
+
+	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, rocks);
 
-	float textureU = float(230)*0.1f;
-	float textureV = float(230)*0.1f;
+
+
+
+
 
 	for(int r = 0; r < size ; ++r){
 		for (int c = 0; c < size; ++c){
-			float scaleC = float(c) / float(230);
-			float scaleR = float(r) / float(230);
-			double temp[2] = { textureU*scaleC, textureV*scaleR };
-			set_tex_element(r, c, temp);
+			vector<double> temp;
+			temp.push_back(double(c) / double(size - 1));
+			temp.push_back(double(r) / double(size - 1));
+			set_tex_element(c, r, temp);
 			//cout << temp[0] << " " << temp[1] << endl; 
 		}
 	}
@@ -102,20 +120,28 @@ void DiamondSquare::draw_graph(){
 	*/
 	int r;
 	double s = size - 2;
-	double *texCord;
+	vector<double> texCord;
 	for (r = 0; r < size - 1; ++r){
 		int c;
 		for (c = 0; c < size - 1; ++c){
 			// add a square to the renderer
 			renderer->add_point(r / s, get_height_element(r, c) / max_height, c / s);
+			renderer->add_tex((double(r) / double(size)), (double(c) / double(size)) );
+
 			renderer->add_point(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
-			renderer->add_point((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
+			renderer->add_tex((double(r) / double(size)) , (double(c+1) / double(size)) );
 
 			renderer->add_point((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
+			renderer->add_tex((double(r+1) / double(size)) , (double(c) / double(size)) );
+
+			renderer->add_point((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
+			renderer->add_tex((double(r+1) / double(size)) , (double(c) / double(size)) );
+
 			renderer->add_point(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
+			renderer->add_tex((double(r) / double(size)) , (double(c+1) / double(size)) );
+
 			renderer->add_point((r + 1) / s, get_height_element(r + 1, c + 1) / max_height, (c + 1) / s);
-			texCord = get_tex_element(r, c);
-			renderer->add_tex(texCord[0], texCord[1]);
+			renderer->add_tex((double(r+1) / double(size)) , (double(c+1) / double(size)) );
 		}
 	}
 
@@ -136,12 +162,14 @@ double DiamondSquare::get_height_element(int r, int c){
 	return height_map[size * r + c];
 }
 
-void DiamondSquare::set_tex_element( int r, int c, double val[2]){
+void DiamondSquare::set_tex_element( int r, int c, vector<double>val){
 	tex_map[size * r + c] = val;
+	//cout << tex_map[size * r + c][0] << " " << tex_map[size * r + c][1] << endl;
 }
 
-double* DiamondSquare::get_tex_element( int r, int c){
-	return tex_map[size * r + c];
+vector<double> DiamondSquare::get_tex_element( int r, int c){
+	//cout << tex_map[size * r + c][0] << " " << tex_map[size * r + c][1] << endl;
+	return tex_map.at(size * r + c);
 }
 
 double DiamondSquare::get_random(double h){

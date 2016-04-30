@@ -1,7 +1,9 @@
 #version 120
 //Author: Tyler Paulsen
 // Flat shading fragment shader
-uniform sampler2D texture[3];
+uniform sampler2D fungus;
+uniform sampler2D sand;
+uniform sampler2D rocks;
 uniform float maxHeight;
 uniform float minHeight;
 
@@ -24,21 +26,20 @@ void main()
 	
 	
 	if(heightScale >= 0.0 && heightScale <= fRange1){
-		//color = texture2D(texture[0], texCoord); 
-		color = color1;
+		color = texture2D(fungus, texCoord); 
+		//color = color1;
 	}else if(heightScale <= fRange2) { 
 		heightScale -= fRange1; 
 		heightScale /= (fRange2-fRange1); 
 	   
 		float heightScale2 = heightScale; 
 		heightScale = 1.0-heightScale;  
-		color += color1 * heightScale;
-		color += color2 * heightScale2;
-		//color += texture2D(texture[0], texCoord)*heightScale; 
-		//color += texture2D(texture[1], texCoord)*heightScale2; 
+		//color += color1 * heightScale;
+		//color += color2 * heightScale2;
+		color += texture2D(fungus, texCoord)*heightScale; 
+		color += texture2D(sand, texCoord)*heightScale2; 
    }else if(heightScale <= fRange3){
-		//color = texture2D(texture[1], texCoord); 
-		color = color2;
+		color = texture2D(sand, texCoord); 
    }else if(heightScale <= fRange4){ 
 		heightScale -= fRange3; 
 		heightScale /= (fRange4-fRange3); 
@@ -46,12 +47,13 @@ void main()
 		float heightScale2 = heightScale; 
 		heightScale = 1.0-heightScale;  
 	   
-		color += color2 * heightScale;
-		color += color3 * heightScale2;
-		//color += texture2D(texture[1], texCoord)*heightScale; 
-		//color += texture2D(texture[2], texCoord)*heightScale2;       
+		//color += color2 * heightScale;
+		//color += color3 * heightScale2;
+		color += texture2D(sand, texCoord)*heightScale; 
+		color += texture2D(rocks, texCoord)*heightScale2;       
    }else{
-		color = color3;
+		color += texture2D(rocks, texCoord);       
+		//color = color3;
    }
 
     gl_FragColor = color;
