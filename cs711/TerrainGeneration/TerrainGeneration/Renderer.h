@@ -12,6 +12,7 @@
 using namespace std;
 
 #include "ViewParams.h"
+#include "LightParams.h"
 
 struct Vertex
 {
@@ -24,9 +25,10 @@ class Renderer
 protected:
 	static Renderer * instance;
 public:
-	Renderer(int width, int height, int *argcp, char **argv, ViewParams *vp);
+	Renderer(int width, int height, int *argcp, char **argv, ViewParams *vp, LightParams *lp);
 	~Renderer();
 	void add_point(float x, float y, float z);
+	void add_normal(float x, float y, float z);
 	void add_tex(float u, float v);
 	void draw();
 	GLuint getProgram(){ return program; };
@@ -41,10 +43,12 @@ private:
 	void setInstance(Renderer *r);
 	virtual void display();
 	vector<float> vertices;
+	vector<float> normals;
 	vector<float> tex;
 	int *argcp;
 	char **argv;
 	GLuint program, vbuffer, ebuffer;
 	ViewParams *vp;
+	LightParams *lp;
 };
 

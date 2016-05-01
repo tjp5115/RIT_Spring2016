@@ -1,4 +1,4 @@
-#version 120
+#version 150
 //Author: Tyler Paulsen
 // Flat shading fragment shader
 uniform sampler2D fungus;
@@ -7,39 +7,67 @@ uniform sampler2D rocks;
 uniform float maxHeight;
 uniform float minHeight;
 
+// Lighting
+uniform vec4 Ax;
+uniform float Ka;
+
+uniform vec4 Dx;
+uniform float Kd;
+
+uniform vec4 Sx;
+uniform float n;
+uniform float Ks;
+
+// Light source properties
+uniform vec4 Lx;
+uniform vec4 ls_position;
+
+uniform vec3 cPosition;
+
+// Ambient light properties
+uniform vec4 a_color;
+
+
 //incoming data
-varying vec3 v_position;
-varying vec2 texCoord;
+in vec4 position;
+in float height;
+in vec2 texCoord;
+in vec4 normal;
 void main()
 {
-	float heightScale = (v_position.y - minHeight) / (maxHeight - minHeight);
+	float heightScale = (height - minHeight) / (maxHeight - minHeight);
 
 	const float fRange1 = 0.15f; 
 	vec4 color1 = vec4(1.0, 0.0, 1.0, 1.0);
 	const float fRange2 = 0.3f; 
 	vec4 color2 = vec4(1.0, 0.0, 0.0, 1.0);
-	const float fRange3 = 0.65f; 
+	const float fRange3 = 0.55f; 
 	vec4 color3 = vec4(1.0, 1.0, 0.0, 1.0);
-	const float fRange4 = 0.85f; 
+	const float fRange4 = 0.75f; 
 		
 	vec4 color = vec4(0.0);
+	vec4 colour = vec4(0.0);
 	
 	
 	if(heightScale >= 0.0 && heightScale <= fRange1){
 		color = texture2D(fungus, texCoord); 
-		//color = color1;
+
+		colour = color1;
 	}else if(heightScale <= fRange2) { 
 		heightScale -= fRange1; 
 		heightScale /= (fRange2-fRange1); 
 	   
 		float heightScale2 = heightScale; 
 		heightScale = 1.0-heightScale;  
-		//color += color1 * heightScale;
-		//color += color2 * heightScale2;
 		color += texture2D(fungus, texCoord)*heightScale; 
 		color += texture2D(sand, texCoord)*heightScale2; 
+
+		colour = color1 * heightScale;
+		colour += color2 * heightScale2;
    }else if(heightScale <= fRange3){
 		color = texture2D(sand, texCoord); 
+		
+		colour = color2 ;
    }else if(heightScale <= fRange4){ 
 		heightScale -= fRange3; 
 		heightScale /= (fRange4-fRange3); 
@@ -47,14 +75,33 @@ void main()
 		float heightScale2 = heightScale; 
 		heightScale = 1.0-heightScale;  
 	   
-		//color += color2 * heightScale;
-		//color += color3 * heightScale2;
 		color += texture2D(sand, texCoord)*heightScale; 
 		color += texture2D(rocks, texCoord)*heightScale2;       
+		
+		colour = color2 * heightScale;
+		colour += color3 * heightScale2;
    }else{
 		color += texture2D(rocks, texCoord);       
-		//color = color3;
+		colour = color3;
    }
-
+	/*
+    // Compute the diffuse term.
+    vec4 N = normalize(normal);
+    vec4 L = normalize( ls_position - position);
+    float NdotL = max( dot( N, L ), 0 );
+    vec4 Diffuse =  NdotL * Lx * Dx;
+     
+    // Compute the specular term.
+    vec4 V = normalize( vec4(cPosition,1.0) - position);
+    vec4 H = normalize( L + V );
+    vec4 R = reflect( -L, N );
+    float RdotV = max( dot( R, V ), 0 );
+    float NdotH = max( dot( N, H ), 0 );
+    vec4 Specular = pow(RdotV, n) * Lx * Sx;
+     
+    color *= a_color + Diffuse + Specular;
+	*/
     gl_FragColor = color;
+
+    //gl_FragColor = colour;
 }

@@ -2,6 +2,8 @@
 #include "Renderer.h"
 #include <vector>
 #include <stdlib.h>
+#include "Point3D.h"
+#include "Normal.h"
 class DiamondSquare
 {
 public:

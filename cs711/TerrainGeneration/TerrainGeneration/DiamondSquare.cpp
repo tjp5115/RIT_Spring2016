@@ -121,27 +121,46 @@ void DiamondSquare::draw_graph(){
 	int r;
 	double s = size - 2;
 	vector<double> texCord;
+	Point3D p1, p2, p3;
+	Normal N;
 	for (r = 0; r < size - 1; ++r){
 		int c;
 		for (c = 0; c < size - 1; ++c){
 			// add a square to the renderer
-			renderer->add_point(r / s, get_height_element(r, c) / max_height, c / s);
+			p1 = Point3D(r / s, get_height_element(r, c) / max_height, c / s);
+			renderer->add_point(p1.x, p1.y, p1.z);
 			renderer->add_tex((double(r) / double(size)), (double(c) / double(size)) );
 
-			renderer->add_point(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
+			p2 = Point3D(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
+			renderer->add_point(p2.x, p2.y, p2.z);
 			renderer->add_tex((double(r) / double(size)) , (double(c+1) / double(size)) );
 
-			renderer->add_point((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
+			p3 = Point3D((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
+			renderer->add_point(p3.x,p3.y, p3.z);
 			renderer->add_tex((double(r+1) / double(size)) , (double(c) / double(size)) );
 
-			renderer->add_point((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
+			//calculate normal
+			N = Normal(p1,p2,p3);
+			N.normalize();
+			renderer->add_normal(N.x, N.y, N.z);
+
+			p1 = Point3D((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
+			renderer->add_point(p1.x, p1.y, p1.z);
 			renderer->add_tex((double(r+1) / double(size)) , (double(c) / double(size)) );
 
-			renderer->add_point(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
+			p2 = Point3D(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
+			renderer->add_point(p2.x, p2.y, p2.z);
 			renderer->add_tex((double(r) / double(size)) , (double(c+1) / double(size)) );
 
-			renderer->add_point((r + 1) / s, get_height_element(r + 1, c + 1) / max_height, (c + 1) / s);
+			p3 = Point3D((r + 1) / s, get_height_element(r + 1, c + 1) / max_height, (c + 1) / s);
+			renderer->add_point(p3.x, p3.y, p3.z);
 			renderer->add_tex((double(r+1) / double(size)) , (double(c+1) / double(size)) );
+
+			//calculate normal
+			N = Normal(p1, p2, p3);
+			N.normalize();
+			renderer->add_normal(N.x, N.y, N.z);
+
 		}
 	}
 

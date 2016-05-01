@@ -1,10 +1,13 @@
-#version 120
+#version 150
 //Author: Tyler Paulsen
 
 // INCOMING DATA
 
 // Vertex location (in model space)
-attribute vec4 vPosition;
+in vec3 vPosition;
+//texture
+in vec2 vTexCoord;
+in vec3 vNormal;
 
 // Model transformations
 uniform vec3 theta;
@@ -27,12 +30,13 @@ uniform float far;
 //height map
 uniform float maxHeight;
 uniform float minHeight;
-//texture
-attribute vec2 vTexCoord;
+
 
 // OUTGOING DATA
-varying vec2 texCoord;
-varying vec3 v_position;
+out vec2 texCoord;
+out vec4 position;
+out vec4 normal;
+out float height;
 
 void main()
 {
@@ -93,10 +97,12 @@ void main()
     mat4 modelViewMat = viewMat * modelMat;
 
     // Transform the vertex location into clip space
-    gl_Position =  projMat * viewMat  * modelMat * vPosition;
+    gl_Position =  projMat * viewMat  * modelMat * vec4(vPosition,1.0);
 
+	normal = modelMat * vec4(vNormal,0);
 	// send the position to interpolate
-    v_position =  vec3( vPosition);
+	height = vPosition.y;
+    position = modelMat * vec4(vPosition,1.0);
 	texCoord = vTexCoord;
 }
 

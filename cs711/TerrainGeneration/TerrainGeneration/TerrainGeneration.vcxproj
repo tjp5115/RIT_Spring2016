@@ -72,15 +72,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DiamondSquare.h" />
+    <ClInclude Include="LightParams.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Normal.h" />
+    <ClInclude Include="Point3D.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RGBColor.h" />
     <ClInclude Include="shaderSetup.h" />
+    <ClInclude Include="Vector3D.h" />
     <ClInclude Include="ViewParams.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DiamondSquare.cpp" />
+    <ClCompile Include="LightParams.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Normal.cpp" />
+    <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RGBColor.cpp" />
     <ClCompile Include="shaderSetup.cpp" />
+    <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="ViewParams.cpp" />
   </ItemGroup>
   <ItemGroup>

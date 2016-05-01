@@ -1,56 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
+    <Filter Include="shader">
+      <UniqueIdentifier>{10d4c529-2e2c-4d5c-9494-6729ed0f6fc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{f82c33c6-160e-4e14-b8f6-bc26f47d40ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{82a80969-9340-449f-b6a3-a4ef294eebd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{855801de-1fa7-4304-bdaa-a711c495a332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="terrain generation">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="DiamondSquare.cpp">
+      <Filter>terrain generation</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3D.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="Point3D.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="Normal.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>util</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DiamondSquare.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shaderSetup.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="ViewParams.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="LightParams.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBColor.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="shaderSetup.cpp">
+      <Filter>util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Vector3D.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="Normal.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="Point3D.h">
+      <Filter>util</Filter>
+    </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DiamondSquare.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shaderSetup.h">
-      <Filter>Header Files</Filter>
+      <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="ViewParams.h">
-      <Filter>Header Files</Filter>
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="DiamondSquare.h">
+      <Filter>terrain generation</Filter>
+    </ClInclude>
+    <ClInclude Include="LightParams.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBColor.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="shaderSetup.h">
+      <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader.vert">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="shader.frag">
-      <Filter>Source Files</Filter>
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader.vert">
+      <Filter>shader</Filter>
     </None>
   </ItemGroup>
 </Project>

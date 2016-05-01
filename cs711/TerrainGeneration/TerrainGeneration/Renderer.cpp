@@ -5,7 +5,7 @@ int window;
 using namespace std;
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-Renderer::Renderer(int width, int height, int *_argcp, char **_argv, ViewParams *_vp)
+Renderer::Renderer(int width, int height, int *_argcp, char **_argv, ViewParams *_vp, LightParams *_lp)
 {
 	w = width;                 
 	h = height;
@@ -13,6 +13,7 @@ Renderer::Renderer(int width, int height, int *_argcp, char **_argv, ViewParams 
 	argcp = _argcp;
 	argv = _argv;
 	vp = _vp;
+	lp = _lp;
 	minY = 10000.0;
 	maxY = -100000.0;
 	/*
@@ -26,6 +27,11 @@ Renderer::Renderer(int width, int height, int *_argcp, char **_argv, ViewParams 
 	}
 	*/
 	init();
+	// set up our attribute variables
+	vp->camera(program);
+	vp->transform(program);
+	vp->frustum(program);
+	lp->setUpPhong(program);
 }
 
 void Renderer::init(){
@@ -50,26 +56,29 @@ void Renderer::init(){
 
 	glUseProgram(program);
 
-	// set up our attribute variables
-	vp->camera(program);
-	vp->transform(program);
-	vp->frustum(program);
+
 
 }
 
 void Renderer::display()
 {
-
 	//cout << minY << " " << maxY << endl;
+	glClear(GL_COLOR_BUFFER_BIT);
 	int dataSize = vertices.size() * sizeof (float);
 
 	GLuint vPosition = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(vPosition);
-	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
 	GLuint vTex = glGetAttribLocation(program, "vTexCoord");
 	glEnableVertexAttribArray(vTex);
 	glVertexAttribPointer(vTex, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(dataSize));
+
+	dataSize += tex.size() * sizeof(float);
+	// set up the normal attribute variables.
+	int vNormal = glGetAttribLocation(program, "vNormal");
+	glEnableVertexAttribArray(vNormal);
+	glVertexAttribPointer(vNormal, 3, GL_FLOAT, false, 0, BUFFER_OFFSET(dataSize));
 
 	// draw our shape
 	glDrawElements(GL_TRIANGLES, vertices.size()/4, GL_UNSIGNED_SHORT, (void *)0);
@@ -101,18 +110,19 @@ void Renderer::displayWrapper(){
 }
 void Renderer::draw()
 {
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-
-
-
+	glClearColor(0,.7,1,1.0);
 
 	float *points = &vertices[0];
 	int pDataSize = vertices.size() * sizeof (float);
 
 	float *texCoords = &tex[0];
 	int tDataSize = tex.size() * sizeof(float);
+
+	float *normalCoords = &normals[0];
+	int nDataSize = normals.size() * sizeof(float);
 	//cout << tDataSize << endl;
 	//cout << pDataSize << endl;
+	//cout << nDataSize << endl;
 	// create and fill a new point array
 	GLushort *elements = new GLushort[vertices.size()];
 	for (int i = 0; i < vertices.size(); i++) {
@@ -122,9 +132,10 @@ void Renderer::draw()
 	int edataSize = vertices.size() * sizeof (GLushort);;
 	glGenBuffers(1, &vbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vbuffer);
-	glBufferData(GL_ARRAY_BUFFER, pDataSize + tDataSize, NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, pDataSize + tDataSize + nDataSize, NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, pDataSize, points);
 	glBufferSubData(GL_ARRAY_BUFFER, pDataSize, tDataSize, texCoords);
+	glBufferSubData(GL_ARRAY_BUFFER, tDataSize + pDataSize, nDataSize, normalCoords);
 
 	glGenBuffers(1, &ebuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebuffer);
@@ -134,7 +145,6 @@ void Renderer::draw()
 
 	glutKeyboardFunc(kbd);
 	glutDisplayFunc(displayWrapper);
-	glClearColor(0,0,0,0.0);
 	glutMainLoop();
 	exit(0);
 }
@@ -143,13 +153,20 @@ void Renderer::add_point(float x, float y, float z){
 		vertices.push_back(x);
 		vertices.push_back(y);
 		vertices.push_back(z);
-		vertices.push_back(1.0);
 		if (minY > y){
 			minY = y;
 		}else if (maxY < y){
 			maxY = y;
 		}
 }
+
+void Renderer::add_normal(float x, float y, float z){
+	normals.push_back(x);
+	normals.push_back(y);
+	normals.push_back(z);
+	//cout << x << " " << y <<  " " << z << endl;
+}
+
 void Renderer::add_tex(float u, float v){
 	tex.push_back(u);
 	tex.push_back(v);
