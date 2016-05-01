@@ -2,6 +2,8 @@
 #include "Renderer.h"
 #include <vector>
 #include <stdlib.h>
+#include <unordered_map>
+#include <string>
 #include "Point3D.h"
 #include "Normal.h"
 class DiamondSquare
@@ -12,7 +14,11 @@ public:
 private:
 	vector<double> height_map;
 	vector<vector<double>> tex_map;
+	vector<Normal> normals;
+	int num_points;
+	vector<int> elements;
 	Renderer *renderer;
+	unordered_map<string, int> map;
 	int size;
 	double max_height;
 	unsigned int rnd_seed;
@@ -24,5 +30,7 @@ private:
 	double get_random(double h);
 	void draw_graph();
 	void set_texture();
+	void add_point(double x, double y, double z, double u, double v, Normal N);
+
 };
 

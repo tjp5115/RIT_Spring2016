@@ -30,6 +30,7 @@ public:
 	void add_point(float x, float y, float z);
 	void add_normal(float x, float y, float z);
 	void add_tex(float u, float v);
+	void add_element(int i);
 	void draw();
 	GLuint getProgram(){ return program; };
 	double getMinY(){ return minY; };
@@ -38,6 +39,8 @@ public:
 	int h;
 private:
 	void init();
+
+	
 	double minY, maxY;
 	static void displayWrapper();
 	void setInstance(Renderer *r);
@@ -45,6 +48,7 @@ private:
 	vector<float> vertices;
 	vector<float> normals;
 	vector<float> tex;
+	vector<int> elements;
 	int *argcp;
 	char **argv;
 	GLuint program, vbuffer, ebuffer;

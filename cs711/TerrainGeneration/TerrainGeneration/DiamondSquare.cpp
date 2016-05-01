@@ -95,10 +95,6 @@ void DiamondSquare::set_texture(){
 	glBindTexture(GL_TEXTURE_2D, rocks);
 
 
-
-
-
-
 	for(int r = 0; r < size ; ++r){
 		for (int c = 0; c < size; ++c){
 			vector<double> temp;
@@ -128,40 +124,33 @@ void DiamondSquare::draw_graph(){
 		for (c = 0; c < size - 1; ++c){
 			// add a square to the renderer
 			p1 = Point3D(r / s, get_height_element(r, c) / max_height, c / s);
-			renderer->add_point(p1.x, p1.y, p1.z);
-			renderer->add_tex((double(r) / double(size)), (double(c) / double(size)) );
-
 			p2 = Point3D(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
-			renderer->add_point(p2.x, p2.y, p2.z);
-			renderer->add_tex((double(r) / double(size)) , (double(c+1) / double(size)) );
-
 			p3 = Point3D((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
-			renderer->add_point(p3.x,p3.y, p3.z);
-			renderer->add_tex((double(r+1) / double(size)) , (double(c) / double(size)) );
 
 			//calculate normal
 			N = Normal(p1,p2,p3);
 			N.normalize();
-			renderer->add_normal(N.x, N.y, N.z);
+			add_point(p1.x, p1.y, p1.z, (double(r) / double(size)), (double(c) / double(size)), N);
+			add_point(p2.x, p2.y, p2.z, (double(r) / double(size)), (double(c + 1) / double(size)), N);
+			add_point(p3.x, p3.y, p3.z, (double(r + 1) / double(size)), (double(c) / double(size)), N);
 
 			p1 = Point3D((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
-			renderer->add_point(p1.x, p1.y, p1.z);
-			renderer->add_tex((double(r+1) / double(size)) , (double(c) / double(size)) );
-
 			p2 = Point3D(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
-			renderer->add_point(p2.x, p2.y, p2.z);
-			renderer->add_tex((double(r) / double(size)) , (double(c+1) / double(size)) );
-
 			p3 = Point3D((r + 1) / s, get_height_element(r + 1, c + 1) / max_height, (c + 1) / s);
-			renderer->add_point(p3.x, p3.y, p3.z);
-			renderer->add_tex((double(r+1) / double(size)) , (double(c+1) / double(size)) );
 
 			//calculate normal
 			N = Normal(p1, p2, p3);
 			N.normalize();
-			renderer->add_normal(N.x, N.y, N.z);
+			add_point(p1.x, p1.y, p1.z, (double(r) / double(size)), (double(c) / double(size)), N);
+			add_point(p2.x, p2.y, p2.z, (double(r) / double(size)), (double(c + 1) / double(size)), N);
+			add_point(p3.x, p3.y, p3.z, (double(r + 1) / double(size)), (double(c) / double(size)), N);;
 
 		}
+	}
+
+	for (int i = 0; i < normals.size(); ++i){
+		Normal N = normals.at(i);
+		renderer->add_normal(N.x, N.y, N.z);
 	}
 
 	int maxHeight = glGetUniformLocation(renderer->getProgram(), "maxHeight");
@@ -195,4 +184,21 @@ double DiamondSquare::get_random(double h){
 	double r = (double)rand() / (double)RAND_MAX;
 	//cout << r << endl;
 	return r * 2 * h - h;
+}
+
+void DiamondSquare::add_point(double x, double y, double z, double u, double v, Normal N){
+	string key(to_string(x) + "" + to_string(y) + "" + to_string(z));
+	unordered_map<string, int>::const_iterator got = map.find(key);
+
+	if (got == map.end()){
+		map.emplace(key, num_points);
+		renderer->add_element(num_points);
+		renderer->add_tex(u, v);
+		renderer->add_point(x, y, z);
+		normals.push_back(N);
+		num_points += 1;
+	}else{
+		renderer->add_element(got->second);
+		normals.at(got->second) += N;
+	}
 }

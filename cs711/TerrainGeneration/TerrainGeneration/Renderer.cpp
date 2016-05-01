@@ -81,7 +81,7 @@ void Renderer::display()
 	glVertexAttribPointer(vNormal, 3, GL_FLOAT, false, 0, BUFFER_OFFSET(dataSize));
 
 	// draw our shape
-	glDrawElements(GL_TRIANGLES, vertices.size()/4, GL_UNSIGNED_SHORT, (void *)0);
+	glDrawElements(GL_TRIANGLES, elements.size(), GL_UNSIGNED_INT, (void *)0);
 
 	// swap the framebuffers
 	glutSwapBuffers();
@@ -112,34 +112,27 @@ void Renderer::draw()
 {
 	glClearColor(0,.7,1,1.0);
 
-	float *points = &vertices[0];
 	int pDataSize = vertices.size() * sizeof (float);
-
-	float *texCoords = &tex[0];
 	int tDataSize = tex.size() * sizeof(float);
-
-	float *normalCoords = &normals[0];
 	int nDataSize = normals.size() * sizeof(float);
+	int eDataSize = elements.size() * sizeof (int);;
 	//cout << tDataSize << endl;
 	//cout << pDataSize << endl;
 	//cout << nDataSize << endl;
+	cout << eDataSize << endl;
 	// create and fill a new point array
-	GLushort *elements = new GLushort[vertices.size()];
-	for (int i = 0; i < vertices.size(); i++) {
-		elements[i] = i;
-	}
+
 	// get and load the element data
-	int edataSize = vertices.size() * sizeof (GLushort);;
 	glGenBuffers(1, &vbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vbuffer);
 	glBufferData(GL_ARRAY_BUFFER, pDataSize + tDataSize + nDataSize, NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, pDataSize, points);
-	glBufferSubData(GL_ARRAY_BUFFER, pDataSize, tDataSize, texCoords);
-	glBufferSubData(GL_ARRAY_BUFFER, tDataSize + pDataSize, nDataSize, normalCoords);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, pDataSize, &vertices[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, pDataSize, tDataSize, &tex[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, tDataSize + pDataSize, nDataSize, &normals[0]);
 
 	glGenBuffers(1, &ebuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, edataSize, elements,GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, eDataSize, &elements[0], GL_STATIC_DRAW);
 
 
 
@@ -174,3 +167,8 @@ void Renderer::add_tex(float u, float v){
 		cout << u << " " << v << endl;
 
 }
+
+void Renderer::add_element(int i){
+	elements.push_back(i);
+}
+

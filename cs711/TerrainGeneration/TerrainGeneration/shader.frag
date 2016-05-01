@@ -84,7 +84,7 @@ void main()
 		color += texture2D(rocks, texCoord);       
 		colour = color3;
    }
-	/*
+
     // Compute the diffuse term.
     vec4 N = normalize(normal);
     vec4 L = normalize( ls_position - position);
@@ -100,7 +100,7 @@ void main()
     vec4 Specular = pow(RdotV, n) * Lx * Sx;
      
     color *= a_color + Diffuse + Specular;
-	*/
+
     gl_FragColor = color;
 
     //gl_FragColor = colour;
