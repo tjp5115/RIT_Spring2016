@@ -7,20 +7,20 @@ ViewParams::ViewParams()
 	rotateDefault.push_back(0.0f);
 	rotateDefault.push_back(0.0f);
 
-	translateDefault.push_back(-0.5f);
-	translateDefault.push_back(0.5f);
+	translateDefault.push_back(0);
+	translateDefault.push_back(0);
 	translateDefault.push_back(0);
 
-	scaleDefault.push_back(2.0f);
-	scaleDefault.push_back(2.0f);
-	scaleDefault.push_back(2.0f);
+	scaleDefault.push_back(4.0f);
+	scaleDefault.push_back(4.0f);
+	scaleDefault.push_back(4.0f);
 
 	eyeDefault.push_back(1.5f);
-	eyeDefault.push_back(3.0f);
-	eyeDefault.push_back(5.0f);
+	eyeDefault.push_back(4.0f);
+	eyeDefault.push_back(10.0f);
 
 	lookDefault.push_back(0.0f);
-	lookDefault.push_back(1.0f);
+	lookDefault.push_back(0.0f);
 	lookDefault.push_back(0.0f);
 
 	upDefault.push_back(0.0f);

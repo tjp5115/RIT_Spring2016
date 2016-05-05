@@ -60,16 +60,6 @@ public class Generator {
 	}
 
 	/**
-	 * Returns a data series containing the response time statistics of the
-	 * generated requests.
-	 *
-	 * @return  Response time series.
-	 */
-	public Series responseTimeSeries() {
-		return respTimeSeries;
-	}
-
-	/**
 	 * Returns the response time statistics of the generated requests.
 	 *
 	 * @return  Response time statistics (mean, standard deviation, variance).
@@ -78,10 +68,4 @@ public class Generator {
 		return respTimeSeries.stats();
 	}
 
-	/**
-	 * Returns the drop fraction of the generated requests.
-	 */
-	public double dropFraction(){
-		return (double)(nreq - respTimeSeries.length())/(double)nreq;
-	}
 }

@@ -29,12 +29,12 @@ public:
 	vector<float> upDefault;
 
 	// clipping window boundaries
-	float left = -1.0f;
-	float right = 1.0f;
-	float top = 1.0f;
-	float bottom = -1.0f;
+	float left = -2.0f;
+	float right = 2.0f;
+	float top = 2.0f;
+	float bottom = -2.0f;
 	float near_c = 3.0f;
-	float far_c = 100.5f; 
+	float far_c = 200.5f; 
 	void camera(int program);
 	void transform(int program);
 	void frustum(int program);

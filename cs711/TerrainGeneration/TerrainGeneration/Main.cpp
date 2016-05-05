@@ -19,7 +19,7 @@ int main(int argc, char **argv){
 	float   Ks = 0.2f;
 	lp->addPhong(Ax, Ka, Dx, Kd, Sx, n, Ks);
 	
-	Renderer *render = new Renderer(500, 500, &argc, argv, vp, lp);
+	Renderer *render = new Renderer(800, 800, &argc, argv, vp, lp);
 
 	// changing Height
 	//DiamondSquare *ds = new DiamondSquare(render, 32, 100.0, 41412341, 150.0);

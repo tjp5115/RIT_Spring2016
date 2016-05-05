@@ -48,6 +48,9 @@ public class DatabaseSim {
 
 	}
 
+	/**
+	 * a monte carlo simulation sweeping k
+	 */
 	private static void sweep_k(){
 		System.out.println("k\tmean");
 		int seed_count = 0;
@@ -76,8 +79,10 @@ public class DatabaseSim {
 		}
 	}
 
+	/**
+	 * a monte carlo simulation sweeping p
+	 */
 	private static void sweep_p(){
-
 		System.out.println("prob\tmean");
 		int seed_count = 0;
 		for(float i = 0; i < p; i += 0.01f) {
@@ -103,6 +108,9 @@ public class DatabaseSim {
 		}
 	}
 
+	/**
+	 * a single simulation
+	 */
 	private static void single(){
 		// Set up pseudorandom number generator.
 		prng = new Random (seed);

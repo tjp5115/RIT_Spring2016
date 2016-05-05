@@ -80,6 +80,15 @@
     <ClCompile Include="ProceduralShade.cpp">
       <Filter>Source Files\Illumination</Filter>
     </ClCompile>
+    <ClCompile Include="ToneReproduction.cpp">
+      <Filter>Source Files\Illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="Ward.cpp">
+      <Filter>Source Files\Illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="Reinhard.cpp">
+      <Filter>Source Files\Illumination</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Plane.h">
@@ -128,6 +137,15 @@
       <Filter>Source Files\Illumination</Filter>
     </ClInclude>
     <ClInclude Include="ProceduralShade.h">
+      <Filter>Source Files\Illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="ToneReproduction.h">
+      <Filter>Source Files\Illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="Ward.h">
+      <Filter>Source Files\Illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="Reinhard.h">
       <Filter>Source Files\Illumination</Filter>
     </ClInclude>
   </ItemGroup>

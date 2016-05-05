@@ -12,6 +12,7 @@ World::World(Renderer *renderer_p){
 	compute_uvw();
 
 	black = RGBColor(0);
+	tone = new ToneReproduction();
 }
 
 
@@ -30,18 +31,30 @@ void World::render_scene(){
 	double pixel[2];
 	int h = renderer->h;
 	int w = renderer->w;
-
+	int size = (h) * (w);
 	ray.o = camera.eye;
-	
-	for (int r = 0; r < h; r++)				
+	double L_wa = 0.0;
+	vector<RGBColor> color_array = vector<RGBColor>(size);
+	for (int r = 0; r < h; r++){
 		for (int c = 0; c < w; c++) {
 			pixel[0] = (c - 0.5 * w + 0.5);
 			pixel[1] = (r - 0.5 * h + 0.5);
 			ray.d = get_camera_direction(pixel);
-			color = trace_ray(ray);
-			if (!(color == background) )
-				renderer->add_pixel(c, r, color.r, color.g, color.b);
+			color_array[h * r + c] = trace_ray(ray);
+			L_wa += std::log(0.000001 + tone->get_L(color));
 		}
+	}
+	double e = 2.7182818284590452353602874713527;
+	L_wa /= size;
+	L_wa = std::pow(e, L_wa);
+	for (int r = 0; r < h; r++){
+		for (int c = 0; c < w; c++) {
+			color = tone->get_tone(color_array[h * r + c], L_wa);
+			//cout << color.r << endl;
+			renderer->add_pixel(c, r, color.r, color.g, color.b);
+		}
+	}
+
 	renderer->init(background);
 }
 

@@ -47,6 +47,17 @@ public class ServerCluster {
 			graph[i] = new Node(i);
 		generateSmallGraph();
 	}
+
+	/**
+	 * generates a server cluster
+	 * @param sim sumulation
+	 * @param tproc = Mean request processing time
+	 * @param V number of vertices
+	 * @param k density parameter
+	 * @param p rewiring probability
+	 * @param prng random number generator
+	 * @return
+	 */
 	public static ServerCluster generateCluster(Simulation sim, double tproc, int V, int k, float p, Random prng){
 		ServerCluster sc = new ServerCluster(sim,tproc, V, k, p, prng);
 		//System.out.println(sc.hasError);
@@ -58,6 +69,11 @@ public class ServerCluster {
 		return sc;
 	}
 
+	/**
+	 * checks to see if the graph is connected or not
+	 * @param sc - the graph
+	 * @return true if graph is connected else false.
+	 */
 	public static boolean isConnectedGraph(ServerCluster sc){
 		Node graph[] = sc.graph;
 		HashSet<Integer> seen = new HashSet();

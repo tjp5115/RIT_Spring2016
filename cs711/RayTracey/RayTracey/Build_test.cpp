@@ -9,6 +9,8 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#include "Ward.h"
+#include "Reinhard.h"
 using namespace std;
 int main(int argc, char **argv){
 
@@ -99,11 +101,10 @@ int main(int argc, char **argv){
 	w->add_object(plane);
 
 
-
-		
+	w->set_tone_reproduction(new Ward(10));
+	//w->set_tone_reproduction(new Reinhard(10));
 
 	w->render_scene();
-
 }
 /*
 #include "Renderer.h"

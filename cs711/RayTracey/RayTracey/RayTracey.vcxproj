@@ -74,7 +74,9 @@
     <ClCompile Include="Normal.cpp" />
     <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="ProceduralShade.cpp" />
+    <ClCompile Include="Reinhard.cpp" />
     <ClCompile Include="RGBColor.cpp" />
+    <ClCompile Include="ToneReproduction.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="Build_test.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -83,6 +85,7 @@
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="IntersectData.cpp" />
+    <ClCompile Include="Ward.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +96,9 @@
     <ClInclude Include="Normal.h" />
     <ClInclude Include="Point3D.h" />
     <ClInclude Include="ProceduralShade.h" />
+    <ClInclude Include="Reinhard.h" />
     <ClInclude Include="RGBColor.h" />
+    <ClInclude Include="ToneReproduction.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Plane.h" />
@@ -101,6 +106,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="IntersectData.h" />
+    <ClInclude Include="Ward.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
