@@ -13,4 +13,3 @@ protected:
 	double L_max;
 
 };
-

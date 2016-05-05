@@ -26,7 +26,6 @@ void World::add_object(Object *o){
 
 void World::render_scene(){
 
-	RGBColor color;
 	Ray ray;
 	double pixel[2];
 	int h = renderer->h;
@@ -41,12 +40,16 @@ void World::render_scene(){
 			pixel[1] = (r - 0.5 * h + 0.5);
 			ray.d = get_camera_direction(pixel);
 			color_array[h * r + c] = trace_ray(ray);
-			L_wa += std::log(0.000001 + tone->get_L(color));
+			L_wa += std::log(0.000001 + tone->get_L(color_array[h * r + c]));
 		}
 	}
-	double e = 2.7182818284590452353602874713527;
+
+	double e = 2.71828;
 	L_wa /= size;
+	cout << L_wa << endl;
 	L_wa = std::pow(e, L_wa);
+	cout << L_wa << endl;
+	RGBColor color;
 	for (int r = 0; r < h; r++){
 		for (int c = 0; c < w; c++) {
 			color = tone->get_tone(color_array[h * r + c], L_wa);

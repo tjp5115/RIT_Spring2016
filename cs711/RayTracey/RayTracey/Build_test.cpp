@@ -101,8 +101,8 @@ int main(int argc, char **argv){
 	w->add_object(plane);
 
 
-	w->set_tone_reproduction(new Ward(10));
-	//w->set_tone_reproduction(new Reinhard(10));
+	//w->set_tone_reproduction(new Ward(1000));
+	w->set_tone_reproduction(new Reinhard(100000));
 
 	w->render_scene();
 }

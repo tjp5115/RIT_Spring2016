@@ -6,7 +6,7 @@ class Ward :
 public:
 	Ward() : ToneReproduction(){};
 	Ward(double _L_max) : ToneReproduction(_L_max){};
-	~Ward();
+	~Ward() {};
 
 	virtual RGBColor get_tone(RGBColor color, double L_wa);
 private:
