@@ -2,8 +2,7 @@
 class ViewPlane
 {
 public:
-	ViewPlane();
-	~ViewPlane();
+	ViewPlane(){};
 
 	int h;
 	int w;

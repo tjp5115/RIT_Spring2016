@@ -2,6 +2,9 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * @brief get the tone of the color.
+ */
 RGBColor Reinhard::get_tone(RGBColor color, double L_wa){
 	//cout << L_max << endl;
 	RGBColor scaled(

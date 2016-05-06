@@ -1,5 +1,8 @@
 #pragma once
 #include "ToneReproduction.h"
+/**
+ * @brief Reinhard implementation of Tone Reproduction
+ */
 class Reinhard:
 	public ToneReproduction
 {

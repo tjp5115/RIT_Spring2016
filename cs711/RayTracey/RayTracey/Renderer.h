@@ -10,12 +10,19 @@
 #include "RGBColor.h"
 using namespace std;
 
+/**
+ * @brief structure representing a vertex.
+ * 
+ */
 struct Vertex
 {
 	GLfloat x, y, red, green, blue;
 };
 
 
+/**
+ * @brief renders the scene using opengl GLSL hooks.
+ */
 class Renderer 
 {
 protected:

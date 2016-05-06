@@ -26,11 +26,14 @@ Ks(_Ks)
 {
 }
 
-PhongMaterial::~PhongMaterial()
-{
-}
-
-
+/**
+ * @details Get the illumination for a ray
+ * 
+ * @param light
+ * @param id data
+ * @param int depth
+ * @return RGB color for a given point
+ */
 RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, unsigned int depth){
 	if (!id.hit_obj)
 		return id.world.background;
@@ -50,6 +53,9 @@ RGBColor PhongMaterial::get_illumination(Light &light, const IntersectData &id, 
 	return retcolor;
 }
 
+/**
+ * @details get the transparency color for an object
+ */
 RGBColor PhongMaterial::transColor(Light &light, const IntersectData &id, unsigned int depth){
 	Vector3D D = id.ray.d;
 	RGBColor retcolor(0);
@@ -75,6 +81,9 @@ RGBColor PhongMaterial::transColor(Light &light, const IntersectData &id, unsign
 }
 
 
+/**
+ * @brief get the reclection color for an object
+ */
 RGBColor PhongMaterial::reflectColor(Light &light, const IntersectData &id, unsigned int depth){
 	RGBColor retcolor(0);
 	Ray reflect = Ray();
@@ -90,6 +99,9 @@ RGBColor PhongMaterial::reflectColor(Light &light, const IntersectData &id, unsi
 	return retcolor;
 }
 
+/**
+ * @details local illumination for an object
+ */
 RGBColor PhongMaterial::local_illumination(Light &light, const IntersectData &id){
 	RGBColor ret;
 	Ray shadow = Ray();
@@ -125,10 +137,16 @@ RGBColor PhongMaterial::local_illumination(Light &light, const IntersectData &id
 	return ret;
 }
 
+/**
+ * @brief ambient color for an object
+ */
 RGBColor PhongMaterial::get_ambient(const IntersectData &id){
 	return Ka * Ax;
 }
 
+/**
+ * @brief  face the noraml forward
+ */
 Normal PhongMaterial::faceForward(Normal A, Vector3D B){
 	// For acute angles, dot product is non-negative
 	if (A*B >= 0) return A;

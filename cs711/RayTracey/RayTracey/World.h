@@ -24,7 +24,6 @@ class World
 {
 public:
 	World(Renderer *renderer);
-	~World();
 
 	RGBColor background;
 	vector<Object*> objects;

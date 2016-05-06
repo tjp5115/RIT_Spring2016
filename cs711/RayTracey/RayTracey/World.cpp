@@ -15,15 +15,16 @@ World::World(Renderer *renderer_p){
 	tone = new ToneReproduction();
 }
 
-
-World::~World()
-{
-}
-
+/**
+ * @brief add an object to the scene
+ */
 void World::add_object(Object *o){
 	objects.push_back(o);
 }
 
+/**
+ * @brief begin the raytrace
+ */
 void World::render_scene(){
 
 	Ray ray;
@@ -61,10 +62,15 @@ void World::render_scene(){
 	renderer->init(background);
 }
 
-
+/**
+ * @brief report the information of a traced ray.
+ */
 IntersectData World::hit_objects(const Ray &ray){
 	return hit_objects(ray, -1);
 }
+/**
+ * @brief checks all objects for an intersection, records that data, returns the data for the nearest hit.
+ */
 IntersectData World::hit_objects(const Ray &ray, int obj_id){
 	IntersectData id(*this);
 	double w;
@@ -94,6 +100,9 @@ IntersectData World::hit_objects(const Ray &ray, int obj_id){
 
 }
 
+/**
+ * @brief compute camera vectors
+ */
 void World::compute_uvw(){
 	camera.n = camera.eye - camera.lookat;
 	camera.n.normalize();
@@ -103,12 +112,18 @@ void World::compute_uvw(){
 }
 
 
+/**
+ * @brief get the camera direction
+ */
 Vector3D World::get_camera_direction(double pixel[]){
 	Vector3D v = pixel[0] * camera.u + pixel[1] * camera.v -camera.vp_distance * camera.n;
 	v.normalize();
 	return v;
 }
 
+/**
+ * @brief set the camera parameters
+ */
 void World::set_camera(Point3D e, Point3D l, Vector3D up, double vp_dist){
 	camera.eye = e;
 	camera.lookat = l;
@@ -118,6 +133,9 @@ void World::set_camera(Point3D e, Point3D l, Vector3D up, double vp_dist){
 }
 
 
+/**
+ * @brief start the ray trace for a given ray
+ */
 RGBColor World::trace_ray(const Ray &ray){
 	IntersectData id(hit_objects(ray));
 	if (id.hit_obj){

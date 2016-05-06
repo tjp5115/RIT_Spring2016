@@ -13,6 +13,9 @@ Sphere::~Sphere()
 }
 
 
+/**
+ * @brief determines if a ray has hit the sphere
+ */
 bool Sphere::hit(const Ray &ray, double &tmin, IntersectData &sr) const{ 
 	double w;
 	Vector3D temp = ray.o - center;
@@ -46,6 +49,9 @@ bool Sphere::hit(const Ray &ray, double &tmin, IntersectData &sr) const{
 }
 
 
+/**
+ * @brief determines if a shadow is ont he sphere
+ */
 bool Sphere::shadow_hit(const Ray &ray, double &tmin) const{
 	double w;
 	Vector3D temp = ray.o - center;

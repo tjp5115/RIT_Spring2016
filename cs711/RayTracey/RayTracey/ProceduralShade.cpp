@@ -9,22 +9,25 @@ square_size(_square_size)
 {
 }
 
-
-ProceduralShade::~ProceduralShade()
-{
-}
-
-
+/**
+ * @brief get the illumination of a point.
+ */
 RGBColor ProceduralShade::get_illumination(Light &light, const IntersectData &id, unsigned int depth){
 	set_color(id);
 	return PhongMaterial::get_illumination(light, id, depth);
 }
 
+/**
+ * @brief get the ambient color of a point
+ */
 RGBColor ProceduralShade::get_ambient(const IntersectData &id){
 	set_color(id);
 	return PhongMaterial::get_ambient(id);
 }
 
+/**
+ * @brief finds what color the diffuse and ambient component should be at a point.
+ */
 void ProceduralShade::set_color(const IntersectData &id){
 	int r = (int)(id.texture.x) / square_size;
 	int c = (int)(id.texture.z) / square_size;

@@ -25,6 +25,9 @@ Renderer::Renderer(int width, int height, int *_argcp, char **_argv)
 }
 
 
+/**
+ * @brief displays the scene
+ */
 void Renderer::display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -53,6 +56,9 @@ void Renderer::display()
 	glutSwapBuffers();
 }
 
+/**
+ * @brief checks keyboard input. 
+ */
 void kbd(unsigned char key, int x, int y)
 {
 	switch ((char)key) {
@@ -67,13 +73,22 @@ void kbd(unsigned char key, int x, int y)
 	return;
 }
 
+/**
+ * @brief sets the current instance of the renderer to the one passed 
+ */
 Renderer* Renderer::instance = 0;
 void Renderer::setInstance(Renderer *r){
 	instance = r;
 }
+/**
+ * @brief wraps the display
+ */
 void Renderer::displayWrapper(){
 	instance->display();
 }
+/**
+ * @brief set up the renderer
+ */
 void Renderer::init(RGBColor background)
 {
 	glutInit(argcp, argv);
@@ -87,6 +102,9 @@ void Renderer::init(RGBColor background)
 	exit(0);
 }
 
+/**
+ * @brief add a pixel to the scene
+ */
 void Renderer::add_pixel(int x, int y, double r, double g, double b){
 		Vertex v = { x, y, r, g, b };
 		vertices.push_back(v);

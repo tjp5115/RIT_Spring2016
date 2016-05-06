@@ -1,7 +1,7 @@
 #include "Ward.h"
-#include <iostream>
-using namespace std;
-
+/**
+ * @brief get the Tone Reproduces color using ward.
+ */
 RGBColor Ward::get_tone(RGBColor color, double L_wa){
 	//cout << L_max << endl;
 	double numer = 1.219 + std::pow(L_max / 2.0, 0.4);

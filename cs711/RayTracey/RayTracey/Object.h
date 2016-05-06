@@ -6,8 +6,7 @@ class Material;
 class Object
 {
 public:
-	Object();
-	~Object();
+	Object() {};
 	virtual bool hit(const Ray &r, double &t, IntersectData &tr) const = 0;
 	virtual bool shadow_hit(const Ray &r, double &t) const = 0;
 	Material *material;

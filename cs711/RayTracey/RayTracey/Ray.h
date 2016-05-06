@@ -4,8 +4,14 @@
 class Ray
 {
 public:
-	Ray();
-	Ray(const Point3D &origin, const Vector3D& direction);
+	Ray(): 
+	o(3),
+	d(3)
+{};
+	Ray(const Point3D &origin, const Vector3D& direction) : 
+	o(origin),
+	d(direction)
+{};
 	~Ray();
 
 	Point3D o;

@@ -14,11 +14,9 @@ Plane::Plane(const Point3D &point, const Normal &normal, double _w, double _h)
 	Zmin = p.z - h;
 }
 
-
-Plane::~Plane()
-{
-}
-
+/**
+ * @brief determines if the ray hits the plane
+ */
 bool Plane::hit(const Ray &ray, double &w_min, IntersectData &tr) const{
 
 	double w_ = (p - ray.o) * n / (ray.d * n);
@@ -39,6 +37,9 @@ bool Plane::hit(const Ray &ray, double &w_min, IntersectData &tr) const{
 }
 
 
+/**
+ * @brief determines if a shadow is casted on the object.
+ */
 bool Plane::shadow_hit(const Ray &ray, double &w_min) const{
 	double w_ = (p - ray.o) * n / (ray.d * n);
 	if (w_ <= kEpsilon){

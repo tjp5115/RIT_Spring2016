@@ -3,13 +3,15 @@
 #include "Point3D.h"
 #include "Normal.h"
 
+/**
+ * @brief object shape that represents a fixed size plane
+ */
 class Plane :
 	public Object
 {
 public:
 	Plane();
 	Plane(const Point3D &point, const Normal &normal,double _w, double _h);
-	~Plane();
 
 	virtual bool hit(const Ray &r, double &w_min, IntersectData &tr) const;
 	virtual bool shadow_hit(const Ray &r, double &t) const;
