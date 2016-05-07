@@ -41,6 +41,7 @@ void World::render_scene(){
 			pixel[1] = (r - 0.5 * h + 0.5);
 			ray.d = get_camera_direction(pixel);
 			color_array[h * r + c] = trace_ray(ray);
+			color_array[h * r + c] = tone->adjust_color(color_array[h * r + c]);
 			L_wa += std::log(0.000001 + tone->get_L(color_array[h * r + c]));
 		}
 	}
@@ -54,7 +55,7 @@ void World::render_scene(){
 	for (int r = 0; r < h; r++){
 		for (int c = 0; c < w; c++) {
 			color = tone->get_tone(color_array[h * r + c], L_wa);
-			//cout << color.r << endl;
+			//cout << color.r << color.g<< color.b << endl;
 			renderer->add_pixel(c, r, color.r, color.g, color.b);
 		}
 	}

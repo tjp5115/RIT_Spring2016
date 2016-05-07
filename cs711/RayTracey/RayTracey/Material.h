@@ -7,7 +7,6 @@ class Material
 {
 public:
 	Material(){};
-	~Material(){};
 
 	virtual RGBColor get_illumination(Light &light, const IntersectData &id, unsigned int depth){ return 0; };
 	virtual RGBColor local_illumination(Light &light, const IntersectData &id){ return 0; };

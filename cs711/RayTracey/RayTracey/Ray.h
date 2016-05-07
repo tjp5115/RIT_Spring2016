@@ -12,7 +12,6 @@ public:
 	o(origin),
 	d(direction)
 {};
-	~Ray();
 
 	Point3D o;
 	Vector3D d;

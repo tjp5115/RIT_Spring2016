@@ -8,7 +8,6 @@
 #include "ProceduralShade.h"
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
-#include <crtdbg.h>
 #include "Ward.h"
 #include "Reinhard.h"
 using namespace std;
@@ -101,8 +100,12 @@ int main(int argc, char **argv){
 	w->add_object(plane);
 
 
-	//w->set_tone_reproduction(new Ward(1000));
-	w->set_tone_reproduction(new Reinhard(100000));
+	//w->set_tone_reproduction(new Ward(10, 500));
+	//w->set_tone_reproduction(new Ward(100, 500));
+	//w->set_tone_reproduction(new Ward(1000, 500));
+	//w->set_tone_reproduction(new Reinhard(10, 500));
+	//w->set_tone_reproduction(new Reinhard(100, 500));
+	w->set_tone_reproduction(new Reinhard(1000, 500));
 
 	w->render_scene();
 }

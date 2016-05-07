@@ -68,23 +68,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Material.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Normal.cpp" />
     <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="ProceduralShade.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Reinhard.cpp" />
     <ClCompile Include="RGBColor.cpp" />
-    <ClCompile Include="ToneReproduction.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="Build_test.cpp" />
-    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="IntersectData.cpp" />
     <ClCompile Include="Ward.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>

@@ -35,9 +35,6 @@
     <ClCompile Include="Plane.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Ray.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
@@ -46,9 +43,6 @@
     </ClCompile>
     <ClCompile Include="Build_test.cpp">
       <Filter>Source Files\build</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Point3D.cpp">
       <Filter>Source Files\Utilities</Filter>
@@ -62,9 +56,6 @@
     <ClCompile Include="Vector3D.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="IntersectData.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Source Files\Illumination</Filter>
     </ClCompile>
@@ -74,13 +65,7 @@
     <ClCompile Include="RGBColor.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files\Illumination</Filter>
-    </ClCompile>
     <ClCompile Include="ProceduralShade.cpp">
-      <Filter>Source Files\Illumination</Filter>
-    </ClCompile>
-    <ClCompile Include="ToneReproduction.cpp">
       <Filter>Source Files\Illumination</Filter>
     </ClCompile>
     <ClCompile Include="Ward.cpp">
@@ -88,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="Reinhard.cpp">
       <Filter>Source Files\Illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="Ray.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

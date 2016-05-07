@@ -12,7 +12,7 @@ class Material;
 class IntersectData
 {
 public:
-	IntersectData(World &world):
+	IntersectData(World &w):
 	hit_obj(false),
 	world(w),
 	hit_pt(),
@@ -23,7 +23,7 @@ public:
 	texture()
 {};
 	IntersectData();
-	IntersectData(const IntersectData &IntersectData): 
+	IntersectData(const IntersectData &t): 
 	hit_obj(t.hit_obj),
 	hit_pt(t.hit_pt),
 	world(t.world),
@@ -33,7 +33,6 @@ public:
 	obj_id(t.obj_id),
 	texture(t.texture)
 {};
-	~IntersectData();
 	Normal n;
 	bool hit_obj;
 	Point3D hit_pt;

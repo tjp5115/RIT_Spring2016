@@ -2,6 +2,7 @@
 #include "IntersectData.h"
 #include "Ray.h"
 #include "RGBColor.h"
+#include "math.h"
 class Material;
 class Object
 {
