@@ -62,8 +62,6 @@ void DiamondSquare::create_graph(double height){
 		}
 
 	}
-
-
 }
 
 void DiamondSquare::set_texture(){
@@ -92,7 +90,6 @@ void DiamondSquare::set_texture(){
 
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, rocks);
-
 
 }
 
@@ -147,7 +144,8 @@ void DiamondSquare::draw_graph(){
 
 	int minHeight = glGetUniformLocation(renderer->getProgram(), "minHeight");
 	glUniform1f(minHeight, renderer->getMinY());
-
+	
+	cout << num_points << endl;
 	renderer->draw();
 }
 
@@ -167,7 +165,7 @@ double DiamondSquare::get_random(double h){
 
 void DiamondSquare::add_point(double x, double y, double z, double u, double v, Normal N){
 	string key(to_string(x) + "" + to_string(y) + "" + to_string(z));
-	unordered_map<string, int>::const_iterator got = map.find(key);
+	hash_map<string, int>::const_iterator got = map.find(key);
 
 	if (got == map.end()){
 		map.emplace(key, num_points);

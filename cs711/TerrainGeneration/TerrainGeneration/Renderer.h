@@ -40,11 +40,12 @@ public:
 private:
 	void init();
 
-	
 	double minY, maxY;
 	static void displayWrapper();
+	static void kbdWrapper(unsigned char key, int x, int y);
 	void setInstance(Renderer *r);
 	virtual void display();
+	virtual void kbd(unsigned char key, int x, int y);
 	vector<float> vertices;
 	vector<float> normals;
 	vector<float> tex;

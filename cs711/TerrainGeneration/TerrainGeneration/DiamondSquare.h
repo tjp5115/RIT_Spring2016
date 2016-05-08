@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include <vector>
 #include <stdlib.h>
-#include <unordered_map>
+#include <hash_map>
 #include <string>
 #include "Point3D.h"
 #include "Normal.h"
@@ -17,7 +17,7 @@ private:
 	int num_points;
 	vector<int> elements;
 	Renderer *renderer;
-	unordered_map<string, int> map;
+	hash_map<string, int> map;
 	int size;
 	double max_height;
 	unsigned int rnd_seed;

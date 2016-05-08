@@ -55,9 +55,6 @@ void Renderer::init(){
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebuffer);
 
 	glUseProgram(program);
-
-
-
 }
 
 void Renderer::display()
@@ -87,10 +84,67 @@ void Renderer::display()
 	glutSwapBuffers();
 }
 
-void kbd(unsigned char key, int x, int y)
+void Renderer::kbd(unsigned char key, int x, int y)
 {
 	switch ((char)key) {
+	case '+':
+		vp->increase_scale(program, .5);
+		display();
+		break;
+	case '-':
+		vp->increase_scale(program, -.5);
+		display();
+		break;
 	case 'q':
+		vp->move_forward(program, .5);
+		display();
+		break;
+	case 'a':
+		vp->move_forward(program, -.5);
+		display();
+		break;
+	case 'w':
+		vp->move_side(program, .5);
+		display();
+		break;
+	case 's':
+		vp->move_side(program, -.5);
+		display();
+		break;
+	case 'e':
+		vp->move_up(program, .5);
+		display();
+		break;
+	case 'd':
+		vp->move_up(program, -.5);
+		display();
+		break;
+	case 'r':
+		vp->look_up(program, .5);
+		display();
+		break;
+	case 'f':
+		vp->look_up(program, -.5);
+		display();
+		break;
+	case 't':
+		vp->look_side(program, .5);
+		display();
+		break;
+	case 'g':
+		vp->look_side(program, -.5);
+		display();
+		break;
+	case 'y':
+		vp->look_far(program, .5);
+		display();
+		break;
+	case 'h':
+		vp->look_far(program, -.5);
+		display();
+		break;
+	case '3':
+		break;
 	case 27:   //esc
 		glutDestroyWindow(window);
 		exit(0);
@@ -108,6 +162,10 @@ void Renderer::setInstance(Renderer *r){
 void Renderer::displayWrapper(){
 	instance->display();
 }
+
+void Renderer::kbdWrapper(unsigned char key, int x, int y){
+	instance->kbd(key, x, y);
+}
 void Renderer::draw()
 {
 	glClearColor(0,.7,1,1.0);
@@ -119,7 +177,7 @@ void Renderer::draw()
 	//cout << tDataSize << endl;
 	//cout << pDataSize << endl;
 	//cout << nDataSize << endl;
-	cout << eDataSize << endl;
+	//cout << eDataSize << endl;
 	// create and fill a new point array
 
 	// get and load the element data
@@ -136,21 +194,22 @@ void Renderer::draw()
 
 
 
-	glutKeyboardFunc(kbd);
+	glutKeyboardFunc(kbdWrapper);
 	glutDisplayFunc(displayWrapper);
 	glutMainLoop();
 	exit(0);
 }
 
 void Renderer::add_point(float x, float y, float z){
-		vertices.push_back(x);
-		vertices.push_back(y);
-		vertices.push_back(z);
-		if (minY > y){
-			minY = y;
-		}else if (maxY < y){
-			maxY = y;
-		}
+	vertices.push_back(x);
+	vertices.push_back(y);
+	vertices.push_back(z);
+	if (minY > y){
+		minY = y;
+	}else if (maxY < y){
+		maxY = y;
+	}
+	//cout << x << " " << y <<  " " << z << endl;
 }
 
 void Renderer::add_normal(float x, float y, float z){
@@ -163,8 +222,6 @@ void Renderer::add_normal(float x, float y, float z){
 void Renderer::add_tex(float u, float v){
 	tex.push_back(u);
 	tex.push_back(v);
-	if (u > .99)
-		cout << u << " " << v << endl;
 
 }
 

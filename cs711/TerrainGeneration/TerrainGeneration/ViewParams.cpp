@@ -14,9 +14,9 @@ ViewParams::ViewParams()
 	translateDefault.push_back(0.0f);
 	translateDefault.push_back(0);
 
-	scaleDefault.push_back(3.0f);
-	scaleDefault.push_back(3.0f);
-	scaleDefault.push_back(3.0f);
+	scaleDefault.push_back(1.0f);
+	scaleDefault.push_back(1.0f);
+	scaleDefault.push_back(1.0f);
 
 	//eyeDefault.push_back(1.5f);
 	//eyeDefault.push_back(3.0f);
@@ -79,4 +79,59 @@ void ViewParams::frustum(int program)
 	glUniform1f(bottomLoc, bottom);
 	glUniform1f(nearLoc, near_c);
 	glUniform1f(farLoc, far_c);
+}
+
+void ViewParams::increase_scale(int program, float s){
+	for (int i = 0; i < scaleDefault.size(); ++i)
+		scaleDefault[i] += s;
+
+	int scaleLoc = glGetUniformLocation(program, "scale");
+	glUniform3fv(scaleLoc, 1, &scaleDefault[0]);
+}
+
+void ViewParams::move_forward(int program, float s){
+	eyeDefault[2] += s;
+	lookDefault[2] += s;
+
+	int lookLoc = glGetUniformLocation(program, "cLookAt");
+	int scaleLoc = glGetUniformLocation(program, "cPosition");
+	glUniform3fv(scaleLoc, 1, &eyeDefault[0]);
+	glUniform3fv(lookLoc, 1, &lookDefault[0]);
+}
+void ViewParams::move_up(int program, float s){
+	eyeDefault[1] += s;
+	lookDefault[1] += s;
+
+	int lookLoc = glGetUniformLocation(program, "cLookAt");
+	int scaleLoc = glGetUniformLocation(program, "cPosition");
+	glUniform3fv(scaleLoc, 1, &eyeDefault[0]);
+	glUniform3fv(lookLoc, 1, &lookDefault[0]);
+}
+void ViewParams::move_side(int program, float s){
+	eyeDefault[0] += s;
+	lookDefault[0] += s;
+
+	int lookLoc = glGetUniformLocation(program, "cLookAt");
+	int scaleLoc = glGetUniformLocation(program, "cPosition");
+	glUniform3fv(scaleLoc, 1, &eyeDefault[0]);
+	glUniform3fv(lookLoc, 1, &lookDefault[0]);
+}
+
+void ViewParams::look_up(int program, float s){
+	lookDefault[1] += s;
+
+	int lookLoc = glGetUniformLocation(program, "cLookAt");
+	glUniform3fv(lookLoc, 1, &lookDefault[0]);
+}
+void ViewParams::look_side(int program, float s){
+	lookDefault[0] += s;
+
+	int lookLoc = glGetUniformLocation(program, "cLookAt");
+	glUniform3fv(lookLoc, 1, &lookDefault[0]);
+}
+void ViewParams::look_far(int program, float s){
+	lookDefault[2] += s;
+
+	int lookLoc = glGetUniformLocation(program, "cLookAt");
+	glUniform3fv(lookLoc, 1, &lookDefault[0]);
 }
