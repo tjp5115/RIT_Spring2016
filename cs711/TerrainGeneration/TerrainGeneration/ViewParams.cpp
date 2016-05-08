@@ -23,7 +23,7 @@ ViewParams::ViewParams()
 	//eyeDefault.push_back(5.0f);
 
 	eyeDefault.push_back(1.5f);
-	eyeDefault.push_back(6.0f);
+	eyeDefault.push_back(3.0f);
 	eyeDefault.push_back(5.0f);
 
 	lookDefault.push_back(0.0f);
@@ -80,7 +80,6 @@ void ViewParams::frustum(int program)
 	glUniform1f(nearLoc, near_c);
 	glUniform1f(farLoc, far_c);
 }
-
 void ViewParams::increase_scale(int program, float s){
 	for (int i = 0; i < scaleDefault.size(); ++i)
 		scaleDefault[i] += s;

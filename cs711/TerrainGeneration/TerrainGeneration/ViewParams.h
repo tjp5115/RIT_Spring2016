@@ -28,8 +28,8 @@ public:
 	void look_up(int program, float s);
 	void look_side(int program, float s);
 	void look_far(int program, float s);
-private:
 
+private:
 	// current values for transformations
 	vector<float> rotateDefault;
 	vector<float> translateDefault;
@@ -49,8 +49,9 @@ private:
 	//float top = 1.0f;
 	float bottom = -2.0f;
 	//float bottom = -1.0f;
-	float near_c = 0.00001f;
+	float near_c = 0.0000001f;
 	float far_c = 200.0f;
+
 
 };
 

@@ -60,7 +60,6 @@ void DiamondSquare::create_graph(double height){
 				if (y == 0) set_height_element(x, size - 1, val);
 			}
 		}
-
 	}
 }
 
@@ -101,8 +100,7 @@ void DiamondSquare::draw_graph(){
 		cout << endl;
 	}
 	*/
-	double s = size - 2;
-	double texSize = size - 1;
+	double s = size - 1;
 	vector<double> texCord;
 	Point3D p1, p2, p3;
 	Normal N;
@@ -116,9 +114,9 @@ void DiamondSquare::draw_graph(){
 			//calculate normal
 			N = Normal(p1,p2,p3);
 			N.normalize();
-			add_point(p1.x, p1.y, p1.z, (double(r) / texSize), (double(c) / texSize), N);
-			add_point(p2.x, p2.y, p2.z, (double(r) / texSize), (double(c + 1) / texSize), N);
-			add_point(p3.x, p3.y, p3.z, (double(r + 1) / texSize), (double(c) / texSize), N);
+			add_point(p1.x, p1.y, p1.z, (double(r) / s), (double(c) / s), N);
+			add_point(p2.x, p2.y, p2.z, (double(r) / s), (double(c + 1) / s), N);
+			add_point(p3.x, p3.y, p3.z, (double(r + 1) / s), (double(c) / s), N);
 
 			p1 = Point3D((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
 			p2 = Point3D(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
@@ -127,10 +125,9 @@ void DiamondSquare::draw_graph(){
 			//calculate normal
 			N = Normal(p1, p2, p3);
 			N.normalize();
-			add_point(p1.x, p1.y, p1.z, (double(r + 1) / texSize), (double(c) / texSize), N);
-			add_point(p2.x, p2.y, p2.z, (double(r) / texSize), (double(c + 1) / texSize), N);
-			add_point(p3.x, p3.y, p3.z, (double(r + 1) / texSize), (double(c + 1) / texSize), N);;
-
+			add_point(p1.x, p1.y, p1.z, (double(r + 1) / s), (double(c) / s), N);
+			add_point(p2.x, p2.y, p2.z, (double(r) / s), (double(c + 1) / s), N);
+			add_point(p3.x, p3.y, p3.z, (double(r + 1) / s), (double(c + 1) / s), N);;
 		}
 	}
 
@@ -145,7 +142,7 @@ void DiamondSquare::draw_graph(){
 	int minHeight = glGetUniformLocation(renderer->getProgram(), "minHeight");
 	glUniform1f(minHeight, renderer->getMinY());
 	
-	cout << num_points << endl;
+	//cout << num_points << endl;
 	renderer->draw();
 }
 

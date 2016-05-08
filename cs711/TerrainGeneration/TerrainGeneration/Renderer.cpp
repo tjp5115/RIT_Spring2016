@@ -36,6 +36,8 @@ Renderer::Renderer(int width, int height, int *_argcp, char **_argv, ViewParams 
 
 void Renderer::init(){
 	glutInit(argcp, argv);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutInitWindowSize(w, h);
 	window = glutCreateWindow("Terrain Generator");
@@ -95,19 +97,19 @@ void Renderer::kbd(unsigned char key, int x, int y)
 		vp->increase_scale(program, -.5);
 		display();
 		break;
-	case 'q':
+	case 's':
 		vp->move_forward(program, .5);
 		display();
 		break;
-	case 'a':
+	case 'w':
 		vp->move_forward(program, -.5);
 		display();
 		break;
-	case 'w':
+	case 'd':
 		vp->move_side(program, .5);
 		display();
 		break;
-	case 's':
+	case 'a':
 		vp->move_side(program, -.5);
 		display();
 		break;
@@ -115,7 +117,7 @@ void Renderer::kbd(unsigned char key, int x, int y)
 		vp->move_up(program, .5);
 		display();
 		break;
-	case 'd':
+	case 'q':
 		vp->move_up(program, -.5);
 		display();
 		break;
@@ -151,8 +153,6 @@ void Renderer::kbd(unsigned char key, int x, int y)
 	default:
 		break;
 	}
-
-	return;
 }
 
 Renderer* Renderer::instance = 0;
@@ -175,9 +175,9 @@ void Renderer::draw()
 	int nDataSize = normals.size() * sizeof(float);
 	int eDataSize = elements.size() * sizeof (int);;
 	//cout << tDataSize << endl;
-	//cout << pDataSize << endl;
+	cout << "triangles:\t" << pDataSize/3  << endl;
 	//cout << nDataSize << endl;
-	//cout << eDataSize << endl;
+	//cout << "elements:\t" <<  eDataSize << endl;
 	// create and fill a new point array
 
 	// get and load the element data
@@ -191,8 +191,6 @@ void Renderer::draw()
 	glGenBuffers(1, &ebuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, eDataSize, &elements[0], GL_STATIC_DRAW);
-
-
 
 	glutKeyboardFunc(kbdWrapper);
 	glutDisplayFunc(displayWrapper);
@@ -209,7 +207,6 @@ void Renderer::add_point(float x, float y, float z){
 	}else if (maxY < y){
 		maxY = y;
 	}
-	//cout << x << " " << y <<  " " << z << endl;
 }
 
 void Renderer::add_normal(float x, float y, float z){
