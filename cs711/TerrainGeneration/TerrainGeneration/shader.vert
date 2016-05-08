@@ -97,12 +97,24 @@ void main()
     mat4 modelViewMat = viewMat * modelMat;
 
     // Transform the vertex location into clip space
-    gl_Position =  projMat * viewMat  * modelMat * vec4(vPosition,1.0);
+    
+
+
 
 	normal = modelMat * vec4(vNormal,0);
 	// send the position to interpolate
 	height = vPosition.y;
-    position = modelMat * vec4(vPosition,1.0);
 	texCoord = vTexCoord;
+	
+	vec4 pos = vec4(vPosition, 1.0);
+	float heightScale = (height - minHeight) / (maxHeight - minHeight);
+	const float fRange1 = 0.3f;
+	if (heightScale <= fRange1){
+	 pos.y = ( maxHeight - minHeight ) * fRange1 + minHeight;
+	}
+
+    position = modelMat * pos;
+	gl_Position =  projMat * viewMat  * modelMat * pos;
+
 }
 

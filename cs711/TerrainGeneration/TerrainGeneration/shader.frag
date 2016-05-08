@@ -33,26 +33,24 @@ in vec4 position;
 in float height;
 in vec2 texCoord;
 in vec4 normal;
-void main()
-{
+void main(){
 	float heightScale = (height - minHeight) / (maxHeight - minHeight);
 
-	const float fRange1 = 0.15f; 
+	const float fRange1 = 0.3f; 
 	vec4 color1 = vec4(1.0, 0.0, 1.0, 1.0);
-	const float fRange2 = 0.3f; 
+	const float fRange2 = 0.4f; 
 	vec4 color2 = vec4(1.0, 0.0, 0.0, 1.0);
-	const float fRange3 = 0.55f; 
+	const float fRange3 = 0.5f; 
 	vec4 color3 = vec4(1.0, 1.0, 0.0, 1.0);
-	const float fRange4 = 0.75f; 
+	const float fRange4 = 0.65f; 
 		
 	vec4 color = vec4(0.0);
 	vec4 colour = vec4(0.0);
 	
 	
-	if(heightScale >= 0.0 && heightScale <= fRange1){
+	if( heightScale >= 0 && heightScale <= fRange1){
 		color = texture2D(fungus, texCoord); 
-
-		colour = color1;
+		//color = color1;
 	}else if(heightScale <= fRange2) { 
 		heightScale -= fRange1; 
 		heightScale /= (fRange2-fRange1); 
