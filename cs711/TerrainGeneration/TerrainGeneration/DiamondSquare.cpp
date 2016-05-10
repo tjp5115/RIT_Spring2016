@@ -5,7 +5,8 @@ DiamondSquare::DiamondSquare(Renderer *_r, int levels, double height, unsigned i
 {
 	renderer = _r;
 	size = levels + 1;
-	height_map = vector<double>(size*size);;
+	height_map = vector<double>(size*size);
+	normals = vector<Normal>(size*size);
 	// initialze the array;
 	set_height_element(0, 0, graph_seed);
 	set_height_element(0, size - 1, graph_seed);
@@ -117,13 +118,21 @@ void DiamondSquare::draw_graph(){
 	double s = size - 1;
 	vector<double> texCord;
 	Point3D p1, p2, p3;
+	int i1, i2, i3;
 	Normal N;
 	for (int r = 0; r < size - 1; ++r){
 		for (int c = 0; c < size - 1; ++c){
+
+
 			// add a square to the renderer
-			p1 = points[size * r + c];
-			p2 = points[size * r + c + 1];
-			p3 = points[size * (r + 1) + c];
+			i1 = size * r + c;
+			i2 = size * r + c + 1;
+			i3 = size * (r + 1) + c;
+			p1 = points[i1];
+			p2 = points[i2];
+			p3 = points[i3];
+
+
 			//cout << p1.x << p1.y << p1.z << p1.s << p1.t << endl;
 			//cout << p1.s << " " << p1.t << endl;
 			//cout << p2.x << p2.y << p2.z << endl;
@@ -131,27 +140,34 @@ void DiamondSquare::draw_graph(){
 			//calculate normal
 			N = Normal(p1 ,p2 ,p3);
 			N.normalize();
-			add_point(p1, N);
-			add_point(p2, N);
-			add_point(p3, N);
+			add_point(i1, p1, N);
+			add_point(i2, p2, N);
+			add_point(i3, p3, N);
 
-			p1 = points[size * (r + 1) + c]; 
-			p2 = points[size * r + (c + 1)];
-			p3 = points[size * (r + 1) + (c + 1)];
+			i1 = size * (r + 1) + c;
+			i2 = size * r + (c + 1);
+			i3 = size * (r + 1) + (c + 1);
+			p1 = points[i1]; 
+			p2 = points[i2];
+			p3 = points[i3];
 
 			//calculate normal
 			N = Normal(p1, p2, p3);
 			N.normalize();
-			add_point(p1, N);
-			add_point(p2, N);
-			add_point(p3, N);
+			add_point(i1, p1, N);
+			add_point(i2, p2, N);
+			add_point(i3, p3, N);
 		}
 		cout << "Map r = " << r << endl;
 	}
 
 	for (int i = 0; i < normals.size(); ++i){
-		Normal N = normals.at(i);
+		Normal N = normals[i];
+		Point3D p1 = points[i];
 		renderer->add_normal(N.x, N.y, N.z);
+		renderer->add_point(p1.x, p1.y, p1.z);
+		renderer->add_tex(p1.x, p1.z);
+
 	}
 
 	int maxHeight = glGetUniformLocation(renderer->getProgram(), "maxHeight");
@@ -178,19 +194,7 @@ double DiamondSquare::get_random(double h){
 	return r * 2 * h - h;
 }
 
-void DiamondSquare::add_point(Point3D p, Normal N){
-	string key(to_string(p.x) + "" + to_string(p.y) + "" + to_string(p.z));
-	unordered_map<string, int>::const_iterator got = map.find(key);
-
-	if (got == map.end()){
-		map.emplace(key, num_points);
-		renderer->add_element(num_points);
-		renderer->add_tex(p.x, p.z);
-		renderer->add_point(p.x, p.y, p.z);
-		normals.push_back(N);
-		num_points += 1;
-	}else{
-		renderer->add_element(got->second);
-		normals.at(got->second) += N;
-	}
+void DiamondSquare::add_point(int index, Point3D p, Normal N){
+	renderer->add_element(index);
+	normals[index] += N;
 }

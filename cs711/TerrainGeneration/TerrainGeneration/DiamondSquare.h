@@ -29,7 +29,7 @@ private:
 	double get_random(double h);
 	void draw_graph();
 	void set_texture();
-	void add_point(Point3D p, Normal N);
+	void add_point(int index, Point3D p, Normal N);
 
 };
 
