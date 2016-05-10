@@ -47,9 +47,10 @@ void main(){
 	vec4 color = vec4(0.0);
 	vec4 colour = vec4(0.0);
 	
-	
+	float n_ = n;
 	if( heightScale >= 0 && heightScale <= fRange1){
 		color = texture2D(fungus, texCoord); 
+		n_ = 10;
 		//color = color1;
 	}else if(heightScale <= fRange2) { 
 		heightScale -= fRange1; 
@@ -62,9 +63,10 @@ void main(){
 
 		colour = color1 * heightScale;
 		colour += color2 * heightScale2;
+		n_ = 12;
    }else if(heightScale <= fRange3){
+		n_ = 50;
 		color = texture2D(sand, texCoord); 
-		
 		colour = color2 ;
    }else if(heightScale <= fRange4){ 
 		heightScale -= fRange3; 
@@ -78,9 +80,11 @@ void main(){
 		
 		colour = color2 * heightScale;
 		colour += color3 * heightScale2;
+		n_ = 25;
    }else{
 		color += texture2D(rocks, texCoord);       
 		colour = color3;
+		n_ = 12;
    }
 
     // Compute the diffuse term.
@@ -95,9 +99,9 @@ void main(){
     vec4 R = reflect( -L, N );
     float RdotV = max( dot( R, V ), 0 );
     float NdotH = max( dot( N, H ), 0 );
-    vec4 Specular = pow(RdotV, n) * Lx * Sx;
+    vec4 Specular = pow(RdotV, n_) * Lx * Sx;
      
-    color *= a_color + Diffuse + Specular;
+    color *= a_color  + Diffuse  + Specular ;
 
     gl_FragColor = color;
 

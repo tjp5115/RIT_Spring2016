@@ -15,7 +15,7 @@ int main(int argc, char **argv){
 	float   Kd = 0.7f;
 
 	RGBColor Sx(0.3f, 0.3f, 0.3f);
-	float   n = 5.0f;
+	float   n = 15.0f;
 	float   Ks = 0.2f;
 	lp->addPhong(Ax, Ka, Dx, Kd, Sx, n, Ks);
 	
@@ -25,7 +25,7 @@ int main(int argc, char **argv){
 	//DiamondSquare *ds = new DiamondSquare(render, 32, 100.0, 41412341, 150.0);
 	//DiamondSquare *ds = new DiamondSquare(render, 32, 50.0, 41412341, 150.0);
 	//sees changing
-	DiamondSquare *ds = new DiamondSquare(render, 64, 150.0, 412341, 250.0);
+	DiamondSquare *ds = new DiamondSquare(render, 32, 150.0, 0, 250.0);
 	
 	//DiamondSquare *ds = new DiamondSquare(render, 64, 126.0, 123098, 225.0);
 	//DiamondSquare *ds = new DiamondSquare(render, 32, 50.0, 41412341, 250.0);

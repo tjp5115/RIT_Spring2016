@@ -75,7 +75,6 @@ void DiamondSquare::create_graph(double height){
 		}
 	}
 
-	cout << "Created Height Map." << endl;
 }
 
 void DiamondSquare::set_texture(){
@@ -104,7 +103,7 @@ void DiamondSquare::set_texture(){
 
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, rocks);
-
+	
 }
 
 void DiamondSquare::draw_graph(){
@@ -158,7 +157,6 @@ void DiamondSquare::draw_graph(){
 			add_point(i2, p2, N);
 			add_point(i3, p3, N);
 		}
-		cout << "Map r = " << r << endl;
 	}
 
 	for (int i = 0; i < normals.size(); ++i){
