@@ -14,16 +14,16 @@ ViewParams::ViewParams()
 	translateDefault.push_back(0.0f);
 	translateDefault.push_back(0);
 
-	scaleDefault.push_back(1.0f);
-	scaleDefault.push_back(1.0f);
-	scaleDefault.push_back(1.0f);
+	scaleDefault.push_back(3.0f);
+	scaleDefault.push_back(3.0f);
+	scaleDefault.push_back(3.0f);
 
 	//eyeDefault.push_back(1.5f);
 	//eyeDefault.push_back(3.0f);
 	//eyeDefault.push_back(5.0f);
 
 	eyeDefault.push_back(1.5f);
-	eyeDefault.push_back(3.0f);
+	eyeDefault.push_back(6.0f);
 	eyeDefault.push_back(5.0f);
 
 	lookDefault.push_back(0.0f);
@@ -67,7 +67,7 @@ void ViewParams::camera(int program)
 void ViewParams::frustum(int program)
 {
 	int leftLoc = glGetUniformLocation(program, "left");
-	int rightLoc =glGetUniformLocation(program, "right");
+	int rightLoc = glGetUniformLocation(program, "right");
 	int topLoc = glGetUniformLocation(program, "top");
 	int bottomLoc = glGetUniformLocation(program, "bottom");
 	int nearLoc = glGetUniformLocation(program, "near");
