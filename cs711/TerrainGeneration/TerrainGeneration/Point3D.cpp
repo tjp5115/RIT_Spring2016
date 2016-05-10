@@ -5,7 +5,8 @@
 
 #include <math.h>
 #include "Point3D.h"
-
+#include <iostream>
+using namespace std;
 
 // --------------------------------------------- default constructor
 
@@ -25,7 +26,6 @@ Point3D::Point3D(const double a)
 Point3D::Point3D(const double a, const double b, const double c)
 	:x(a), y(b), z(c)
 {}
-
 
 // --------------------------------------------- copy constructor
 

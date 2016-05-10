@@ -13,7 +13,6 @@ class Point3D {
 	public:
 	
 		double x, y, z;
-	
 		Point3D();													// default constructor
 		Point3D(const double a);									// constructor
 		Point3D(const double a, const double b, const double c);	// constructor

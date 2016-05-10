@@ -25,7 +25,7 @@ int main(int argc, char **argv){
 	//DiamondSquare *ds = new DiamondSquare(render, 32, 100.0, 41412341, 150.0);
 	//DiamondSquare *ds = new DiamondSquare(render, 32, 50.0, 41412341, 150.0);
 	//sees changing
-	DiamondSquare *ds = new DiamondSquare(render, 32, 150.0, 41412341, 250.0);
+	DiamondSquare *ds = new DiamondSquare(render, 64, 150.0, 412341, 250.0);
 	
 	//DiamondSquare *ds = new DiamondSquare(render, 64, 126.0, 123098, 225.0);
 	//DiamondSquare *ds = new DiamondSquare(render, 32, 50.0, 41412341, 250.0);

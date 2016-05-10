@@ -1,8 +1,7 @@
 #include "DiamondSquare.h"
 #include <iostream>
-#include <SOIL.h>
 using namespace std;
-DiamondSquare::DiamondSquare(Renderer *_r, int levels, double height, unsigned int _rnd_seed, double graph_seed)
+DiamondSquare::DiamondSquare(Renderer *_r, int levels, double height, unsigned int rnd_seed, double graph_seed)
 {
 	renderer = _r;
 	size = levels + 1;
@@ -13,10 +12,10 @@ DiamondSquare::DiamondSquare(Renderer *_r, int levels, double height, unsigned i
 	set_height_element(size - 1, 0, graph_seed);
 	set_height_element(size - 1, size - 1, graph_seed);
 	max_height = graph_seed * 2;
+	srand(rnd_seed);
 	create_graph(height);
 	set_texture();
 	draw_graph();
-	rnd_seed = _rnd_seed;
 }
 
 
@@ -61,6 +60,21 @@ void DiamondSquare::create_graph(double height){
 			}
 		}
 	}
+
+	double s = size;
+	double v1, v2;
+	for (int r = 0; r < size; ++r){
+		for (int c = 0; c < size; ++c){
+			v1 = r / s;
+			v2 = c / s;
+			points.push_back(Point3D(
+				v1,												//x
+				get_height_element(r, c) / max_height,				//y
+				v2));											//t
+		}
+	}
+
+	cout << "Created Height Map." << endl;
 }
 
 void DiamondSquare::set_texture(){
@@ -107,28 +121,32 @@ void DiamondSquare::draw_graph(){
 	for (int r = 0; r < size - 1; ++r){
 		for (int c = 0; c < size - 1; ++c){
 			// add a square to the renderer
-			p1 = Point3D(r / s, get_height_element(r, c) / max_height, c / s);
-			p2 = Point3D(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
-			p3 = Point3D((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
-
+			p1 = points[size * r + c];
+			p2 = points[size * r + c + 1];
+			p3 = points[size * (r + 1) + c];
+			//cout << p1.x << p1.y << p1.z << p1.s << p1.t << endl;
+			//cout << p1.s << " " << p1.t << endl;
+			//cout << p2.x << p2.y << p2.z << endl;
+			//cout << p3.x << p3.y << p3.z << endl;
 			//calculate normal
-			N = Normal(p1,p2,p3);
+			N = Normal(p1 ,p2 ,p3);
 			N.normalize();
-			add_point(p1.x, p1.y, p1.z, (double(r) / s), (double(c) / s), N);
-			add_point(p2.x, p2.y, p2.z, (double(r) / s), (double(c + 1) / s), N);
-			add_point(p3.x, p3.y, p3.z, (double(r + 1) / s), (double(c) / s), N);
+			add_point(p1, N);
+			add_point(p2, N);
+			add_point(p3, N);
 
-			p1 = Point3D((r + 1) / s, get_height_element(r + 1, c) / max_height, c / s);
-			p2 = Point3D(r / s, get_height_element(r, c + 1) / max_height, (c + 1) / s);
-			p3 = Point3D((r + 1) / s, get_height_element(r + 1, c + 1) / max_height, (c + 1) / s);
+			p1 = points[size * (r + 1) + c]; 
+			p2 = points[size * r + (c + 1)];
+			p3 = points[size * (r + 1) + (c + 1)];
 
 			//calculate normal
 			N = Normal(p1, p2, p3);
 			N.normalize();
-			add_point(p1.x, p1.y, p1.z, (double(r + 1) / s), (double(c) / s), N);
-			add_point(p2.x, p2.y, p2.z, (double(r) / s), (double(c + 1) / s), N);
-			add_point(p3.x, p3.y, p3.z, (double(r + 1) / s), (double(c + 1) / s), N);;
+			add_point(p1, N);
+			add_point(p2, N);
+			add_point(p3, N);
 		}
+		cout << "Map r = " << r << endl;
 	}
 
 	for (int i = 0; i < normals.size(); ++i){
@@ -160,15 +178,15 @@ double DiamondSquare::get_random(double h){
 	return r * 2 * h - h;
 }
 
-void DiamondSquare::add_point(double x, double y, double z, double u, double v, Normal N){
-	string key(to_string(x) + "" + to_string(y) + "" + to_string(z));
-	hash_map<string, int>::const_iterator got = map.find(key);
+void DiamondSquare::add_point(Point3D p, Normal N){
+	string key(to_string(p.x) + "" + to_string(p.y) + "" + to_string(p.z));
+	unordered_map<string, int>::const_iterator got = map.find(key);
 
 	if (got == map.end()){
 		map.emplace(key, num_points);
 		renderer->add_element(num_points);
-		renderer->add_tex(u, v);
-		renderer->add_point(x, y, z);
+		renderer->add_tex(p.x, p.z);
+		renderer->add_point(p.x, p.y, p.z);
 		normals.push_back(N);
 		num_points += 1;
 	}else{
