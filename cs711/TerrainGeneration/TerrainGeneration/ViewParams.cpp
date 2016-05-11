@@ -109,7 +109,7 @@ void ViewParams::frustum(int program)
 }
 void ViewParams::increase_scale(int program, float s){
 	for (int i = 0; i < scale.size(); ++i)
-		scale[i] += s;
+		scale[i] += s ;
 
 	int scaleLoc = glGetUniformLocation(program, "scale");
 	glUniform3fv(scaleLoc, 1, &scale[0]);
@@ -129,8 +129,8 @@ void ViewParams::increase_scale(int program, float s){
 }
 
 void ViewParams::move_forward(int program, float s){
-	eye[2] += s;
-	look[2] += s;
+	eye[2] += scale[1] * .1 * s;
+	look[2] += scale[1] * .1 * s;
 
 	int lookLoc = glGetUniformLocation(program, "cLookAt");
 	int scaleLoc = glGetUniformLocation(program, "cPosition");
@@ -138,8 +138,8 @@ void ViewParams::move_forward(int program, float s){
 	glUniform3fv(lookLoc, 1, &look[0]);
 }
 void ViewParams::move_up(int program, float s){
-	eye[1] += s;
-	look[1] += s;
+	eye[1] += scale[1] * .1 * s;
+	look[1] += scale[1] * .1 * s;
 
 	int lookLoc = glGetUniformLocation(program, "cLookAt");
 	int scaleLoc = glGetUniformLocation(program, "cPosition");
@@ -147,8 +147,8 @@ void ViewParams::move_up(int program, float s){
 	glUniform3fv(lookLoc, 1, &look[0]);
 }
 void ViewParams::move_side(int program, float s){
-	eye[0] += s;
-	look[0] += s;
+	eye[0] += scale[1] * .1 * s;
+	look[0] += scale[1] * .1 * s;
 
 	int lookLoc = glGetUniformLocation(program, "cLookAt");
 	int scaleLoc = glGetUniformLocation(program, "cPosition");
