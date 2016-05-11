@@ -1,4 +1,4 @@
-#version 150
+#version 330 core
 //Author: Tyler Paulsen
 // Flat shading fragment shader
 uniform sampler2D fungus;

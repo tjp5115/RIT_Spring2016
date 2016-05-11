@@ -3,6 +3,7 @@
 using namespace std;
 DiamondSquare::DiamondSquare(Renderer *_r, int levels, double height, unsigned int rnd_seed, double graph_seed)
 {
+	cout << "Random seed: " << rnd_seed << endl;
 	renderer = _r;
 	size = levels + 1;
 	height_map = vector<double>(size*size);
@@ -62,7 +63,7 @@ void DiamondSquare::create_graph(double height){
 		}
 	}
 
-	double s = size;
+	double s = size - 1;
 	double v1, v2;
 	for (int r = 0; r < size; ++r){
 		for (int c = 0; c < size; ++c){
@@ -71,7 +72,7 @@ void DiamondSquare::create_graph(double height){
 			points.push_back(Point3D(
 				v1,												//x
 				get_height_element(r, c) / max_height,				//y
-				v2));											//t
+				v2));											//z
 		}
 	}
 
@@ -165,7 +166,6 @@ void DiamondSquare::draw_graph(){
 		renderer->add_normal(N.x, N.y, N.z);
 		renderer->add_point(p1.x, p1.y, p1.z);
 		renderer->add_tex(p1.x, p1.z);
-
 	}
 
 	int maxHeight = glGetUniformLocation(renderer->getProgram(), "maxHeight");

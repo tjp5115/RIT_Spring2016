@@ -1,4 +1,4 @@
-#version 150
+#version 330 core
 //Author: Tyler Paulsen
 
 // INCOMING DATA
@@ -11,7 +11,7 @@ in vec3 vNormal;
 
 // Model transformations
 uniform vec3 theta;
-uniform vec3 trans;
+uniform vec3 translates[4];
 uniform vec3 scale;
 
 // Camera parameters
@@ -40,6 +40,8 @@ out float height;
 
 void main()
 {
+	vec3 trans = translates[gl_InstanceID];
+
     // Compute the sines and cosines of each rotation about each axis
     vec3 angles = radians( theta );
     vec3 c = cos( angles );

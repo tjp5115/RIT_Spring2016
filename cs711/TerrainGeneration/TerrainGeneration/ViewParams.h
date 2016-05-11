@@ -19,14 +19,14 @@ public:
 	ViewParams();
 	~ViewParams();
 	// current values for transformations
-	vector<float> rotateDefault;
-	vector<float> translateDefault;
-	vector<float> scaleDefault;
+	vector<float> rotate;
+	vector<float> translate;
+	vector<float> scale;
 
 	// current view values
-	vector<float> eyeDefault;
-	vector<float> lookDefault;
-	vector<float> upDefault;
+	vector<float> eye;
+	vector<float> look;
+	vector<float> up;
 
 	// clipping window boundaries
 	float left = -2.0f;
@@ -41,6 +41,7 @@ public:
 	float far_c = 70.0f;
 	void camera(int program);
 	void transform(int program);
+	void link_translate(int program);
 	void frustum(int program);
 	void increase_scale(int program, float s);
 	void move_forward(int program, float s);
@@ -49,5 +50,6 @@ public:
 	void look_up(int program, float s);
 	void look_side(int program, float s);
 	void look_far(int program, float s);
+	void add_site(int program, float s);
 };
 

@@ -1,4 +1,4 @@
-#include "Renderer.h"
+﻿#include "Renderer.h"
 int window;
 #include <iostream>
 #include "shaderSetup.h"
@@ -36,6 +36,8 @@ Renderer::Renderer(int width, int height, int *_argcp, char **_argv, ViewParams 
 
 void Renderer::init(){
 	glutInit(argcp, argv);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -80,8 +82,7 @@ void Renderer::display()
 	glVertexAttribPointer(vNormal, 3, GL_FLOAT, false, 0, BUFFER_OFFSET(dataSize));
 
 	// draw our shape
-	glDrawElements(GL_TRIANGLES, elements.size(), GL_UNSIGNED_INT, (void *)0);
-
+	glDrawElementsInstanced(GL_TRIANGLES, elements.size(), GL_UNSIGNED_INT, (void *)0, 4);
 	// swap the framebuffers
 	glutSwapBuffers();
 }
@@ -143,6 +144,14 @@ void Renderer::kbd(unsigned char key, int x, int y)
 		break;
 	case 'h':
 		vp->look_far(program, -.5);
+		display();
+		break;
+	case 'z':
+		vp->add_site(program, -1);
+		display();
+		break;
+	case 'c':
+		vp->add_site(program, 1);
 		display();
 		break;
 	case '3':
